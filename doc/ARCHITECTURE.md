@@ -48,10 +48,10 @@ GamePedia-v2/
 ## 🔄 Alur Komunikasi & Integrasi System
 
 1. **Frontend (Vite Server / Browser Client)**:
-   - Berjalan pada port penguji lokal (misal `http://localhost:5173`).
-   - Mengonsumsi REST API yang disediakan oleh Backend NestJS.
+   - Berjalan pada port penguji lokal (misal `http://localhost:3003`).
+   - Mengonsumsi REST API dan berlangganan **Server-Sent Events (SSE)** endpoint (`/time`) via `EventSource` untuk sinkronisasi waktu real-time.
 2. **Backend (NestJS Express Engine)**:
    - Berjalan pada port API lokal (misal `http://localhost:3000`).
-   - Memproses bisnis logika, validasi DTO, serta komunikasi ke database/external API services.
+   - Memproses bisnis logika, validasi DTO, streaming data RxJS (SSE), serta komunikasi ke database/external API services.
 3. **Monorepo Runner (`concurrently`)**:
    - Skrip root `npm run dev` menjalankan instance backend (`npm run start:dev --prefix backend`) dan frontend (`npm run dev --prefix frontend`) secara paralel dalam satu terminal dengan warna konsol terpisah (`cyan` & `magenta`).

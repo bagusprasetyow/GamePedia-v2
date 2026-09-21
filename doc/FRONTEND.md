@@ -7,8 +7,10 @@ Dokumen ini berisi informasi terperinci mengenai aplikasi Frontend GamePedia v2 
 ## 🛠️ Stack & Perkakas Frontend
 
 - **React 19**: Penggunaan API UI React 19 terbaru.
-- **Vite 8**: Build tool super cepat untuk pengembangan dan kompilasi modul bundle.
+- **Vite 8**: Build tool super cepat untuk pengembangan dan kompilasi modul bundle dengan dukungan Path Alias (`@/*`).
 - **Tailwind CSS v4**: Generasi terbaru Tailwind CSS yang menggunakan konfigurasi `@import "tailwindcss";` langsung di `src/index.css` dengan integrasi plugin Vite `@tailwindcss/vite`.
+- **Iconify (`@iconify/react`)**: Komponen ikon universal untuk antarmuka pengguna yang kaya dan konsisten.
+- **Server-Sent Events (SSE)**: Konsumsi stream real-time waktu server menggunakan API standar `EventSource`.
 - **ESLint v10 & TypeScript ESLint**: Menjamin standar kualitas kode TypeScript/JSX.
 
 ---

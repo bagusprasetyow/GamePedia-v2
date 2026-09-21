@@ -1,4 +1,5 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Sse, MessageEvent } from '@nestjs/common';
+import { Observable } from 'rxjs';
 import { AppService } from './app.service.js';
 
 @Controller()
@@ -9,4 +10,10 @@ export class AppController {
   getHello(): string {
     return this.appService.getHello();
   }
+
+  @Sse('time')
+  getTime(): Observable<MessageEvent> {
+    return this.appService.getTimeStream();
+  }
 }
+

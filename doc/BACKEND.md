@@ -8,6 +8,7 @@ Dokumen ini memuat detail arsitektur dan panduan pengembangan aplikasi Backend G
 
 - **NestJS 12**: Framework aplikasi server-side berbasis Node.js yang modular dan scalable.
 - **TypeScript 6**: Type checking generasi terbaru.
+- **RxJS Server-Sent Events (SSE)**: Streaming data real-time via `@Sse('time')` endpoint di `AppController`.
 - **Vitest**: Test runner alternatif super cepat menggantikan Jest untuk Unit Testing dan End-to-End (E2E) testing.
 - **Oxlint**: High-performance Linter berbasis Rust yang jauh lebih cepat daripada ESLint konvensional.
 - **Prettier**: Formatter otomatis untuk kerapihan kode TypeScript.

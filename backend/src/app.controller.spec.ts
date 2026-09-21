@@ -18,5 +18,14 @@ describe('AppController', () => {
     it('should return "Hello World!"', () => {
       expect(appController.getHello()).toBe('Hello World!');
     });
+
+
+
+    it('should return an observable stream for time', () => {
+      const stream = appController.getTime();
+      expect(stream).toBeDefined();
+    });
   });
 });
+
+

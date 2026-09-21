@@ -6,6 +6,22 @@ Dokumen ini mencatat seluruh riwayat perubahan, penambahan fitur, perbaikan, ser
 
 ## 📌 Log Rilis & Timeline
 
+### 📦 [0.0.2] - 2026-09-21 23:50
+
+**Ringkasan Perubahan pada Commit Ini:**
+- ⚡ **Backend Stream SSE (Server-Sent Events)**:
+  - Implementasi endpoint `@Sse('time')` pada `AppController` (`backend/src/app.controller.ts`) yang menghasilkan stream RxJS per 1 detik (`TimePayload`: timestamp, timeString, unix) melalui `AppService.getTimeStream()`.
+  - Penambahan unit test untuk endpoint streaming SSE di `AppControllerSpec` (`backend/src/app.controller.spec.ts`).
+- 🎨 **Frontend Real-Time UI & Modern Styling**:
+  - Konfigurasi Path Alias `@/*` di `vite.config.ts` dan `tsconfig.app.json` untuk impor file yang lebih bersih.
+  - Integrasi `@iconify/react` untuk ikon interaktif (gamepad, server, clock, timer, calendar, activity, status indicators).
+  - Langganan stream SSE backend menggunakan `EventSource` di `App.tsx` dengan penanganan reconnect otomatis dan error state.
+  - Pembaruan UI Dark Mode modern (Slate 950, efek glowing indigo, jam digital real-time, live tick counter).
+  - Pembersihan asset lama dan penambahan `logo.svg` baru.
+- ⚙️ **Quality Control & Penyelarasan Versi**:
+  - Seluruh pengujian Oxlint (Backend), ESLint (Frontend), Vitest (Backend), dan TypeScript build (Root, Backend, Frontend) dinyatakan PASS (0 errors).
+  - Menyinkronkan versi 6 berkas (`package.json` & `package-lock.json` di Root, Backend, dan Frontend) ke versi `0.0.2`.
+
 ### 📦 [0.0.1] - 2026-09-21 23:08
 
 **Ringkasan Perubahan pada Commit Ini:**

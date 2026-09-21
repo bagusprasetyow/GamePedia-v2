@@ -6,8 +6,8 @@ GamePedia v2 adalah platform katalog dan ensiklopedia game modern berarsitektur 
 
 ## 📌 Status Proyek Terbaru
 
-- **Versi Saat Ini**: `0.0.1`
-- **Status Monorepo**: Inisialisasi awal monorepo, konfigurasi NestJS 12 backend & React 19 frontend, integrasi 3 workflow otomatisasi agent, serta penyiapan dokumentasi terstruktur di `doc/`.
+- **Versi Saat Ini**: `0.0.2`
+- **Status Monorepo**: Integrasi real-time Backend SSE (Server-Sent Events) time stream, pembaharuan UI Frontend dengan React 19 + Tailwind CSS v4 + Iconify, alias `@/*`, unit test Vitest, dan otomatisasi workflow agent.
 
 ---
 
