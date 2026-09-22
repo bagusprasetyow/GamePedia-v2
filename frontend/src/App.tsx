@@ -1,11 +1,15 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { Icon } from '@iconify/react';
+import { cn } from '@/lib/utils';
 
 interface ServerTimeData {
   timestamp: string;
   timeString: string;
   unix: number;
+  jsonData?: Record<string, unknown>;
 }
+
+type SseStatus = 'connected' | 'reconnecting' | 'disconnected';
 
 function App() {
   const [message, setMessage] = useState<string>('');
@@ -14,177 +18,883 @@ function App() {
 
   // Real-time SSE time state
   const [serverTime, setServerTime] = useState<ServerTimeData | null>(null);
-  const [sseConnected, setSseConnected] = useState<boolean>(false);
-  const [sseError, setSseError] = useState<string | null>(null);
+  const [sseStatus, setSseStatus] = useState<SseStatus>('disconnected');
+  const [reconnectCount, setReconnectCount] = useState<number>(0);
   const [tickCount, setTickCount] = useState<number>(0);
 
-  // Initial fetch for /api
+  // Polling fetch for /api (auto update jika backend berubah)
   useEffect(() => {
-    fetch('/api')
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error(`HTTP error! Status: ${res.status}`);
-        }
-        return res.text();
-      })
-      .then((data) => {
-        setMessage(data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        setError(err.message || 'Gagal terhubung ke backend');
-        setLoading(false);
-      });
+    const fetchBackendMessage = () => {
+      fetch('/api')
+        .then((res) => {
+          if (!res.ok) {
+            throw new Error(`HTTP error! Status: ${res.status}`);
+          }
+          return res.text();
+        })
+        .then((data) => {
+          setMessage(data);
+          setError(null);
+          setLoading(false);
+        })
+        .catch((err) => {
+          setError(err.message || 'Gagal terhubung ke backend');
+          setLoading(false);
+        });
+    };
+
+    fetchBackendMessage();
+    const intervalId = setInterval(fetchBackendMessage, 2000);
+
+    return () => clearInterval(intervalId);
   }, []);
 
-  // Real-time SSE listener for /api/time
+  // Fungsi rekoneksi manual / instan
+  const [connectTrigger, setConnectTrigger] = useState<number>(0);
+  const handleManualReconnect = useCallback(() => {
+    setSseStatus('reconnecting');
+    setConnectTrigger((prev) => prev + 1);
+  }, []);
+
+  // Real-time SSE listener with robust auto-reconnect & online/offline handling
   useEffect(() => {
-    const eventSource = new EventSource('/api/time');
+    let eventSource: EventSource | null = null;
+    let retryTimeout: ReturnType<typeof setTimeout> | null = null;
 
-    eventSource.onopen = () => {
-      setSseConnected(true);
-      setSseError(null);
-    };
-
-    eventSource.onmessage = (event) => {
-      try {
-        const parsed: ServerTimeData = JSON.parse(event.data);
-        setServerTime(parsed);
-        setTickCount((prev) => prev + 1);
-      } catch (err) {
-        console.error('Gagal parse data SSE:', err);
+    const startStream = () => {
+      if (eventSource) {
+        eventSource.close();
       }
+
+      setSseStatus((prev) => (prev === 'connected' ? 'reconnecting' : prev));
+      eventSource = new EventSource('/api/time');
+
+      eventSource.onopen = () => {
+        setSseStatus('connected');
+        setReconnectCount(0);
+      };
+
+      eventSource.onmessage = (event) => {
+        try {
+          const parsed: ServerTimeData = JSON.parse(event.data);
+          setServerTime(parsed);
+          setTickCount((prev) => prev + 1);
+        } catch (err) {
+          console.error('Gagal parse data SSE:', err);
+        }
+      };
+
+      eventSource.onerror = (err) => {
+        console.error('SSE Connection Error:', err);
+        setSseStatus('reconnecting');
+        setReconnectCount((prev) => prev + 1);
+
+        if (eventSource && eventSource.readyState === EventSource.CLOSED) {
+          eventSource.close();
+          if (retryTimeout) clearTimeout(retryTimeout);
+          retryTimeout = setTimeout(() => {
+            startStream();
+          }, 3000);
+        }
+      };
     };
 
-    eventSource.onerror = (err) => {
-      console.error('SSE Error:', err);
-      setSseConnected(false);
-      setSseError('Koneksi stream terputus / reconnecting...');
+    startStream();
+
+    const handleOnline = () => {
+      console.log('Jaringan kembali online, melakukan auto-reconnect SSE...');
+      startStream();
     };
+
+    const handleOffline = () => {
+      console.log('Jaringan terputus / offline');
+      setSseStatus('disconnected');
+    };
+
+    window.addEventListener('online', handleOnline);
+    window.addEventListener('offline', handleOffline);
 
     return () => {
-      eventSource.close();
+      if (eventSource) {
+        eventSource.close();
+      }
+      if (retryTimeout) {
+        clearTimeout(retryTimeout);
+      }
+      window.removeEventListener('online', handleOnline);
+      window.removeEventListener('offline', handleOffline);
     };
-  }, []);
+  }, [connectTrigger]);
 
   return (
-    <div className="min-h-screen bg-slate-950 text-white flex flex-col items-center justify-center p-6 font-sans">
-      <div className="bg-slate-900 p-8 rounded-2xl shadow-2xl border border-slate-800 max-w-lg w-full text-center space-y-6">
+    <div
+      className={cn(
+        // layout
+        "flex min-h-screen flex-col items-center justify-center",
+
+        // spacing
+        "p-6",
+
+        // typography
+        "font-sans",
+
+        // background
+        "bg-neutral-950",
+
+        // text
+        "text-white"
+      )}
+    >
+      <div
+        className={cn(
+          // layout
+          "w-full max-w-lg space-y-6 text-center",
+
+          // spacing
+          "p-8",
+
+          // border
+          "rounded-2xl border border-neutral-800",
+
+          // background
+          "bg-neutral-900",
+
+          // shadow
+          "shadow-2xl"
+        )}
+      >
         {/* Header with Gamepad Icon */}
-        <div className="flex flex-col items-center space-y-2">
-          <div className="p-3 bg-indigo-500/10 rounded-2xl border border-indigo-500/20 text-indigo-400">
-            <Icon icon="lucide:gamepad-2" className="w-10 h-10" />
+        <div
+          className={cn(
+            // layout
+            "flex flex-col items-center space-y-2"
+          )}
+        >
+          <div
+            className={cn(
+              // spacing
+              "p-3",
+
+              // border
+              "rounded-2xl border border-primary-500/20",
+
+              // background
+              "bg-primary-500/10",
+
+              // text
+              "text-primary-400"
+            )}
+          >
+            <Icon icon="lucide:gamepad-2" className="h-10 w-10" />
           </div>
           <div>
-            <h1 className="text-3xl font-extrabold tracking-tight text-indigo-400">GamePedia v2</h1>
-            <p className="text-slate-400 text-sm mt-1">Real-Time Server Connection & Live Clock Check</p>
+            <h1
+              className={cn(
+                // typography
+                "text-3xl font-extrabold tracking-tight",
+
+                // text
+                "text-primary-400"
+              )}
+            >
+              GamePedia v2
+            </h1>
+            <p
+              className={cn(
+                // spacing
+                "mt-1",
+
+                // typography
+                "text-sm",
+
+                // text
+                "text-neutral-400"
+              )}
+            >
+              Real-Time Server Connection & Live Clock Check
+            </p>
           </div>
         </div>
 
         {/* HTTP Backend Status */}
-        <div className="p-4 rounded-xl bg-slate-900/80 border border-slate-800 shadow-inner space-y-2">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-1.5 text-slate-400 text-xs font-semibold uppercase tracking-wider">
-              <Icon icon="lucide:server" className="w-4 h-4 text-indigo-400" />
+        <div
+          className={cn(
+            // layout
+            "space-y-2",
+
+            // spacing
+            "p-4",
+
+            // border
+            "rounded-xl border border-neutral-800",
+
+            // background
+            "bg-neutral-900/80",
+
+            // shadow
+            "shadow-inner"
+          )}
+        >
+          <div
+            className={cn(
+              // layout
+              "flex items-center justify-between"
+            )}
+          >
+            <div
+              className={cn(
+                // layout
+                "flex items-center space-x-1.5",
+
+                // typography
+                "text-xs font-semibold uppercase tracking-wider",
+
+                // text
+                "text-neutral-400"
+              )}
+            >
+              <Icon icon="lucide:server" className="h-4 w-4 text-primary-400" />
               <span>HTTP Endpoint Status</span>
             </div>
           </div>
 
           {loading && (
-            <div className="flex items-center justify-center space-x-2 text-yellow-400 font-medium py-1">
-              <Icon icon="lucide:loader-2" className="w-4 h-4 animate-spin" />
+            <div
+              className={cn(
+                // layout
+                "flex items-center justify-center space-x-2",
+
+                // spacing
+                "py-1",
+
+                // typography
+                "font-medium",
+
+                // text
+                "text-warning"
+              )}
+            >
+              <Icon icon="lucide:loader-2" className="h-4 w-4 animate-spin" />
               <p className="text-sm">Memuat pesan dari backend...</p>
             </div>
           )}
           {error && (
-            <div className="flex items-center space-x-2 text-red-400 font-medium p-2 bg-red-950/40 rounded-lg border border-red-800/40">
-              <Icon icon="lucide:alert-circle" className="w-5 h-5 shrink-0" />
+            <div
+              className={cn(
+                // layout
+                "flex items-center space-x-2",
+
+                // spacing
+                "p-2",
+
+                // typography
+                "font-medium",
+
+                // border
+                "rounded-lg border border-error/30",
+
+                // background
+                "bg-error/10",
+
+                // text
+                "text-error"
+              )}
+            >
+              <Icon icon="lucide:alert-circle" className="h-5 w-5 shrink-0" />
               <div className="text-left text-xs">
                 <p className="font-semibold">Koneksi HTTP Gagal</p>
-                <p className="text-slate-400">{error}</p>
+                <p className="text-neutral-400">{error}</p>
               </div>
             </div>
           )}
           {!loading && !error && (
-            <div className="flex items-center justify-between pt-1">
-              <span className="flex items-center space-x-1 text-xs text-emerald-400 bg-emerald-950/60 border border-emerald-800/60 px-2.5 py-1 rounded-full font-medium">
-                <Icon icon="lucide:check-circle-2" className="w-3.5 h-3.5" />
+            <div
+              className={cn(
+                // layout
+                "flex items-center justify-between",
+
+                // spacing
+                "pt-1"
+              )}
+            >
+              <span
+                className={cn(
+                  // layout
+                  "flex items-center space-x-1",
+
+                  // spacing
+                  "px-2.5 py-1",
+
+                  // typography
+                  "text-xs font-medium",
+
+                  // border
+                  "rounded-full border border-success/30",
+
+                  // background
+                  "bg-success/10",
+
+                  // text
+                  "text-success"
+                )}
+              >
+                <Icon icon="lucide:check-circle-2" className="h-3.5 w-3.5" />
                 <span>HTTP 200 OK</span>
               </span>
-              <span className="text-sm font-semibold text-slate-200">"{message}"</span>
+              <span
+                className={cn(
+                  // typography
+                  "text-sm font-semibold",
+
+                  // text
+                  "text-neutral-200"
+                )}
+              >
+                "{message}"
+              </span>
             </div>
           )}
         </div>
 
         {/* Real-Time Server Time Stream */}
-        <div className="p-6 rounded-2xl bg-linear-to-b from-indigo-950/40 to-slate-900 border border-indigo-900/50 shadow-lg space-y-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-2">
-              <span className="relative flex h-3 w-3">
-                {sseConnected && (
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+        <div
+          className={cn(
+            // layout
+            "space-y-4",
+
+            // spacing
+            "p-6",
+
+            // border
+            "rounded-2xl border border-primary-900/50",
+
+            // background
+            "bg-linear-to-b from-primary-950/40 to-neutral-900",
+
+            // shadow
+            "shadow-lg"
+          )}
+        >
+          <div
+            className={cn(
+              // layout
+              "flex items-center justify-between"
+            )}
+          >
+            <div
+              className={cn(
+                // layout
+                "flex items-center space-x-2"
+              )}
+            >
+              <span
+                className={cn(
+                  // position
+                  "relative",
+
+                  // layout
+                  "flex",
+
+                  // size
+                  "h-3 w-3"
+                )}
+              >
+                {sseStatus === 'connected' && (
+                  <span
+                    className={cn(
+                      // position
+                      "absolute inset-0",
+
+                      // layout
+                      "inline-flex",
+
+                      // size
+                      "h-full w-full",
+
+                      // border
+                      "rounded-full",
+
+                      // background
+                      "bg-success",
+
+                      // state
+                      "opacity-75",
+
+                      // transition
+                      "animate-ping"
+                    )}
+                  />
+                )}
+                {sseStatus === 'reconnecting' && (
+                  <span
+                    className={cn(
+                      // position
+                      "absolute inset-0",
+
+                      // layout
+                      "inline-flex",
+
+                      // size
+                      "h-full w-full",
+
+                      // border
+                      "rounded-full",
+
+                      // background
+                      "bg-warning",
+
+                      // state
+                      "opacity-75",
+
+                      // transition
+                      "animate-ping"
+                    )}
+                  />
                 )}
                 <span
-                  className={`relative inline-flex rounded-full h-3 w-3 ${
-                    sseConnected ? 'bg-emerald-500' : 'bg-amber-500'
-                  }`}
-                ></span>
+                  className={cn(
+                    // position
+                    "relative",
+
+                    // layout
+                    "inline-flex",
+
+                    // size
+                    "h-3 w-3",
+
+                    // border
+                    "rounded-full",
+
+                    // background
+                    sseStatus === 'connected'
+                      ? 'bg-success'
+                      : sseStatus === 'reconnecting'
+                      ? 'bg-warning'
+                      : 'bg-error'
+                  )}
+                />
               </span>
-              <span className="flex items-center space-x-1.5 text-xs font-semibold text-indigo-300 uppercase tracking-wider">
-                <Icon icon="lucide:radio" className="w-3.5 h-3.5" />
-                <span>Real-Time Stream (Per Detik)</span>
+              <span
+                className={cn(
+                  // layout
+                  "flex items-center space-x-1.5",
+
+                  // typography
+                  "text-xs font-semibold uppercase tracking-wider",
+
+                  // text
+                  "text-primary-300"
+                )}
+              >
+                <Icon icon="lucide:radio" className="h-3.5 w-3.5" />
+                <span>Real-Time Stream</span>
               </span>
             </div>
-            <span className="flex items-center space-x-1 text-xs font-mono text-slate-400 bg-slate-800 px-2 py-0.5 rounded border border-slate-700">
-              <Icon icon="lucide:activity" className="w-3 h-3 text-indigo-400" />
-              <span>Ticks: {tickCount}</span>
-            </span>
+            <div
+              className={cn(
+                // layout
+                "flex items-center space-x-2"
+              )}
+            >
+              <span
+                className={cn(
+                  // layout
+                  "flex items-center space-x-1",
+
+                  // spacing
+                  "px-2 py-0.5",
+
+                  // typography
+                  "font-mono text-xs",
+
+                  // border
+                  "rounded border border-neutral-700",
+
+                  // background
+                  "bg-neutral-800",
+
+                  // text
+                  "text-neutral-400"
+                )}
+              >
+                <Icon icon="lucide:activity" className="h-3 w-3 text-primary-400" />
+                <span>Ticks: {tickCount}</span>
+              </span>
+            </div>
           </div>
+
+          {/* Status Alert Bar */}
+          {sseStatus === 'reconnecting' && (
+            <div
+              className={cn(
+                // layout
+                "flex items-center justify-between",
+
+                // spacing
+                "p-2.5",
+
+                // typography
+                "text-xs",
+
+                // border
+                "rounded-xl border border-warning/30",
+
+                // background
+                "bg-warning/10",
+
+                // text
+                "text-warning"
+              )}
+            >
+              <div
+                className={cn(
+                  // layout
+                  "flex items-center space-x-2"
+                )}
+              >
+                <Icon icon="lucide:loader-2" className="h-4 w-4 animate-spin shrink-0" />
+                <span>
+                  Koneksi terputus. Mencoba rekoneksi otomatis...
+                  {reconnectCount > 0 && ` (Percobaan #${reconnectCount})`}
+                </span>
+              </div>
+              <button
+                onClick={handleManualReconnect}
+                className={cn(
+                  // spacing
+                  "px-2.5 py-1",
+
+                  // typography
+                  "text-[11px] font-semibold",
+
+                  // border
+                  "rounded-lg border border-warning/40",
+
+                  // background
+                  "bg-warning/20",
+
+                  // text
+                  "text-warning",
+
+                  // interaction
+                  "hover:bg-warning/30",
+
+                  // state
+                  "cursor-pointer",
+
+                  // transition
+                  "transition-colors"
+                )}
+              >
+                Coba Sekarang
+              </button>
+            </div>
+          )}
+
+          {sseStatus === 'disconnected' && (
+            <div
+              className={cn(
+                // layout
+                "flex items-center justify-between",
+
+                // spacing
+                "p-2.5",
+
+                // typography
+                "text-xs",
+
+                // border
+                "rounded-xl border border-error/30",
+
+                // background
+                "bg-error/10",
+
+                // text
+                "text-error"
+              )}
+            >
+              <div
+                className={cn(
+                  // layout
+                  "flex items-center space-x-2"
+                )}
+              >
+                <Icon icon="lucide:wifi-off" className="h-4 w-4 shrink-0" />
+                <span>Koneksi terputus / Offline</span>
+              </div>
+              <button
+                onClick={handleManualReconnect}
+                className={cn(
+                  // spacing
+                  "px-2.5 py-1",
+
+                  // typography
+                  "text-[11px] font-semibold",
+
+                  // border
+                  "rounded-lg border border-error/40",
+
+                  // background
+                  "bg-error/20",
+
+                  // text
+                  "text-error",
+
+                  // interaction
+                  "hover:bg-error/30",
+
+                  // state
+                  "cursor-pointer",
+
+                  // transition
+                  "transition-colors"
+                )}
+              >
+                Hubungkan Kembali
+              </button>
+            </div>
+          )}
 
           {serverTime ? (
             <div className="space-y-3">
               {/* Digital Clock Display */}
-              <div className="bg-slate-950/90 py-4 px-6 rounded-xl border border-indigo-500/20 font-mono shadow-inner space-y-1">
-                <div className="flex items-center justify-center space-x-2">
-                  <Icon icon="lucide:clock" className="w-6 h-6 text-indigo-400 animate-pulse" />
-                  <p className="text-4xl font-bold tracking-widest text-indigo-300 drop-shadow-[0_0_10px_rgba(99,102,241,0.3)]">
+              <div
+                className={cn(
+                  // layout
+                  "space-y-1 text-center",
+
+                  // spacing
+                  "px-6 py-4",
+
+                  // typography
+                  "font-mono",
+
+                  // border
+                  "rounded-xl border border-primary-500/20",
+
+                  // background
+                  "bg-neutral-950/90",
+
+                  // shadow
+                  "shadow-inner"
+                )}
+              >
+                <div
+                  className={cn(
+                    // layout
+                    "flex items-center justify-center space-x-2"
+                  )}
+                >
+                  <Icon
+                    icon="lucide:clock"
+                    className={cn(
+                      // size
+                      "h-6 w-6",
+
+                      // text
+                      "text-primary-400",
+
+                      // transition / state
+                      sseStatus === 'connected' ? 'animate-pulse' : 'opacity-40'
+                    )}
+                  />
+                  <p
+                    className={cn(
+                      // typography
+                      "text-4xl font-bold tracking-widest",
+
+                      // text
+                      "text-primary-300 drop-shadow-[0_0_10px_var(--color-primary-500)]"
+                    )}
+                  >
                     {serverTime.timeString}
                   </p>
                 </div>
-                <p className="text-xs text-slate-400">Waktu Server Real-Time</p>
+                <p className="text-xs text-neutral-400">Waktu Server Real-Time</p>
               </div>
 
               {/* Timestamp Metadata */}
-              <div className="text-left bg-slate-950/50 p-3 rounded-lg border border-slate-800 text-xs font-mono space-y-1.5">
-                <div className="flex items-center justify-between">
-                  <span className="flex items-center space-x-1.5 text-slate-500">
-                    <Icon icon="lucide:calendar" className="w-3.5 h-3.5 text-slate-400" />
+              <div
+                className={cn(
+                  // layout
+                  "space-y-1.5 text-left",
+
+                  // spacing
+                  "p-3",
+
+                  // typography
+                  "font-mono text-xs",
+
+                  // border
+                  "rounded-lg border border-neutral-800",
+
+                  // background
+                  "bg-neutral-950/50"
+                )}
+              >
+                <div
+                  className={cn(
+                    // layout
+                    "flex items-center justify-between"
+                  )}
+                >
+                  <span
+                    className={cn(
+                      // layout
+                      "flex items-center space-x-1.5",
+
+                      // text
+                      "text-neutral-500"
+                    )}
+                  >
+                    <Icon icon="lucide:calendar" className="h-3.5 w-3.5 text-neutral-400" />
                     <span>ISO Timestamp:</span>
                   </span>
-                  <span className="text-slate-300">{serverTime.timestamp}</span>
+                  <span className="text-neutral-300">{serverTime.timestamp}</span>
                 </div>
-                <div className="flex items-center justify-between">
-                  <span className="flex items-center space-x-1.5 text-slate-500">
-                    <Icon icon="lucide:timer" className="w-3.5 h-3.5 text-slate-400" />
+                <div
+                  className={cn(
+                    // layout
+                    "flex items-center justify-between"
+                  )}
+                >
+                  <span
+                    className={cn(
+                      // layout
+                      "flex items-center space-x-1.5",
+
+                      // text
+                      "text-neutral-500"
+                    )}
+                  >
+                    <Icon icon="lucide:timer" className="h-3.5 w-3.5 text-neutral-400" />
                     <span>Unix Timestamp:</span>
                   </span>
-                  <span className="text-slate-300">{serverTime.unix} ms</span>
+                  <span className="text-neutral-300">{serverTime.unix} ms</span>
                 </div>
               </div>
-            </div>
-          ) : (
-            <div className="py-6 flex flex-col items-center space-y-2">
-              {sseError ? (
-                <div className="flex items-center space-x-2 text-amber-400 text-sm font-medium animate-pulse">
-                  <Icon icon="lucide:wifi-off" className="w-4 h-4" />
-                  <span>{sseError}</span>
-                </div>
-              ) : (
-                <div className="flex items-center space-x-2 text-indigo-300 text-sm font-medium animate-pulse">
-                  <Icon icon="lucide:loader-2" className="w-4 h-4 animate-spin text-indigo-400" />
-                  <span>Menghubungkan ke Stream Waktu Real-Time...</span>
+
+              {/* Live JSON Data (Live from live-data.json) */}
+              {serverTime.jsonData && (
+                <div
+                  className={cn(
+                    // layout
+                    "space-y-2 text-left",
+
+                    // spacing
+                    "p-4",
+
+                    // typography
+                    "text-xs",
+
+                    // border
+                    "rounded-xl border border-primary-800/40",
+
+                    // background
+                    "bg-primary-950/40"
+                  )}
+                >
+                  <div
+                    className={cn(
+                      // layout
+                      "flex items-center justify-between",
+
+                      // spacing
+                      "pb-2",
+
+                      // border
+                      "border-b border-primary-800/30"
+                    )}
+                  >
+                    <span
+                      className={cn(
+                        // layout
+                        "flex items-center space-x-1.5",
+
+                        // typography
+                        "font-semibold uppercase tracking-wider",
+
+                        // text
+                        "text-primary-300"
+                      )}
+                    >
+                      <Icon icon="lucide:file-json" className="h-4 w-4 text-primary-400" />
+                      <span>Live JSON Data (live-data.json)</span>
+                    </span>
+                    <span
+                      className={cn(
+                        // spacing
+                        "px-2 py-0.5",
+
+                        // typography
+                        "text-[10px] font-semibold",
+
+                        // border
+                        "rounded border",
+
+                        // background & text & border
+                        sseStatus === 'connected'
+                          ? 'border-success/30 bg-success/20 text-success'
+                          : 'border-warning/30 bg-warning/20 text-warning'
+                      )}
+                    >
+                      {sseStatus === 'connected' ? 'LIVE SSE' : 'RECONNECTING'}
+                    </span>
+                  </div>
+                  <pre
+                    className={cn(
+                      // layout
+                      "overflow-x-auto",
+
+                      // spacing
+                      "p-3",
+
+                      // typography
+                      "font-mono text-[11px] leading-relaxed",
+
+                      // border
+                      "rounded-lg border border-neutral-800",
+
+                      // background
+                      "bg-neutral-950",
+
+                      // text
+                      "text-success"
+                    )}
+                  >
+                    {JSON.stringify(serverTime.jsonData, null, 2)}
+                  </pre>
                 </div>
               )}
+            </div>
+          ) : (
+            <div
+              className={cn(
+                // layout
+                "flex flex-col items-center space-y-2",
+
+                // spacing
+                "py-6"
+              )}
+            >
+              <div
+                className={cn(
+                  // layout
+                  "flex items-center space-x-2",
+
+                  // typography
+                  "text-sm font-medium",
+
+                  // text
+                  "text-primary-300",
+
+                  // transition
+                  "animate-pulse"
+                )}
+              >
+                <Icon icon="lucide:loader-2" className="h-4 w-4 animate-spin text-primary-400" />
+                <span>Menghubungkan ke Stream Waktu Real-Time...</span>
+              </div>
             </div>
           )}
         </div>
@@ -194,5 +904,3 @@ function App() {
 }
 
 export default App;
-
-

@@ -6,8 +6,8 @@ GamePedia v2 adalah platform katalog dan ensiklopedia game modern berarsitektur 
 
 ## 📌 Status Proyek Terbaru
 
-- **Versi Saat Ini**: `0.0.2`
-- **Status Monorepo**: Integrasi real-time Backend SSE (Server-Sent Events) time stream, pembaharuan UI Frontend dengan React 19 + Tailwind CSS v4 + Iconify, alias `@/*`, unit test Vitest, dan otomatisasi workflow agent.
+- **Versi Saat Ini**: `0.0.3`
+- **Status Monorepo**: Integrasi real-time Backend SSE dengan pengiriman data JSON dinamis (`live-data.json`), NestJS `@nestjs/config` & `cookie-parser`, pembaruan Tailwind CSS v4 dengan token warna OKLCH di `@theme`, helper `cn()` (`clsx` + `tailwind-merge`), standarisasi Tailwind Class Organization pada UI React 19, serta pengujian Vitest, Oxlint, ESLint, dan workflow agent.
 
 ---
 

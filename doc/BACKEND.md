@@ -7,8 +7,10 @@ Dokumen ini memuat detail arsitektur dan panduan pengembangan aplikasi Backend G
 ## 🛠️ Stack & Perkakas Backend
 
 - **NestJS 12**: Framework aplikasi server-side berbasis Node.js yang modular dan scalable.
+- **Config Module (`@nestjs/config`)**: Pengelolaan environment variable secara terpusat (`ConfigModule.forRoot`).
+- **Cookie Parser (`cookie-parser`)**: Middleware penanganan cookie HTTP request.
 - **TypeScript 6**: Type checking generasi terbaru.
-- **RxJS Server-Sent Events (SSE)**: Streaming data real-time via `@Sse('time')` endpoint di `AppController`.
+- **RxJS Server-Sent Events (SSE)**: Streaming data real-time via `@Sse('time')` endpoint di `AppController` dengan pengiriman payload timestamp dan data JSON dinamis (`data/live-data.json`).
 - **Vitest**: Test runner alternatif super cepat menggantikan Jest untuk Unit Testing dan End-to-End (E2E) testing.
 - **Oxlint**: High-performance Linter berbasis Rust yang jauh lebih cepat daripada ESLint konvensional.
 - **Prettier**: Formatter otomatis untuk kerapihan kode TypeScript.
@@ -19,14 +21,17 @@ Dokumen ini memuat detail arsitektur dan panduan pengembangan aplikasi Backend G
 
 ```
 backend/
+├── data/
+│   └── live-data.json         # Data JSON Dinamis untuk Stream SSE
 ├── src/
 │   ├── app.controller.ts      # Controller Utama (Handling Request & Route)
 │   ├── app.controller.spec.ts # Unit Test Controller (Vitest)
-│   ├── app.module.ts          # Root Module Aplikasi
-│   ├── app.service.ts         # Service Utama (Bisnis Logika)
-│   └── main.ts                # Entry Point NestJS App
+│   ├── app.module.ts          # Root Module Aplikasi (Imports ConfigModule)
+│   ├── app.service.ts         # Service Utama (Bisnis Logika & Dynamic JSON Reader)
+│   └── main.ts                # Entry Point NestJS App (CORS, Cookie Parser, Dynamic Port)
 ├── test/
 │   └── app.e2e-spec.ts        # Testing End-to-End (Vitest)
+├── .env.example               # Contoh Konfigurasi Environment Variable
 ├── .oxlintrc.json             # Konfigurasi Linter Oxlint
 ├── nest-cli.json              # Konfigurasi Nest CLI
 ├── vitest.config.ts           # Konfigurasi Unit Test Vitest

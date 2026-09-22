@@ -6,6 +6,24 @@ Dokumen ini mencatat seluruh riwayat perubahan, penambahan fitur, perbaikan, ser
 
 ## 📌 Log Rilis & Timeline
 
+### 📦 [0.0.3] - 2026-09-22 15:15
+
+**Ringkasan Perubahan pada Commit Ini:**
+- ⚙️ **Konfigurasi Backend & Dinamis Data JSON Stream**:
+  - Integrasi `@nestjs/config` (`ConfigModule.forRoot`) pada `AppModule` (`backend/src/app.module.ts`) untuk pengelolaan environment variable global.
+  - Integrasi `cookie-parser` middleware pada `main.ts` dengan type definition `@types/cookie-parser`.
+  - Pembaruan konfigurasi CORS backend di `main.ts` (Dynamic `CORS_ORIGIN`, `credentials: true`) dan dynamic `PORT`.
+  - Implementasi pembacaan file `data/live-data.json` secara dinamis di `AppService.readLiveData()` dan disertakan pada stream payload SSE (`@Sse('time')`).
+- 🎨 **Standarisasi Styling Tailwind CSS v4 & Frontend UI Refactoring**:
+  - Penambahan variabel skema warna OKLCH pada `@theme` di `frontend/src/index.css` (Primary palette, Neutral palette, Semantic colors: success, warning, error, info, Surface/Background).
+  - Penambahan helper `cn()` (`clsx` + `tailwind-merge`) di `frontend/src/lib/` & `frontend/src/utils/`.
+  - Refactoring total `App.tsx` sesuai standar Tailwind Class Organization Standard (grouping class per kategori: layout, spacing, typography, background, border, text, transition).
+  - Tampilan baru untuk stream data JSON real-time (`live-data.json`) lengkap dengan badge indikator koneksi SSE (Live SSE / Reconnecting).
+- 📚 **Pembaruan Dokumentasi & Quality Control**:
+  - Pembaruan seluruh berkas di `doc/` (`README.md`, `ARCHITECTURE.md`, `FRONTEND.md`, `BACKEND.md`, `TIMELINE.md`) serta root `README.md`.
+  - Seluruh pre-commit check (Oxlint backend, ESLint frontend, Vitest unit test, TypeScript & Vite build) PASS 100%.
+  - Menyinkronkan versi aplikasi pada 6 berkas package ke versi `0.0.3`.
+
 ### 📦 [0.0.2] - 2026-09-21 23:50
 
 **Ringkasan Perubahan pada Commit Ini:**

@@ -13,12 +13,14 @@ GamePedia-v2/
 ├── .agents/              # Antigravity Workflows & Rules
 │   └── workflows/       # Defined Slash Commands (/update-docs, /update-timeline, /commit-and-push)
 ├── backend/              # Aplikasi NestJS 12 (API Gateway & Core Logic)
-│   ├── src/             # Source Code (App Module, Controller, Service)
+│   ├── data/            # Data JSON Dinamis untuk SSE Stream
+│   ├── src/             # Source Code (App Module, Controller, Service, Config)
 │   ├── test/            # Vitest E2E Tests
+│   ├── .env.example     # Environment Variables Template
 │   ├── oxlintrc.json    # Oxlint Fast Linter Config
 │   └── package.json
 ├── frontend/             # Aplikasi React 19 + Vite 8 (User Interface)
-│   ├── src/             # Source Code (App.tsx, Components, Assets)
+│   ├── src/             # Source Code (App.tsx, Components, lib/utils, index.css)
 │   ├── index.html
 │   ├── eslint.config.js # ESLint v9 Flat Config
 │   └── package.json

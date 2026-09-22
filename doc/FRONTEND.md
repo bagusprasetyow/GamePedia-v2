@@ -8,9 +8,10 @@ Dokumen ini berisi informasi terperinci mengenai aplikasi Frontend GamePedia v2 
 
 - **React 19**: Penggunaan API UI React 19 terbaru.
 - **Vite 8**: Build tool super cepat untuk pengembangan dan kompilasi modul bundle dengan dukungan Path Alias (`@/*`).
-- **Tailwind CSS v4**: Generasi terbaru Tailwind CSS yang menggunakan konfigurasi `@import "tailwindcss";` langsung di `src/index.css` dengan integrasi plugin Vite `@tailwindcss/vite`.
+- **Tailwind CSS v4**: Generasi terbaru Tailwind CSS yang menggunakan `@import "tailwindcss";` dan `@theme` custom token warna OKLCH di `src/index.css` dengan plugin Vite `@tailwindcss/vite`.
+- **Utility Styling (`clsx` + `tailwind-merge`)**: Helper `cn()` di `src/lib/utils.ts` & `src/utils/` untuk komposisi class Tailwind yang bersih dan terstruktur (Tailwind Class Organization Standard).
 - **Iconify (`@iconify/react`)**: Komponen ikon universal untuk antarmuka pengguna yang kaya dan konsisten.
-- **Server-Sent Events (SSE)**: Konsumsi stream real-time waktu server menggunakan API standar `EventSource`.
+- **Server-Sent Events (SSE)**: Konsumsi stream real-time waktu server & live JSON data menggunakan API standar `EventSource`.
 - **ESLint v10 & TypeScript ESLint**: Menjamin standar kualitas kode TypeScript/JSX.
 
 ---
@@ -22,8 +23,10 @@ frontend/
 ├── public/               # Static Assets (favicon, icons)
 ├── src/
 │   ├── assets/          # Media Assets (images, logo, react.svg)
-│   ├── App.tsx          # Main Component
-│   ├── index.css        # CSS Utama (Tailwind CSS v4 imports)
+│   ├── lib/             # Utility Libraries & Class Merger (cn)
+│   ├── utils/           # Helper Utilities
+│   ├── App.tsx          # Main Component (Class Organization Standard)
+│   ├── index.css        # CSS Utama (Tailwind CSS v4 @theme imports & OKLCH palette)
 │   ├── main.tsx         # Entry Point Aplikasi React
 │   └── vite-env.d.ts    # Types Declaration untuk Vite
 ├── eslint.config.js      # Konfigurasi Flat ESLint
