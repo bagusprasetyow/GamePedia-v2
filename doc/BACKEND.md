@@ -4,6 +4,16 @@ Dokumen ini memuat detail arsitektur dan panduan pengembangan aplikasi Backend G
 
 ---
 
+## 🗂️ Navigasi Sub-Dokumentasi Backend Terpecah
+
+Untuk informasi yang lebih terstruktur dan modular, silakan merujuk ke sub-dokumentasi di [`doc/backend/`](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/backend/README.md):
+
+- 🏠 [**Pusat Dokumentasi Backend (doc/backend/README.md)**](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/backend/README.md)
+- 🧩 [**Struktur Module & Controller (doc/backend/MODULES.md)**](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/backend/MODULES.md)
+- 🧪 [**Pengujian & Quality Control (doc/backend/TESTING.md)**](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/backend/TESTING.md)
+
+---
+
 ## 🛠️ Stack & Perkakas Backend
 
 - **NestJS 12**: Framework aplikasi server-side berbasis Node.js yang modular dan scalable.

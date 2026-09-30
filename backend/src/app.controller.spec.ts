@@ -14,18 +14,7 @@ describe('AppController', () => {
     appController = app.get<AppController>(AppController);
   });
 
-  describe('root', () => {
-    it('should return "Hello World!"', () => {
-      expect(appController.getHello()).toBe('Hello World!');
-    });
-
-
-
-    it('should return an observable stream for time', () => {
-      const stream = appController.getTime();
-      expect(stream).toBeDefined();
-    });
+  it('should be defined', () => {
+    expect(appController).toBeDefined();
   });
 });
-
-

@@ -6,6 +6,22 @@ Dokumen ini mencatat seluruh riwayat perubahan, penambahan fitur, perbaikan, ser
 
 ## 📌 Log Rilis & Timeline
 
+### 📦 [0.0.4] - 2026-09-30 14:12
+
+**Ringkasan Perubahan pada Commit Ini:**
+- 🎨 **Implementasi Atomic Design System & Component Library (Frontend)**:
+  - **Atoms**: Penambahan komponen atomik terenkapsulasi penuh `<Text>`, `<Icon>`, `<Button>`, `<Switch>`, `<Input>`, `<Textarea>`, `<Checkbox>`, dan `<Radio>`.
+  - **Molecules**: Penambahan komponen molekul `<CheckboxGroup>`, `<RadioGroup>`, `<ThemeToggle>`, serta kumpulan input spesifik: `<TextInput>`, `<EmailInput>`, `<PasswordInput>` (dengan `PasswordRequirements`, `PasswordStrengthBar`, `PasswordStrengthMeter`), `<UsernameInput>`, `<PhoneInput>` (dengan `phoneUtils.ts` & `usePhoneInput.ts`), `<FullNameInput>`, `<CodeInput>`, `<PinInput>`, `<OtpInput>`, `<SearchInput>`, dan `<TextareaInput>`.
+  - **Depth System (-3 s/d 3)**: Penerapan kedalaman visual taktil simetris (Cekung, Rata, Timbul) pada seluruh komponen interaktif.
+  - **Hooks & State**: Implementasi custom hook `useTheme` berbasis `useSyncExternalStore` dan pengalih tema reaktif global.
+- 📚 **Modularisasi & Pemecahan Dokumentasi Terpisah (`doc/`)**:
+  - Pembuatan direktori terpecah `doc/frontend/` memuat [`COMPONENTS.md`](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/frontend/COMPONENTS.md), [`STYLING.md`](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/frontend/STYLING.md), [`HOOKS_AND_STORE.md`](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/frontend/HOOKS_AND_STORE.md), dan [`README.md`](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/frontend/README.md).
+  - Pembuatan direktori terpecah `doc/backend/` memuat [`MODULES.md`](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/backend/MODULES.md), [`TESTING.md`](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/backend/TESTING.md), dan [`README.md`](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/backend/README.md).
+  - Penyesuaian `doc/README.md`, `doc/FRONTEND.md`, `doc/BACKEND.md`, `doc/ARCHITECTURE.md`, dan root `README.md`.
+- ⚙️ **Quality Control & Penyelarasan Versi**:
+  - Seluruh pengujian Oxlint (Backend), ESLint (Frontend), Vitest (Backend), dan Build kompilasi (NestJS + Vite React) PASS 100%.
+  - Menyinkronkan versi aplikasi pada 6 berkas `package.json` dan `package-lock.json` (Root, Backend, Frontend) ke versi `0.0.4`.
+
 ### 📦 [0.0.3] - 2026-09-22 15:15
 
 **Ringkasan Perubahan pada Commit Ini:**

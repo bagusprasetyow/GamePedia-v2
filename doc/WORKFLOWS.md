@@ -1,13 +1,17 @@
-# 🔄 Panduan 3 Workflows Otomatisasi GamePedia v2
+# 🔄 Panduan Workflows Otomatisasi GamePedia v2
 
-Dokumen ini menjelaskan secara terperinci tata cara penggunaan dan aturan internal dari **3 Workflows Utama** yang dirancang untuk membantu pengembang dan AI Agent dalam mengelola dokumentasi, timeline, serta proses commit/push aplikasi GamePedia v2.
+Dokumen ini menjelaskan secara terperinci tata cara penggunaan dan aturan internal dari **Workflows Utama** yang dirancang untuk membantu pengembang dan AI Agent dalam mengelola komponen, audit kelayakan kode, dokumentasi, timeline, serta proses commit/push aplikasi GamePedia v2.
 
 ---
 
-## 📋 Ringkasan 3 Workflows
+## 📋 Ringkasan Workflows
 
 | Slash Command | Nama Workflow | Berkas Workflow | Tujuan Utama |
 | :--- | :--- | :--- | :--- |
+| `/create-component` | Membuat Komponen | [`.agents/workflows/create-component.md`](file:///d:/Projects/project%20GP-v2/GamePedia-v2/.agents/workflows/create-component.md) | Membuat komponen React berbasis Atomic Design, Depth Scale, View vs Logic, & Custom Components mandate |
+| `/audit` | Audit Kualitas Kode | [`.agents/workflows/audit.md`](file:///d:/Projects/project%20GP-v2/GamePedia-v2/.agents/workflows/audit.md) | Melakukan audit kelayakan kode (Custom Components vs HTML primitives, OKLCH, Depth Scale, Lint, Build) |
+| `/audit-components` | Audit Dekomposisi Komponen | [`.agents/workflows/audit-components.md`](file:///d:/Projects/project%20GP-v2/GamePedia-v2/.agents/workflows/audit-components.md) | Mengecek komponen monolitik/kompleks yang dapat dipecah menjadi sub-komponen lebih kecil dan modular |
+| `/audit-tailwind` | Audit Composition Class | [`.agents/workflows/audit-tailwind.md`](file:///d:/Projects/project%20GP-v2/GamePedia-v2/.agents/workflows/audit-tailwind.md) | Memeriksa penerapan `cn()`, komentar kategori (15 urutan), dan enkapsulasi variabel class |
 | `/update-docs` | Update Dokumentasi | [`.agents/workflows/update-docs.md`](file:///d:/Projects/project%20GP-v2/GamePedia-v2/.agents/workflows/update-docs.md) | Mengecek `git status` dan memecah/memperbarui seluruh file dokumentasi terperinci di folder `doc/` |
 | `/update-timeline` | Update Timeline | [`.agents/workflows/update-timeline.md`](file:///d:/Projects/project%20GP-v2/GamePedia-v2/.agents/workflows/update-timeline.md) | Mencatat ringkasan detail perubahan/commit saat ini pada log rilis `doc/TIMELINE.md` |
 | `/commit-and-push` | Commit & Push Quality Control | [`.agents/workflows/commit-and-push.md`](file:///d:/Projects/project%20GP-v2/GamePedia-v2/.agents/workflows/commit-and-push.md) | Memeriksa build/lint/test, menyelaraskan versi di 6 berkas `package.json` & `package-lock.json`, mensinkronkan timestamp timeline, serta melakukan git commit & push |
@@ -17,17 +21,17 @@ Dokumen ini menjelaskan secara terperinci tata cara penggunaan dan aturan intern
 ## 📖 Detail & Alur Kerja Setiap Workflow
 
 ### 1. Workflow 1: `/update-docs` (Update Dokumentasi)
-Workflow ini bertugas memperbarui dokumentasi secara mendalam. Tidak hanya meng-update `README.md` utama, tetapi membedah dan melengkapi seluruh file dokumentasi di direktori `doc/`.
+Workflow ini bertugas memperbarui dokumentasi secara mendalam dan terstruktur. Tidak hanya meng-update file monolitik di root `doc/`, tetapi membedah dan melengkapi berkas dokumentasi yang terpecah di subfolder `doc/frontend/`, `doc/backend/`, maupun modul terpisah lainnya.
 
-- **Tahap 1: Inspeksi Git Status**
-  - Mengksekusi `git status` untuk melihat file mana saja yang mengalami modifikasi (`modified`), file baru (`untracked`), atau penghapusan file (`deleted`).
-- **Tahap 2: Analisis Kode & Fitur**
-  - Menganalisis dampak perubahan terhadap komponen frontend (`frontend/src/`), backend (`backend/src/`), konfigurasi build, serta otomatisasi workflow.
-- **Tahap 3: Pembaruan Berkas `doc/`**
-  - Update [`doc/README.md`](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/README.md) jika ada penambahan halaman dokumen baru.
+- **Tahap 1: Inspeksi Git Status & Git Diff**
+  - Mengeksekusi `git status` dan `git diff` untuk melihat file mana saja yang mengalami modifikasi (`modified`), file baru (`untracked`), atau penghapusan file (`deleted`).
+- **Tahap 2: Analisis Kode & Fitur per Domain**
+  - Menganalisis dampak perubahan terhadap komponen & styling frontend (`frontend/src/`), modul/endpoint backend (`backend/src/`), konfigurasi build, serta otomatisasi workflow (`.agents/`).
+- **Tahap 3: Pembaruan Berkas Dokumentasi Terpecah di `doc/`**
+  - Update [`doc/README.md`](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/README.md) jika ada penambahan halaman/folder dokumentasi baru.
   - Update [`doc/ARCHITECTURE.md`](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/ARCHITECTURE.md) jika ada perubahan struktur folder atau aliran sistem.
-  - Update [`doc/FRONTEND.md`](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/FRONTEND.md) jika ada komponen/paket frontend baru.
-  - Update [`doc/BACKEND.md`](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/BACKEND.md) jika ada modul/endpoint NestJS baru.
+  - Update [`doc/FRONTEND.md`](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/FRONTEND.md) serta berkas terpecah di subfolder [`doc/frontend/`](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/frontend/) jika ada komponen/paket frontend baru.
+  - Update [`doc/BACKEND.md`](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/BACKEND.md) serta berkas terpecah di subfolder [`doc/backend/`](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/backend/) jika ada modul/endpoint NestJS baru.
   - Update [`doc/WORKFLOWS.md`](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/WORKFLOWS.md) jika ada modifikasi skenario workflow.
   - Update [`doc/TIMELINE.md`](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/TIMELINE.md) untuk menyelaraskan catatan rilis dokumentasi.
 - **Tahap 4: Penyelarasan README Utama**

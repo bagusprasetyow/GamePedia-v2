@@ -20,11 +20,20 @@ GamePedia-v2/
 │   ├── oxlintrc.json    # Oxlint Fast Linter Config
 │   └── package.json
 ├── frontend/             # Aplikasi React 19 + Vite 8 (User Interface)
-│   ├── src/             # Source Code (App.tsx, Components, lib/utils, index.css)
-│   ├── index.html
-│   ├── eslint.config.js # ESLint v9 Flat Config
+│   ├── src/
+│   │   ├── assets/      # Static Assets
+│   │   ├── components/  # Atomic Design System
+│   │   │   ├── atoms/   # Text, Icon, Button, Switch, Input, Textarea, Checkbox, Radio
+│   │   │   └── molecules/# CheckboxGroup, RadioGroup, ThemeToggle, Inputs (Email, Password, Username, Phone, PIN, OTP, Search, dll.)
+│   │   ├── hooks/       # Custom React Hooks (useTheme, usePhoneInput)
+│   │   ├── lib/         # Utility Libraries & Class Merger (cn)
+│   │   ├── App.tsx      # Showcase & Main View Component
+│   │   └── index.css    # OKLCH Theme Palette & Tailwind CSS v4
+│   ├── eslint.config.js # ESLint Flat Config
 │   └── package.json
 ├── doc/                  # Pusat Dokumentasi Terpisah & Terperinci
+│   ├── frontend/        # Sub-dokumentasi Frontend (COMPONENTS.md, STYLING.md, HOOKS_AND_STORE.md)
+│   └── backend/         # Sub-dokumentasi Backend (MODULES.md, TESTING.md)
 ├── package.json          # Root Monorepo Configuration (Concurrently & Scripts)
 └── README.md             # Dokumen Utama Proyek
 ```
@@ -42,7 +51,8 @@ GamePedia-v2/
 ### 🎨 Frontend Core Stack
 - **Framework & SPA**: [React 19](https://react.dev/)
 - **Build Tool**: [Vite 8](https://vitejs.dev/)
-- **Styling**: [Tailwind CSS v4](https://tailwindcss.com/) (dengan Engine CSS performa tinggi `@tailwindcss/vite`)
+- **Styling**: [Tailwind CSS v4](https://tailwindcss.com/) (dengan Engine CSS performa tinggi `@tailwindcss/vite` & Palette OKLCH)
+- **Design System**: Atomic Design (Atoms & Molecules terenkapsulasi dengan Depth Scale -3 s/d 3)
 - **Linter**: [ESLint 10](https://eslint.org/) (dengan `typescript-eslint` dan Plugin React Hooks)
 
 ---

@@ -1,25 +1,28 @@
 # 🎮 GamePedia v2
 
-GamePedia v2 adalah platform katalog dan ensiklopedia game modern berarsitektur Monorepo, dibangun dengan **NestJS 12** di sisi Backend dan **React 19 + Vite 8 + Tailwind CSS v4** di sisi Frontend. Proyek ini dilengkapi dengan pipeline otomatisasi lengkap untuk pengujian, kualitas kode (ESLint, Oxlint, Vitest), serta alur otomatisasi Agent (`/update-docs`, `/update-timeline`, `/commit-and-push`).
+GamePedia v2 adalah platform katalog dan ensiklopedia game modern berarsitektur Monorepo, dibangun dengan **NestJS 12** di sisi Backend dan **React 19 + Vite 8 + Tailwind CSS v4** di sisi Frontend. Proyek ini menerapkan **Atomic Design System** dengan **Depth System (-3 s/d 3)**, skema warna **OKLCH**, serta pipeline otomatisasi lengkap untuk pengujian, kualitas kode (ESLint, Oxlint, Vitest), dan alur otomatisasi Agent (`/update-docs`, `/update-timeline`, `/commit-and-push`).
 
 ---
 
 ## 📌 Status Proyek Terbaru
 
-- **Versi Saat Ini**: `0.0.3`
-- **Status Monorepo**: Integrasi real-time Backend SSE dengan pengiriman data JSON dinamis (`live-data.json`), NestJS `@nestjs/config` & `cookie-parser`, pembaruan Tailwind CSS v4 dengan token warna OKLCH di `@theme`, helper `cn()` (`clsx` + `tailwind-merge`), standarisasi Tailwind Class Organization pada UI React 19, serta pengujian Vitest, Oxlint, ESLint, dan workflow agent.
+- **Versi Saat Ini**: `0.0.4`
+- **Status Monorepo**: 
+  - **Frontend**: Implementasi penuh **Atomic Design System** (Atoms: Text, Icon, Button, Switch, Input, Textarea, Checkbox, Radio | Molecules: CheckboxGroup, RadioGroup, ThemeToggle, TextInput, EmailInput, PasswordInput, UsernameInput, PhoneInput, FullNameInput, CodeInput, PinInput, OtpInput, SearchInput, TextareaInput), Depth System (-3 s/d 3), custom hook `useTheme` & `usePhoneInput`.
+  - **Backend**: Integrasi real-time Backend SSE dengan pengiriman data JSON dinamis (`live-data.json`), NestJS `@nestjs/config` & `cookie-parser`.
+  - **Dokumentasi**: Modularisasi & pemecahan dokumentasi secara terstruktur di direktori `doc/frontend/` dan `doc/backend/`.
 
 ---
 
 ## 🗂️ Navigasi Dokumentasi (`doc/`)
 
-Seluruh dokumentasi teknis dan panduan operasional proyek tersedia di folder [`doc/`](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/README.md):
+Seluruh dokumentasi teknis dan panduan operasional proyek tersedia secara modular di folder [`doc/`](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/README.md):
 
 - 🏠 [**Pusat Dokumentasi (doc/README.md)**](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/README.md) - Indeks utama seluruh berkas dokumentasi.
 - 🏗️ [**Arsitektur Sistem (doc/ARCHITECTURE.md)**](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/ARCHITECTURE.md) - Struktur monorepo, alur komunikasi data, dan tech stack.
-- 🎨 [**Dokumentasi Frontend (doc/FRONTEND.md)**](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/FRONTEND.md) - Panduan pengembangan React 19, Vite 8, Tailwind CSS v4, dan ESLint.
-- ⚙️ [**Dokumentasi Backend (doc/BACKEND.md)**](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/BACKEND.md) - Panduan NestJS 12, TS 6, Vitest unit testing, dan Oxlint.
-- 🔄 [**Panduan Workflows Agent (doc/WORKFLOWS.md)**](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/WORKFLOWS.md) - Detail 3 workflow otomatisasi agent (`/update-docs`, `/update-timeline`, `/commit-and-push`).
+- 🎨 [**Dokumentasi Frontend (doc/FRONTEND.md & doc/frontend/)**](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/FRONTEND.md) - Panduan React 19, Vite 8, Tailwind CSS v4, dan Atomic Design System ([Katalog Komponen](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/frontend/COMPONENTS.md), [Styling](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/frontend/STYLING.md), [Hooks](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/frontend/HOOKS_AND_STORE.md)).
+- ⚙️ [**Dokumentasi Backend (doc/BACKEND.md & doc/backend/)**](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/BACKEND.md) - Panduan NestJS 12, TS 6, Vitest unit testing, dan Oxlint ([Modul & Controller](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/backend/MODULES.md), [Testing](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/backend/TESTING.md)).
+- 🔄 [**Panduan Workflows Agent (doc/WORKFLOWS.md)**](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/WORKFLOWS.md) - Detail workflow otomatisasi agent (`/update-docs`, `/update-timeline`, `/commit-and-push`).
 - ⏳ [**Timeline & Log Rilis (doc/TIMELINE.md)**](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/TIMELINE.md) - Histori versi dan log rilis per commit.
 
 ---
