@@ -2,7 +2,7 @@ import type { FC, ReactElement } from 'react';
 import { cn } from '@/lib/utils';
 import type { TooltipProps } from './Tooltip.types';
 import { useTooltip } from './useTooltip';
-import { TooltipBubble } from './TooltipBubble';
+import { TooltipBubble } from './components/TooltipBubble';
 
 // ─────────────────────────────────────────────────────────────
 // 1. TAMPILAN: Layout Wrapper & Sub-Components Integration
@@ -13,6 +13,9 @@ import { TooltipBubble } from './TooltipBubble';
  *
  * Komponen gelembung petunjuk interaktif dengan Depth System (skala -3 s/d 3),
  * arsitektur modular yang terdekomposisi (useTooltip & TooltipBubble), dan aksesibilitas lengkap.
+ *
+ * @param {TooltipProps} props - Properti konfigurasi komponen Tooltip
+ * @returns {ReactElement} Elemen pembungkus interaktif dengan gelembung tooltip
  */
 export const Tooltip: FC<TooltipProps> = ({
   content,
@@ -34,7 +37,7 @@ export const Tooltip: FC<TooltipProps> = ({
   className = '',
   tooltipClassName = '',
   arrowClassName = '',
-}): ReactElement => {
+}: TooltipProps): ReactElement => {
   // ─────────────────────────────────────────────────────────────
   // 2. LOGIKA: Custom Hook State & Event Handlers
   // ─────────────────────────────────────────────────────────────

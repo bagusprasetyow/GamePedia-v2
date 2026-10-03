@@ -108,7 +108,72 @@ const { values, activeIndex, handleInputChange, handleKeyDown, handlePaste } = u
 
 ---
 
-## 📡 6. Konsumsi Real-Time SSE (Server-Sent Events)
+## 📋 6. Hook Penyalinan Clipboard (`useClipboard`)
+
+File: `src/components/molecules/Clipboard/useClipboard.ts`
+
+Hook modular pengatur interaksi salin teks ke clipboard sistem menggunakan API browser `navigator.clipboard`.
+
+- **Fitur Utama**:
+  - Penanganan status `isCopied` reaktif dengan durasi reset otomatis (default 2000ms).
+  - Pembersihan timer (`clearTimeout`) otomatis pada saat unmount komponen untuk mencegah kebocoran memori.
+  - Fallback aman dan penanganan callback `onCopy` serta `onError`.
+  - Dukungan mode terkontrol (*controlled*) via prop `copied` maupun mandiri (*uncontrolled*).
+
+```tsx
+import { useClipboard } from '@/components/molecules/Clipboard/useClipboard';
+
+const { isCopied, copy } = useClipboard({
+  duration: 2000,
+  onCopy: () => console.log('Teks berhasil disalin'),
+});
+```
+
+---
+
+## 💻 7. Hook Penampil Kode Sumber (`useSourceCode`)
+
+File: `src/components/molecules/SourceCode/useSourceCode.ts`
+
+Hook pengatur interaksi komponen `SourceCode`:
+- **Fitur Utama**:
+  - Pengelolaan active tab pada multi-tab code snippet.
+  - Penentuan kode sumber aktif berdasarkan tab terpilih atau prop `code` / `jsxCode`.
+  - Integrasi aksi tombol salin dengan feedback teks dinamis ("Salin" -> "Tersalin!").
+  - Sinkronisasi event `onTabChange`.
+
+```tsx
+import { useSourceCode } from '@/components/molecules/SourceCode/useSourceCode';
+
+const { activeTab, activeCode, isCopied, handleTabSelect, handleCopy } = useSourceCode({
+  tabs: [{ id: 'tsx', label: 'App.tsx', code: '...', language: 'jsx' }],
+});
+```
+
+---
+
+## 🔍 8. Hook Pratinjau Kode (`useCodePreview`)
+
+File: `src/components/molecules/SourceCode/CodePreview/useCodePreview.ts`
+
+Hook komputasi token sintaksis dan pemformatan baris kode untuk komponen `CodePreview`:
+- **Fitur Utama**:
+  - Pemecahan string kode menjadi baris-baris terstruktur (`lines`).
+  - Kalkulasi lebar kolom penomoran baris (*line numbers gutter padding*).
+  - Optimasi render dengan token memoization untuk penyorotan sintaksis (*syntax highlighting*) bergaya VS Code Dark+.
+
+```tsx
+import { useCodePreview } from '@/components/molecules/SourceCode/CodePreview/useCodePreview';
+
+const { lines, gutterWidth } = useCodePreview({
+  code: 'const greeting = "Hello World";',
+  showLineNumbers: true,
+});
+```
+
+---
+
+## 📡 9. Konsumsi Real-Time SSE (Server-Sent Events)
 
 File: `src/App.tsx`
 
@@ -121,19 +186,31 @@ Frontend mengonsumsi data real-time streaming waktu dan live data dari backend N
 
 ---
 
-## 🧪 7. Pengujian Unit Frontend (Vitest)
+## 🧪 10. Pengujian Unit Frontend (Vitest)
 
-Frontend GamePedia v2 dilengkapi dengan **Vitest** untuk pengujian unit otomatis pada fungsi utilitas, kalkulasi logika, dekomposisi komponen, dan aksesibilitas:
+Frontend GamePedia v2 dilengkapi dengan **Vitest** untuk pengujian unit otomatis pada seluruh komponen atomik, sub-komponen, molekul, utilitas, kalkulasi logika, dan aksesibilitas:
 
 ```bash
 # Menjalankan seluruh pengujian unit frontend
 npm run test --prefix frontend
 ```
 
-### Daftar Test Suite Aktif:
-- `phoneUtils.spec.ts`: Validasi format nomor telepon internasional, pemetaan bendera negara, dan ekstraksi digit.
-- `dropdown.utils.spec.ts`: Pemfilteran opsi ComboBox (prefix vs substring), normalisasi nilai terpilih (single vs multi), dan penanganan batas tag.
-- `SearchInput.utils.spec.ts`: Utilitas filter pencarian dan debouncing.
-- `passwordStrength.spec.ts`: Perhitungan skor kekuatan sandi (Panjang, Huruf Besar, Angka, Karakter Khusus).
-- `Tooltip.spec.ts`: Pengujian logika penempatan placement, visual depth, dan status trigger.
-- `Dot.spec.ts`: Pengujian varian warna semantik, ukuran 2xs s/d xl, animasi denyut (ping/pulse), efek glow, dan bordered overlay.
+### Hasil Verifikasi Test Suite Aktif (18 File, 171 Tests Passed):
+1. `Button.spec.ts` (19 tests): Pengujian varian warna semantik, ukuran, depth -3 s/d 3, status loading (`ButtonLoading`), dan sub-atom ikon (`ButtonIcon`).
+2. `Checkbox.spec.ts` (9 tests): Pengujian sub-komponen `CheckboxIndicator` dan `CheckboxLabel`, status indeterminate, varian visual (`check`/`solid`), dan interaksi checked.
+3. `Dot.spec.ts` (11 tests): Pengujian sub-atom `DotCircle`, ukuran 2xs s/d xl, animasi denyut (ping halo ripple & pulse), efek ambient neon glow, cincin pembatas kontras (`bordered`), teks label status, dan placement anchor overlay.
+4. `Icon.spec.ts` (4 tests): Pengujian render ikon Iconify, varian warna semantik token tema, animasi spin & pulse, dan ukuran preset.
+5. `Input.spec.ts` (8 tests): Pengujian sub-komponen `InputLabel`, `InputHelperText`, dan `InputClearButton`, status validasi (error, success, warning), ikon start/end, dan Depth System.
+6. `Radio.spec.ts` (8 tests): Pengujian sub-atom `RadioIndicator` dan `RadioLabel`, status checked/disabled, ukuran, dan Depth System.
+7. `Switch.spec.ts` (8 tests): Pengujian sub-komponen `SwitchTrack` dan `SwitchLabel`, alur kedalaman cekung (-1 s/d -3), varian warna semantik, dan ikon knop thumb.
+8. `Text.spec.ts` (9 tests): Pengujian tag HTML polimorfik (`as`), varian semantik token OKLCH, skala tipografi, perataan teks, clamp, dan truncate.
+9. `Textarea.spec.ts` (9 tests): Pengujian sub-komponen `TextareaLabel` dan `TextareaFooter`, penghitung karakter (`showCharacterCount`), resize kontrol, dan auto-resize.
+10. `Tooltip.spec.ts` (10 tests): Pengujian sub-komponen `TooltipBubble`, 12 penempatan arah (`placement`), Depth System visual (-3 s/d 3), delay timer, dan status trigger pemicu.
+11. `Clipboard.spec.ts` (8 tests): Pengujian sub-komponen `ClipboardIcon` dan `ClipboardLabel`, feedback visual taktil saat teks disalin, durasi reset, timer cleanup, dan varian depth.
+12. `ShowcasePreview.spec.ts` (17 tests): Pengujian sub-komponen `ShowcasePreviewBackground`, `ShowcasePreviewBadges`, `ShowcasePreviewInfo`, border styles, backgrounds, dan Depth System.
+13. `SourceCode.spec.ts` (15 tests): Pengujian sub-komponen `SourceCodeHeader` dan `SourceCodeBody`, multi-tab switching, token highlighter sintaksis, copy-to-clipboard, dan styling terminal window.
+14. `CodePreview.spec.ts` (11 tests): Pengujian sub-komponen `CodePreviewLine`, token parser sintaks VS Code Dark+, penomoran baris (*line numbers*), dan kedalaman kedalaman visual.
+15. `dropdown.utils.spec.ts` (5 tests): Pengujian pemfilteran opsi ComboBox (prefix vs substring), normalisasi nilai terpilih (single vs multi), dan batas tag maksimal.
+16. `phoneUtils.spec.ts` (11 tests): Pengujian validasi format nomor telepon internasional, pemetaan bendera negara, dan ekstraksi digit.
+17. `SearchInput.utils.spec.ts` (4 tests): Pengujian utilitas pemfilteran kata kunci pencarian reaktif dan debouncing.
+18. `passwordStrength.spec.ts` (5 tests): Pengujian algoritma skor kekuatan kata sandi (panjang, huruf kapital, angka, dan karakter khusus).

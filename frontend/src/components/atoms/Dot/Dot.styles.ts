@@ -107,7 +107,7 @@ export const placementClasses: Record<DotPlacement, string> = {
   'bottom-left': 'bottom-0 left-0 translate-y-1/2 -translate-x-1/2',
 };
 
-const namedDepthMap: Record<string, string> = {
+export const namedDepthMap: Record<string, string> = {
   sunken: '-2',
   flat: '0',
   'raised-sm': '1',

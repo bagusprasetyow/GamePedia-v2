@@ -1,52 +1,21 @@
 import { useState, useRef, useId, useEffect, forwardRef, useImperativeHandle } from 'react';
 import type { ChangeEvent } from 'react';
 import { cn } from '@/lib/utils';
-import { Icon } from '@/components/atoms';
-import type { InputSize, InputVariant } from '../Input/Input.types';
 import type { TextareaProps, TextareaResize } from './Textarea.types';
+import {
+  sizeClasses,
+  wrapperRadiusClasses,
+  variantClasses,
+  depthClasses,
+  resizeClasses,
+  resolveDepthKey,
+} from './Textarea.styles';
+import { TextareaLabel } from './components/TextareaLabel';
+import { TextareaFooter } from './components/TextareaFooter';
 
 // ─────────────────────────────────────────────────────────────
-// 1. TAMPILAN: Class Maps & Helper Functions (Persis Input.tsx)
+// 1. TAMPILAN: Class Tokens & Styling Setup
 // ─────────────────────────────────────────────────────────────
-const sizeClasses: Record<InputSize, string> = {
-  sm: 'text-xs p-2.5 min-h-[70px]',
-  md: 'text-sm p-3 min-h-[90px]',
-  lg: 'text-base p-3.5 min-h-[120px]',
-};
-
-const wrapperRadiusClasses: Record<InputSize, string> = {
-  sm: 'rounded-lg',
-  md: 'rounded-xl',
-  lg: 'rounded-xl',
-};
-
-const variantClasses: Record<InputVariant, string> = {
-  outline: 'bg-background border-2 border-border/80 focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/25',
-  filled: 'bg-muted/70 border-2 border-transparent focus-within:bg-background focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/25',
-  ghost: 'bg-transparent border-2 border-transparent focus-within:bg-background focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/25',
-};
-
-const depthClasses: Record<string, string> = {
-  '-3': 'shadow-n3',
-  '-2': 'shadow-n2',
-  '-1': 'shadow-n1',
-  '0': 'shadow-0',
-  '1': 'shadow-1',
-  '2': 'shadow-2',
-  '3': 'shadow-3',
-  sunken: 'shadow-n2',
-  flat: 'shadow-0',
-  'raised-sm': 'shadow-1',
-  'raised-md': 'shadow-2',
-  'raised-lg': 'shadow-3',
-};
-
-const resizeClasses: Record<TextareaResize, string> = {
-  none: 'resize-none',
-  vertical: 'resize-y',
-  horizontal: 'resize-x',
-  both: 'resize',
-};
 
 /**
  * Textarea Atom Component
@@ -57,10 +26,25 @@ const resizeClasses: Record<TextareaResize, string> = {
  * @param {InputSize} [props.size='md'] - Skala ukuran textarea ('sm', 'md', 'lg')
  * @param {InputVariant} [props.variant='outline'] - Varian visual ('outline', 'filled', 'ghost')
  * @param {InputDepth} [props.depth=-1] - Kedalaman visual taktil (Depth System: -3 s/d 3)
+ * @param {ReactNode} [props.label] - Label teks di atas bidang textarea
+ * @param {ReactNode} [props.description] - Petunjuk atau deskripsi tambahan di bawah textarea
+ * @param {ReactNode} [props.error] - Pesan kesalahan validasi (error state)
+ * @param {boolean} [props.success=false] - Status sukses validasi
+ * @param {boolean} [props.required=false] - Indikator wajib diisi
  * @param {boolean} [props.autoResize=false] - Menyesuaikan tinggi otomatis saat teks bertambah
  * @param {boolean} [props.showCharacterCount=false] - Menampilkan penghitung karakter di kanan bawah
- * @param {TextareaResize} [props.resize='vertical'] - Kontrol pengubahan ukuran elemen
+ * @param {boolean} [props.showCount=false] - Alias untuk showCharacterCount
+ * @param {number} [props.maxLength] - Batas maksimal karakter
+ * @param {number} [props.rows=3] - Jumlah baris default textarea
+ * @param {TextareaResize} [props.resize='none'] - Kontrol pengubahan ukuran elemen
+ * @param {boolean} [props.resizable=false] - Mengaktifkan manual resize handle
  * @param {boolean} [props.fullWidth=true] - Membentang selebar kontainer (100% width)
+ * @param {boolean} [props.disabled=false] - Menonaktifkan textarea
+ * @param {boolean} [props.readOnly=false] - Textarea hanya dapat dibaca
+ * @param {string} [props.className] - Class kustom tambahan untuk elemen textarea
+ * @param {string} [props.wrapperClassName] - Class kustom tambahan untuk wadah pembungkus
+ * 
+ * @returns {ReactElement} Elemen textarea atom interaktif
  */
 export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({
   size = 'md',
@@ -137,39 +121,78 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({
 
   const hasError = Boolean(error);
   const isSuccess = Boolean(success) && !hasError;
-  const depthKey = String(depth);
+  const depthKey = resolveDepthKey(depth);
   const resolvedDepth = depthClasses[depthKey] || depthClasses['-1'];
 
   const effectiveResize: TextareaResize = resizable && resize === 'none'
     ? 'vertical'
     : resize;
 
+  // Tailwind Class Composition Standard: Urutan Baku Kategori (1-15)
   const containerClasses = cn(
-    'flex flex-col gap-1.5 transition-all duration-200 relative',
+    // layout
+    'flex flex-col gap-1.5',
+    // position
+    'relative',
+    // size
     fullWidth ? 'w-full' : 'w-auto inline-flex',
-    disabled && 'opacity-60 cursor-not-allowed',
+    // interaction
+    disabled && 'cursor-not-allowed',
+    // state
+    disabled && 'opacity-60',
+    // transition
+    'transition-all duration-200',
     wrapperClassName
   );
 
   const textareaWrapperClasses = cn(
-    'relative flex flex-col w-full transition-all duration-200 outline-none overflow-hidden select-none',
+    // layout
+    'flex flex-col overflow-hidden',
+    // position
+    'relative',
+    // size
+    'w-full',
+    // border
     wrapperRadiusClasses[size],
+    // background & variant
     variantClasses[variant],
+    // shadow & depth
     resolvedDepth,
+    // interaction
+    'select-none',
+    disabled && 'cursor-not-allowed',
+    // focus
+    'outline-none',
+    // state
     hasError
       ? 'border-destructive text-destructive focus-within:border-destructive focus-within:ring-destructive/25'
       : isSuccess
         ? 'border-success text-success focus-within:border-success focus-within:ring-success/25'
         : disabled
-          ? 'bg-muted/40 cursor-not-allowed'
-          : ''
+          ? 'bg-muted/40'
+          : '',
+    // transition
+    'transition-all duration-200'
   );
 
   const textareaElementClasses = cn(
-    'w-full bg-transparent text-foreground placeholder:text-muted-foreground/70 outline-none border-none transition-colors duration-200 rounded-[inherit]',
-    sizeClasses[size],
+    // layout
     resizeClasses[autoResize ? 'none' : effectiveResize],
+    // size
+    'w-full',
+    sizeClasses[size],
+    // border
+    'border-none rounded-[inherit]',
+    // background
+    'bg-transparent',
+    // text
+    'text-foreground placeholder:text-muted-foreground/70',
+    // interaction
     disabled && 'cursor-not-allowed',
+    // focus
+    'outline-none',
+    // transition
+    'transition-colors duration-200',
     className
   );
 
@@ -182,12 +205,11 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({
   return (
     <div className={containerClasses}>
       {/* 3.1 Label Komponen */}
-      {label && (
-        <label htmlFor={textareaId} className="flex items-center gap-1 select-none text-xs font-semibold text-foreground">
-          {label}
-          {required && <span className="text-destructive font-bold" aria-hidden="true">*</span>}
-        </label>
-      )}
+      <TextareaLabel
+        textareaId={textareaId}
+        label={label}
+        required={required}
+      />
 
       {/* 3.2 Pembungkus Textarea (Depth System Container) */}
       <div className={textareaWrapperClasses}>
@@ -209,29 +231,15 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({
       </div>
 
       {/* 3.3 Footer Helper: Error / Description & Character Counter */}
-      <div className="flex items-center justify-between gap-2 text-xs">
-        <div className="flex-1">
-          {hasError ? (
-            <span id={errorId} role="alert" className="flex items-center gap-1 text-xs font-medium text-destructive">
-              <Icon icon="mdi:alert-circle" size="2xs" className="shrink-0" />
-              <span className="truncate">{error}</span>
-            </span>
-          ) : description ? (
-            <span id={descId} className="w-full text-xs text-muted-foreground">
-              {description}
-            </span>
-          ) : null}
-        </div>
-
-        {/* Character Counter (Persis TextInput.tsx) */}
-        {displayCharacterCount && (
-          <div className="flex items-center gap-2 select-none shrink-0 ml-auto text-2xs text-muted-foreground">
-            <span className={cn(maxLength && charCount >= maxLength && 'text-destructive font-semibold')}>
-              {charCount}{maxLength ? `/${maxLength}` : ''}
-            </span>
-          </div>
-        )}
-      </div>
+      <TextareaFooter
+        error={error}
+        description={description}
+        errorId={errorId}
+        descId={descId}
+        charCount={charCount}
+        maxLength={maxLength}
+        displayCharacterCount={displayCharacterCount}
+      />
     </div>
   );
 });

@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import {
   resolveDepthKey,
   depthClasses,
+  namedDepthMap,
   variantClasses,
   sizeClasses,
   sizeLabelMap,
@@ -27,6 +28,16 @@ describe('Dot.styles & helpers', () => {
       expect(resolveDepthKey('raised-sm')).toBe('1');
       expect(resolveDepthKey('raised-md')).toBe('2');
       expect(resolveDepthKey('raised-lg')).toBe('3');
+    });
+
+    it('harus memiliki namedDepthMap terdefinisi dengan nilai yang sesuai', () => {
+      expect(namedDepthMap).toEqual({
+        sunken: '-2',
+        flat: '0',
+        'raised-sm': '1',
+        'raised-md': '2',
+        'raised-lg': '3',
+      });
     });
 
     it('harus mengembalikan default "0" untuk nilai undefined, null, atau tidak dikenal', () => {

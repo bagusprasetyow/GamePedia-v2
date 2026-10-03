@@ -1,3 +1,5 @@
-export { Textarea } from './Textarea';
-export type { TextareaProps, TextareaCustomProps, TextareaResize } from './Textarea.types';
-export { default } from './Textarea';
+export { default, Textarea } from './Textarea';
+export { TextareaLabel } from './components/TextareaLabel';
+export { TextareaFooter } from './components/TextareaFooter';
+export type * from './Textarea.types';
+export * from './Textarea.styles';

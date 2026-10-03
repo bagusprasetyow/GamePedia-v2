@@ -1,5 +1,6 @@
-import type { InputHTMLAttributes, ReactNode } from 'react';
-import type { DepthNumeric, DepthString, DepthNamed } from '../Button/Button.types';
+import type { InputHTMLAttributes, ReactNode, KeyboardEvent } from 'react';
+import type { DepthNumeric, DepthString, DepthNamed } from '@/components/atoms/Button/Button.types';
+import type { IconSize } from '@/components/atoms/Icon/Icon.types';
 
 export type SwitchSize = 'sm' | 'md' | 'lg' | 'xl';
 
@@ -13,6 +14,81 @@ export type SwitchVariant =
   | 'info';
 
 export type SwitchDepth = DepthNumeric | DepthString | DepthNamed;
+
+export interface SwitchSizeConfig {
+  track: string;
+  thumb: string;
+  translate: string;
+  iconSize: IconSize;
+}
+
+export interface SwitchTrackProps {
+  /**
+   * Status aktif (checked) dari switch.
+   */
+  isChecked: boolean;
+
+  /**
+   * Apakah switch dinonaktifkan (disabled).
+   * @default false
+   */
+  disabled?: boolean;
+
+  /**
+   * Skala ukuran preset switch.
+   * @default 'md'
+   */
+  size?: SwitchSize;
+
+  /**
+   * Varian warna semantik saat switch aktif (ON).
+   * @default 'primary'
+   */
+  variant?: SwitchVariant;
+
+  /**
+   * Kedalaman visual taktil (Depth System: -3 s/d 3) untuk trek switch.
+   * @default -1
+   */
+  depth?: SwitchDepth;
+
+  /**
+   * Ikon kustom di dalam thumb ketika switch aktif (ON).
+   */
+  thumbCheckedIcon?: ReactNode;
+
+  /**
+   * Ikon kustom di dalam thumb ketika switch tidak aktif (OFF).
+   */
+  thumbUncheckedIcon?: ReactNode;
+
+  /**
+   * Event handler tombol keyboard pada elemen track sakelar.
+   */
+  onKeyDown?: (event: KeyboardEvent<HTMLSpanElement>) => void;
+
+  /**
+   * ClassName kustom tambahan untuk track switch.
+   */
+  className?: string;
+}
+
+export interface SwitchLabelProps {
+  /**
+   * Label teks di samping switch.
+   */
+  label?: ReactNode;
+
+  /**
+   * Deskripsi keterangan tambahan di bawah label.
+   */
+  description?: ReactNode;
+
+  /**
+   * ClassName kustom tambahan untuk kontainer pembungkus label.
+   */
+  className?: string;
+}
 
 export interface SwitchCustomProps {
   /**

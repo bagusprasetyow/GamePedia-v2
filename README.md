@@ -6,9 +6,9 @@ GamePedia v2 adalah platform katalog dan ensiklopedia game modern berarsitektur 
 
 ## 📌 Status Proyek Terbaru
 
-- **Versi Saat Ini**: `0.0.5`
+- **Versi Saat Ini**: `0.0.6`
 - **Status Monorepo**: 
-  - **Frontend**: Implementasi penuh **Atomic Design System** (Atoms: Text, Icon, Button, Switch, Input, Textarea, Checkbox, Radio, Tooltip, Dot | Molecules: CheckboxGroup, RadioGroup, ThemeToggle, TextInput, EmailInput, PasswordInput, UsernameInput, PhoneInput, FullNameInput, CodeInput, PinInput, OtpInput, SearchInput, TextareaInput, Dropdown), Depth System (-3 s/d 3), custom hooks (`useTheme`, `usePhoneInput`, `useDropdown`, `useTooltip`, `useCodeInput`), serta suite pengujian unit **Vitest** (42 unit tests lulus 100%).
+  - **Frontend**: Implementasi penuh **Atomic Design System** (Atoms: Text, Icon, Button, Switch, Input, Textarea, Checkbox, Radio, Tooltip, Dot dengan sub-komponen modular & styling terenkapsulasi | Molecules: CheckboxGroup, RadioGroup, ThemeToggle, Special Inputs, Dropdown, SourceCode, CodePreview, Clipboard, ShowcasePreview), Depth System (-3 s/d 3), custom hooks (`useTheme`, `usePhoneInput`, `useDropdown`, `useTooltip`, `useCodeInput`, `useClipboard`, `useSourceCode`, `useCodePreview`), serta suite pengujian unit **Vitest** (18 test suites, 171 unit tests lulus 100%).
   - **Backend**: Integrasi real-time Backend SSE dengan pengiriman data JSON dinamis (`live-data.json`), NestJS `@nestjs/config` & `cookie-parser`.
   - **Dokumentasi**: Modularisasi & pemecahan dokumentasi secara terstruktur di direktori `doc/frontend/` dan `doc/backend/`.
 

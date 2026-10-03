@@ -41,7 +41,8 @@ export type TextVariant =
   | 'error' 
   | 'info' 
   | 'contrast' 
-  | 'white';
+  | 'white'
+  | 'inherit';
 
 export type TextWeight = 
   | 'light' 

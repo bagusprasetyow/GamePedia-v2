@@ -9,6 +9,11 @@ import {
 } from './Dot.styles';
 import { DotCircle } from './components/DotCircle';
 
+// ─────────────────────────────────────────────────────────────
+// 1. TAMPILAN: Class Maps & Styling Variables
+// (Didefinisikan dan diekspor secara modular di Dot.styles.ts)
+// ─────────────────────────────────────────────────────────────
+
 /**
  * Dot Component - Atomic UI Element
  *

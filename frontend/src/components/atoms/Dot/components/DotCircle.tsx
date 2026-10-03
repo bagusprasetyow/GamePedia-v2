@@ -59,10 +59,10 @@ export const DotCircle: FC<DotCircleProps> = ({
 
   if (ping) {
     const pingWrapperClasses = cn(
-      // position
-      'relative',
       // layout
       'inline-flex items-center justify-center shrink-0',
+      // position
+      'relative',
       // size
       sizeClasses[safeSize]
     );

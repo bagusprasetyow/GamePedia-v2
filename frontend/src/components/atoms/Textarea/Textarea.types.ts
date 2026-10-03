@@ -1,7 +1,72 @@
 import type { TextareaHTMLAttributes, ReactNode } from 'react';
-import type { InputSize, InputVariant, InputDepth } from '../Input/Input.types';
+import type { InputSize, InputVariant, InputDepth } from '@/components/atoms/Input/Input.types';
 
 export type TextareaResize = 'none' | 'vertical' | 'horizontal' | 'both';
+
+export interface TextareaLabelProps {
+  /**
+   * ID textarea terkait untuk atribut htmlFor.
+   */
+  textareaId: string;
+
+  /**
+   * Label judul bidang teks di atas textarea.
+   */
+  label?: ReactNode;
+
+  /**
+   * Menampilkan tanda bintang merah (*) tanda wajib diisi.
+   * @default false
+   */
+  required?: boolean;
+
+  /**
+   * ClassName kustom tambahan untuk wadah label.
+   */
+  className?: string;
+}
+
+export interface TextareaFooterProps {
+  /**
+   * Pesan kesalahan validasi (error message / status).
+   */
+  error?: ReactNode;
+
+  /**
+   * Deskripsi atau petunjuk tambahan di bawah textarea.
+   */
+  description?: ReactNode;
+
+  /**
+   * ID elemen pesan error untuk relasi aksesibilitas aria-describedby.
+   */
+  errorId?: string;
+
+  /**
+   * ID elemen deskripsi untuk relasi aksesibilitas aria-describedby.
+   */
+  descId?: string;
+
+  /**
+   * Jumlah karakter saat ini.
+   */
+  charCount: number;
+
+  /**
+   * Batas maksimal karakter.
+   */
+  maxLength?: number;
+
+  /**
+   * Menampilkan penghitung karakter.
+   */
+  displayCharacterCount: boolean;
+
+  /**
+   * ClassName kustom tambahan untuk wadah footer.
+   */
+  className?: string;
+}
 
 export interface TextareaCustomProps {
   /**

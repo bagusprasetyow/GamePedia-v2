@@ -1,5 +1,6 @@
-import type { InputHTMLAttributes, ReactNode } from 'react';
-import type { DepthNumeric, DepthString, DepthNamed } from '../Button/Button.types';
+import type { InputHTMLAttributes, ReactNode, MouseEvent } from 'react';
+import type { DepthNumeric, DepthString, DepthNamed } from '@/components/atoms/Button/Button.types';
+import type { IconSize } from '@/components/atoms/Icon/Icon.types';
 
 export type InputSize = 'sm' | 'md' | 'lg';
 
@@ -105,3 +106,80 @@ export interface InputCustomProps {
 
 export type InputProps = InputCustomProps &
   Omit<InputHTMLAttributes<HTMLInputElement>, keyof InputCustomProps | 'size'>;
+
+/**
+ * Props untuk sub-komponen internal InputLabel.
+ */
+export interface InputLabelProps {
+  /**
+   * ID input yang diasosiasikan dengan atribut htmlFor.
+   */
+  inputId: string;
+
+  /**
+   * Konten label teks/elemen.
+   */
+  label: ReactNode;
+
+  /**
+   * Menampilkan indikator tanda bintang wajib (*).
+   * @default false
+   */
+  required?: boolean;
+
+  /**
+   * ClassName tambahan untuk elemen label.
+   */
+  className?: string;
+}
+
+/**
+ * Props untuk sub-komponen internal InputClearButton.
+ */
+export interface InputClearButtonProps {
+  /**
+   * Ukuran ikon tombol pembersih.
+   */
+  size: IconSize;
+
+  /**
+   * Handler saat tombol diklik.
+   */
+  onClick: (e: MouseEvent<HTMLButtonElement>) => void;
+
+  /**
+   * ClassName tambahan untuk tombol pembersih.
+   */
+  className?: string;
+}
+
+/**
+ * Props untuk sub-komponen internal InputHelperText.
+ */
+export interface InputHelperTextProps {
+  /**
+   * Pesan kesalahan validasi jika ada.
+   */
+  error?: ReactNode;
+
+  /**
+   * Teks deskripsi keterangan jika tidak dalam kondisi error.
+   */
+  description?: ReactNode;
+
+  /**
+   * ID elemen pesan error untuk a11y `aria-describedby`.
+   */
+  errorId: string;
+
+  /**
+   * ID elemen teks deskripsi untuk a11y `aria-describedby`.
+   */
+  descId: string;
+
+  /**
+   * Mode penempatan posisi ('absolute' atau 'relative').
+   * @default 'absolute'
+   */
+  errorPosition?: 'absolute' | 'relative';
+}

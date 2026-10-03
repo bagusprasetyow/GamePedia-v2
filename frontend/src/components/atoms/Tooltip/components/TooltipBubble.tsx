@@ -1,13 +1,8 @@
-import type { FC, ReactNode } from 'react';
+import type { FC, ReactElement, ReactNode } from 'react';
 import { cn } from '@/lib/utils';
-import { Text } from '../Text';
-import { Icon } from '../Icon';
-import type {
-  TooltipPlacement,
-  TooltipVariant,
-  TooltipSize,
-  TooltipDepth,
-} from './Tooltip.types';
+import { Text } from '@/components/atoms/Text';
+import { Icon } from '@/components/atoms/Icon';
+import type { TooltipBubbleProps } from '../Tooltip.types';
 import {
   placementClasses,
   arrowPlacementClasses,
@@ -15,24 +10,17 @@ import {
   sizeClasses,
   depthClasses,
   resolveDepthKey,
-} from './Tooltip.styles';
+} from '../Tooltip.styles';
 
-export interface TooltipBubbleProps {
-  id: string;
-  visible: boolean;
-  content: ReactNode;
-  placement?: TooltipPlacement;
-  variant?: TooltipVariant;
-  size?: TooltipSize;
-  depth?: TooltipDepth;
-  showArrow?: boolean;
-  icon?: ReactNode;
-  iconSize?: number | string;
-  maxWidth?: string | number;
-  tooltipClassName?: string;
-  arrowClassName?: string;
-}
-
+/**
+ * TooltipBubble Component - Sub-Atom Internal Tooltip
+ *
+ * Merender gelembung petunjuk overlay, panah penunjuk (arrow), ikon pendamping,
+ * dan teks konten tooltip dengan dukungan Depth System elevasi (skala -3 s/d 3).
+ *
+ * @param {TooltipBubbleProps} props - Properti komponen TooltipBubble
+ * @returns {ReactElement} Elemen gelembung tooltip interaktif
+ */
 export const TooltipBubble: FC<TooltipBubbleProps> = ({
   id,
   visible,
@@ -47,46 +35,48 @@ export const TooltipBubble: FC<TooltipBubbleProps> = ({
   maxWidth = '250px',
   tooltipClassName = '',
   arrowClassName = '',
-}) => {
+}): ReactElement => {
   const resolvedDepthKey = resolveDepthKey(depth);
   const safeDepthClass = depthClasses[resolvedDepthKey] || depthClasses['3'];
   const safeVariantConfig = variantClasses[variant] || variantClasses.dark;
   const safeSizeConfig = sizeClasses[size] || sizeClasses.md;
 
+  // Tailwind Class Composition Standard: Urutan Baku Kategori (1-15)
   const bubbleClasses = cn(
     // layout
     'flex items-center',
     // position
     'absolute z-50',
-    // position placement offset
     placementClasses[placement] || placementClasses.top,
     // size
     'w-max',
     // border
     'border',
-    // variant colors
+    // background & variant
     safeVariantConfig.bubble,
     // size presets (padding, rounded, gap)
     safeSizeConfig.bubble,
     // shadow & depth
     safeDepthClass,
-    // state & transition
-    'pointer-events-none transition-all duration-200 ease-in-out',
+    // interaction
+    'pointer-events-none',
+    // state
     visible ? 'opacity-100 scale-100' : 'opacity-0 scale-95',
-    // custom overrides
+    // transition
+    'transition-all duration-200 ease-in-out',
     tooltipClassName
   );
 
   const arrowClasses = cn(
     // position
     'absolute z-10',
-    // position placement offset
     arrowPlacementClasses[placement] || arrowPlacementClasses.top,
-    // size & transform
-    'h-2.5 w-2.5 rotate-45',
-    // variant colors
+    // size
+    'h-2.5 w-2.5',
+    // background & border
     safeVariantConfig.arrow,
-    // custom overrides
+    // transform
+    'rotate-45',
     arrowClassName
   );
 
@@ -115,10 +105,7 @@ export const TooltipBubble: FC<TooltipBubbleProps> = ({
           size={safeSizeConfig.textSize}
           weight="medium"
           leading="tight"
-          className={cn(
-            // typography
-            'whitespace-normal wrap-break-word text-inherit'
-          )}
+          className="whitespace-normal wrap-break-word text-inherit"
         >
           {content}
         </Text>
@@ -141,3 +128,5 @@ export const TooltipBubble: FC<TooltipBubbleProps> = ({
     </div>
   );
 };
+
+export default TooltipBubble;

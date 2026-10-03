@@ -23,11 +23,11 @@ frontend/src/
 ├── assets/                  # Media Assets (images, SVG)
 ├── components/              # Komponen UI (Atomic Design)
 │   ├── atoms/               # Komponen Atomik dasar (Text, Icon, Button, Switch, Input, Textarea, Checkbox, Radio, Tooltip, Dot)
-│   └── molecules/           # Komponen Molekul gabungan (CheckboxGroup, RadioGroup, ThemeToggle, Inputs)
-├── hooks/                   # Custom React Hooks (useTheme, usePhoneInput)
+│   └── molecules/           # Komponen Molekul gabungan (CheckboxGroup, RadioGroup, ThemeToggle, Inputs, Dropdown, SourceCode, Clipboard, ShowcasePreview)
+├── hooks/                   # Custom React Hooks (useTheme, usePhoneInput, useDropdown, useTooltip, useCodeInput, useClipboard, useSourceCode, useCodePreview)
 ├── lib/                     # Library utilities (cn - clsx & tailwind-merge)
 ├── utils/                   # Helper utilities
-├── App.tsx                  # Komponen Utama / Showcase
+├── App.tsx                  # Root Entry Component
 ├── index.css                # Style Utama (OKLCH palette & Tailwind v4 @theme)
 └── main.tsx                 # Entry Point React
 ```
@@ -43,6 +43,9 @@ npm run dev --prefix frontend
 # Type-check & Production Build
 npm run build --prefix frontend
 
-# Jalankan ESLint
+# Jalankan ESLint Linter
 npm run lint --prefix frontend
+
+# Jalankan Unit Testing Otomatis (Vitest)
+npm run test --prefix frontend
 ```

@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
-import type { IconSize } from '../Icon/Icon.types';
-import type { DepthNumeric, DepthString, DepthNamed } from '../Button/Button.types';
+import type { IconSize } from '@/components/atoms/Icon/Icon.types';
+import type { DepthNumeric, DepthString, DepthNamed } from '@/components/atoms/Button/Button.types';
 
 export type TooltipPlacement =
   | 'top'
@@ -33,6 +33,79 @@ export type TooltipSize = 'xs' | 'sm' | 'md' | 'lg';
 export type TooltipTrigger = 'hover' | 'click' | 'focus' | 'manual';
 
 export type TooltipDepth = DepthNumeric | DepthString | DepthNamed;
+
+export interface TooltipBubbleProps {
+  /**
+   * ID unik elemen gelembung untuk aksesibilitas aria-describedby.
+   */
+  id: string;
+
+  /**
+   * Status visibilitas kemunculan gelembung tooltip.
+   */
+  visible: boolean;
+
+  /**
+   * Konten pesan atau elemen di dalam gelembung tooltip.
+   */
+  content: ReactNode;
+
+  /**
+   * Posisi penempatan gelembung relatif terhadap pemicu.
+   * @default 'top'
+   */
+  placement?: TooltipPlacement;
+
+  /**
+   * Varian warna semantik gelembung.
+   * @default 'dark'
+   */
+  variant?: TooltipVariant;
+
+  /**
+   * Skala ukuran gelembung tooltip.
+   * @default 'md'
+   */
+  size?: TooltipSize;
+
+  /**
+   * Kedalaman visual taktil (Depth System: -3 s/d 3).
+   * @default 3
+   */
+  depth?: TooltipDepth;
+
+  /**
+   * Menampilkan panah penunjuk (arrow).
+   * @default true
+   */
+  showArrow?: boolean;
+
+  /**
+   * Ikon pendamping di dalam gelembung.
+   */
+  icon?: ReactNode;
+
+  /**
+   * Ukuran kustom ikon.
+   */
+  iconSize?: IconSize | number | string;
+
+  /**
+   * Batas lebar maksimal gelembung tooltip.
+   * @default '250px'
+   */
+  maxWidth?: string | number;
+
+  /**
+   * ClassName kustom tambahan untuk gelembung tooltip.
+   */
+  tooltipClassName?: string;
+
+  /**
+   * ClassName kustom tambahan untuk elemen panah (arrow).
+   */
+  arrowClassName?: string;
+}
 
 export interface TooltipProps {
   /**

@@ -5,6 +5,10 @@ import type {
   TooltipDepth,
 } from './Tooltip.types';
 
+// ─────────────────────────────────────────────────────────────
+// 1. TAMPILAN: Class Maps & Styling Variables
+// ─────────────────────────────────────────────────────────────
+
 export const placementClasses: Record<TooltipPlacement, string> = {
   top: 'bottom-full left-1/2 -translate-x-1/2 mb-2',
   'top-start': 'bottom-full left-0 mb-2',
@@ -93,6 +97,7 @@ export const sizeClasses: Record<
   lg: { bubble: 'px-4 py-2 rounded-xl gap-2.5', textSize: 'base', iconSizePreset: 'lg' },
 };
 
+// Depth System: Skala -3 s/d 3 untuk gelembung tooltip (Ref: frontend/dev)
 export const depthClasses: Record<string, string> = {
   '-3': 'shadow-n3',
   '-2': 'shadow-n2',
@@ -103,7 +108,7 @@ export const depthClasses: Record<string, string> = {
   '3': 'shadow-3',
 };
 
-export const depthNamedMap: Record<string, string> = {
+export const namedDepthMap: Record<string, string> = {
   sunken: '-2',
   flat: '0',
   'raised-sm': '1',
@@ -111,13 +116,29 @@ export const depthNamedMap: Record<string, string> = {
   'raised-lg': '3',
 };
 
+// Alias kompatibilitas
+export const depthNamedMap = namedDepthMap;
+
 /**
- * Helper untuk mengonversi prop `depth` ke key string valid ('-3' s/d '3')
+ * Memetakan nilai TooltipDepth menjadi string key depthClasses yang valid.
+ * Tooltip overlay menggunakan fallback default elevasi timbul '3'.
+ *
+ * @param {TooltipDepth} [depth] - Nilai depth yang diberikan
+ * @returns {string} String key depthClasses ('-3' s/d '3')
  */
-export const resolveDepthKey = (depth: TooltipDepth): string => {
-  const depthStr = String(depth);
-  if (depthNamedMap[depthStr]) {
-    return depthNamedMap[depthStr];
+export const resolveDepthKey = (depth?: TooltipDepth): string => {
+  if (depth === undefined || depth === null) {
+    return '3';
   }
-  return depthClasses[depthStr] ? depthStr : '3';
+
+  const depthStr = String(depth);
+  if (depthStr in namedDepthMap) {
+    return namedDepthMap[depthStr];
+  }
+
+  if (depthStr in depthClasses) {
+    return depthStr;
+  }
+
+  return '3';
 };

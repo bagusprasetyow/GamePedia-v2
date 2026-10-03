@@ -24,10 +24,10 @@ GamePedia-v2/
 │   │   ├── assets/      # Static Assets
 │   │   ├── components/  # Atomic Design System
 │   │   │   ├── atoms/   # Text, Icon, Button, Switch, Input, Textarea, Checkbox, Radio, Tooltip, Dot
-│   │   │   └── molecules/# CheckboxGroup, RadioGroup, ThemeToggle, Inputs (Email, Password, Username, Phone, PIN, OTP, Search, dll.), Dropdown
-│   │   ├── hooks/       # Custom React Hooks (useTheme, usePhoneInput, useDropdown, useTooltip, useCodeInput)
+│   │   │   └── molecules/# CheckboxGroup, RadioGroup, ThemeToggle, Inputs, Dropdown, SourceCode, Clipboard, ShowcasePreview
+│   │   ├── hooks/       # Custom React Hooks (useTheme, usePhoneInput, useDropdown, useTooltip, useCodeInput, useClipboard, useSourceCode, useCodePreview)
 │   │   ├── lib/         # Utility Libraries & Class Merger (cn)
-│   │   ├── App.tsx      # Showcase & Main View Component
+│   │   ├── App.tsx      # Main Application Entry Component
 │   │   └── index.css    # OKLCH Theme Palette & Tailwind CSS v4
 │   ├── eslint.config.js # ESLint Flat Config
 │   └── package.json
@@ -53,7 +53,7 @@ GamePedia-v2/
 - **Build Tool**: [Vite 8](https://vitejs.dev/)
 - **Styling**: [Tailwind CSS v4](https://tailwindcss.com/) (dengan Engine CSS performa tinggi `@tailwindcss/vite` & Palette OKLCH)
 - **Design System**: Atomic Design (Atoms & Molecules terenkapsulasi dengan Depth Scale -3 s/d 3)
-- **Test Runner**: [Vitest 4](https://vitest.dev/) (Unit testing logika komponen, sub-komponen, dan utility functions)
+- **Test Runner**: [Vitest 4](https://vitest.dev/) (18 test suite otomatis, 171 tests lulus 100% untuk logika komponen, sub-komponen, dan utility functions)
 - **Linter**: [ESLint 10](https://eslint.org/) (dengan `typescript-eslint` dan Plugin React Hooks)
 
 ---

@@ -1,15 +1,15 @@
-import type { InputHTMLAttributes, ReactNode } from 'react';
-import type { DepthNumeric, DepthString, DepthNamed } from '../Button/Button.types';
+import type { InputHTMLAttributes, ReactNode, KeyboardEvent } from 'react';
+import type { DepthNumeric, DepthString, DepthNamed } from '@/components/atoms/Button/Button.types';
 
 export type RadioSize = 'sm' | 'md' | 'lg';
 
-export type RadioColor = 
-  | 'primary' 
-  | 'secondary' 
-  | 'accent' 
-  | 'success' 
-  | 'warning' 
-  | 'error' 
+export type RadioColor =
+  | 'primary'
+  | 'secondary'
+  | 'accent'
+  | 'success'
+  | 'warning'
+  | 'error'
   | 'info';
 
 export type RadioVariant = 'solid' | 'check';
@@ -94,3 +94,73 @@ export interface RadioCustomProps {
 
 export type RadioProps = RadioCustomProps &
   Omit<InputHTMLAttributes<HTMLInputElement>, keyof RadioCustomProps | 'type' | 'size' | 'color'>;
+
+/**
+ * Props untuk sub-komponen internal RadioIndicator.
+ */
+export interface RadioIndicatorProps {
+  /**
+   * Skala ukuran lingkaran radio.
+   * @default 'md'
+   */
+  size?: RadioSize;
+
+  /**
+   * Varian warna semantik tema.
+   * @default 'primary'
+   */
+  color?: RadioColor;
+
+  /**
+   * Varian visual indikator ('solid' atau 'check').
+   * @default 'solid'
+   */
+  variant?: RadioVariant;
+
+  /**
+   * Skala kedalaman Depth System (-3 s/d 3).
+   * @default -1
+   */
+  depth?: RadioDepth;
+
+  /**
+   * Status apakah radio button sedang terpilih.
+   */
+  isChecked?: boolean;
+
+  /**
+   * Apakah radio button dalam status dinonaktifkan.
+   * @default false
+   */
+  disabled?: boolean;
+
+  /**
+   * Handler event keyboard (Space / Enter) pada indikator visual.
+   */
+  onKeyDown?: (event: KeyboardEvent<HTMLSpanElement>) => void;
+
+  /**
+   * ClassName tambahan untuk indikator visual.
+   */
+  className?: string;
+}
+
+/**
+ * Props untuk sub-komponen internal RadioLabel.
+ */
+export interface RadioLabelProps {
+  /**
+   * Teks atau elemen label utama.
+   */
+  label?: ReactNode;
+
+  /**
+   * Teks atau elemen deskripsi keterangan di bawah label.
+   */
+  description?: ReactNode;
+
+  /**
+   * ClassName tambahan untuk pembungkus label.
+   */
+  className?: string;
+}

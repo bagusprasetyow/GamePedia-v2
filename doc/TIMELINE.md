@@ -6,6 +6,39 @@ Dokumen ini mencatat seluruh riwayat perubahan, penambahan fitur, perbaikan, ser
 
 ## 📌 Log Rilis & Timeline
 
+### 📦 [0.0.6] - 2026-10-04 06:02
+
+**Ringkasan Perubahan pada Commit Ini:**
+- 🎨 **Pengembangan Komponen UI Baru (Molecules)**:
+  - **Molekul `Clipboard` (`src/components/molecules/Clipboard/`)**: Komponen tombol aksi penyalinan teks clipboard interaktif berstandar Atomic Design dengan feedback visual transisi dinamis (`bg-success`, teks "Tersalin!"), reset otomatis, cleanup memory timer, custom hook `useClipboard.ts`, styling terenkapsulasi `Clipboard.styles.ts`, sub-komponen `ClipboardIcon.tsx` dan `ClipboardLabel.tsx`, serta pengujian Vitest `Clipboard.spec.ts`.
+  - **Molekul `SourceCode` (`src/components/molecules/SourceCode/`)**: Komponen penampil kode sumber bergaya terminal window gelap dengan dukungan multi-tab snippet, penyorotan sintaks tokenik real-time (`renderHighlightedLine`), tombol salin terintegrasi, dekomposisi `SourceCodeHeader.tsx`, `SourceCodeBody.tsx`, hook `useSourceCode.ts`, helper `SourceCode.utils.tsx`, styles `SourceCode.styles.ts`, dan unit test `SourceCode.spec.ts`.
+  - **Molekul `CodePreview` (`src/components/molecules/SourceCode/CodePreview/`)**: Unit penampil kode modular dengan penyorotan sintaks resmi bergaya **VS Code Dark+**, penomoran baris (*line numbers*), scroll horizontal, dan integrasi Depth System (-3 s/d 3), sub-komponen `CodePreviewLine.tsx`, hook `useCodePreview.ts`, tokenizer `CodePreview.utils.tsx`, styles `CodePreview.styles.ts`, dan unit test `CodePreview.spec.ts`.
+  - **Molekul `ShowcasePreview` (`src/components/molecules/ShowcasePreview/`)**: Wadah kanvas preview interaktif (*sandbox canvas*) untuk menguji komponen UI pada lingkungan showcase, dilengkapi bingkai putus-putus (`dashed border`), latar dekoratif (dots, radial, grid), indikator klik dan stempel waktu, pill badges status props aktif, sub-komponen `ShowcasePreviewBackground.tsx`, `ShowcasePreviewBadges.tsx`, `ShowcasePreviewInfo.tsx`, styles `ShowcasePreview.styles.ts`, dan unit test `ShowcasePreview.spec.ts`.
+- 🛠️ **Dekomposisi Sub-Komponen & Modularitas Styling pada Seluruh Atoms**:
+  - Refactoring arsitektur seluruh 10 atom untuk memisahkan class maps styling ke file terdedikasi `*.styles.ts` dan mengekstrak sub-komponen fungsional:
+    - `Button`: Sub-komponen `ButtonLoading.tsx` & `ButtonIcon.tsx`, `Button.styles.ts`, unit test `Button.spec.ts` (19 tests).
+    - `Checkbox`: Sub-komponen `CheckboxIndicator.tsx` & `CheckboxLabel.tsx`, `Checkbox.styles.ts`, unit test `Checkbox.spec.ts` (9 tests).
+    - `Input`: Sub-komponen `InputLabel.tsx`, `InputHelperText.tsx`, & `InputClearButton.tsx`, `Input.styles.ts`, unit test `Input.spec.ts` (8 tests).
+    - `Radio`: Sub-komponen `RadioIndicator.tsx` & `RadioLabel.tsx`, `Radio.styles.ts`, unit test `Radio.spec.ts` (8 tests).
+    - `Switch`: Sub-komponen `SwitchTrack.tsx` & `SwitchLabel.tsx`, `Switch.styles.ts`, unit test `Switch.spec.ts` (8 tests).
+    - `Textarea`: Sub-komponen `TextareaLabel.tsx` & `TextareaFooter.tsx`, `Textarea.styles.ts`, unit test `Textarea.spec.ts` (9 tests).
+    - `Text`: Pemisahan `Text.styles.ts` dan unit test `Text.spec.ts` (9 tests).
+    - `Icon`: Pemisahan `Icon.styles.ts` dan unit test `Icon.spec.ts` (4 tests).
+    - `Dot`: Sub-komponen `DotCircle.tsx`, `Dot.styles.ts`, unit test `Dot.spec.ts` (11 tests).
+    - `Tooltip`: Sub-komponen `components/TooltipBubble.tsx`, `Tooltip.styles.ts`, unit test `Tooltip.spec.ts` (10 tests).
+- 🧪 **Ekspansi Vitest Unit Testing di Frontend**:
+  - Penambahan dan integrasi spesifikasi pengujian unit komprehensif pada frontend hingga mencapai **18 file test suite** dengan total **171 unit tests** (lulus 100%).
+  - Memverifikasi ekspor barrel, rendering sub-komponen, styling terenkapsulasi, dan fungsionalitas interaktif.
+- 🧹 **Pembersihan Root Entry Component (`App.tsx`)**:
+  - Penyederhanaan komponen `App.tsx` menjadi entri root bersih yang siap diintegrasikan.
+- 📚 **Pembaruan Dokumentasi Proyek Terpecah (`doc/` & Root `README.md`)**:
+  - Sinkronisasi status proyek pada `README.md`, `doc/README.md`, dan `doc/ARCHITECTURE.md`.
+  - Penyelarasan katalog komponen pada `doc/FRONTEND.md` dan `doc/frontend/COMPONENTS.md`.
+  - Penambahan panduan custom hooks baru (`useClipboard`, `useSourceCode`, `useCodePreview`) serta rekapitulasi 18 test suite di `doc/frontend/HOOKS_AND_STORE.md`.
+- ⚙️ **Quality Control & Penyelarasan Versi**:
+  - Seluruh pengujian Oxlint (Backend), ESLint (Frontend), Vitest (Backend), Vitest (Frontend 171 tests), serta kompilasi build (NestJS + Vite React) dinyatakan PASS 100% (0 errors, 0 warnings).
+  - Menyelaraskan versi aplikasi ke `0.0.6` secara serentak pada 6 berkas `package.json` dan `package-lock.json` di Root, Backend, dan Frontend.
+
 ### 📦 [0.0.5] - 2026-10-03 08:52
 
 **Ringkasan Perubahan pada Commit Ini:**

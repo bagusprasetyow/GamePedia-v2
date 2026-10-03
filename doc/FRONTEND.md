@@ -86,6 +86,8 @@ Komponen tipografi polimorfik dasar dengan enkapsulasi styling Tailwind CSS v4 p
 - **Lokasi File**:
   - Implementasi: `src/components/atoms/Text/Text.tsx`
   - Tipe Data: `src/components/atoms/Text/Text.types.ts`
+  - Styling Enkapsulasi: `src/components/atoms/Text/Text.styles.ts`
+  - Unit Test (Vitest): `src/components/atoms/Text/Text.spec.ts`
   - Barrel Export: `src/components/atoms/Text/index.ts` & `src/components/atoms/index.ts`
 - **Fitur & Props**:
   - `as`: Tag HTML polimorfik (`'p' | 'span' | 'h1' - 'h6' | 'label' | 'div' | 'small' | 'strong' | 'em' | 'caption'`) (default: `'p'`)
@@ -122,6 +124,8 @@ Komponen ikon universal berbasis `@iconify/react` dengan enkapsulasi varian warn
 - **Lokasi File**:
   - Implementasi: `src/components/atoms/Icon/Icon.tsx`
   - Tipe Data: `src/components/atoms/Icon/Icon.types.ts`
+  - Styling Enkapsulasi: `src/components/atoms/Icon/Icon.styles.ts`
+  - Unit Test (Vitest): `src/components/atoms/Icon/Icon.spec.ts`
   - Barrel Export: `src/components/atoms/Icon/index.ts` & `src/components/atoms/index.ts`
 - **Fitur & Props**:
   - `icon`: Identifier string icon Iconify (contoh: `'mdi:controller'`, `'lucide:sparkles'`, `'ri:fire-fill'`)
@@ -147,7 +151,10 @@ Komponen tombol interaktif terenkapsulasi penuh dengan dukungan varian semantik 
 
 - **Lokasi File**:
   - Implementasi: `src/components/atoms/Button/Button.tsx`
+  - Sub-Komponen: `src/components/atoms/Button/components/ButtonLoading.tsx` & `src/components/atoms/Button/components/ButtonIcon.tsx`
   - Tipe Data: `src/components/atoms/Button/Button.types.ts`
+  - Class Maps & Styling: `src/components/atoms/Button/Button.styles.ts`
+  - Unit Test: `src/components/atoms/Button/Button.spec.ts`
   - Barrel Export: `src/components/atoms/Button/index.ts` & `src/components/atoms/index.ts`
 - **Fitur & Props**:
   - `size`: Skala ukuran preset (`'2xs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl'`) (default: `'md'`)
@@ -196,7 +203,10 @@ Komponen sakelar biner (toggle switch) interaktif dengan **Depth System taktil (
 
 - **Lokasi File**:
   - Implementasi: `src/components/atoms/Switch/Switch.tsx`
+  - Sub-Komponen: `src/components/atoms/Switch/components/SwitchTrack.tsx` & `src/components/atoms/Switch/components/SwitchLabel.tsx`
   - Tipe Data: `src/components/atoms/Switch/Switch.types.ts`
+  - Styling Enkapsulasi: `src/components/atoms/Switch/Switch.styles.ts`
+  - Unit Test (Vitest): `src/components/atoms/Switch/Switch.spec.ts`
   - Barrel Export: `src/components/atoms/Switch/index.ts` & `src/components/atoms/index.ts`
 - **Fitur & Props**:
   - `checked` & `defaultChecked`: Kontrol status aktif (controlled & uncontrolled)
@@ -235,7 +245,10 @@ Komponen kotak centang interaktif dengan dukungan 2 varian indikator (`check` & 
 
 - **Lokasi File**:
   - Implementasi: `src/components/atoms/Checkbox/Checkbox.tsx`
+  - Sub-Komponen: `src/components/atoms/Checkbox/components/CheckboxIndicator.tsx` & `src/components/atoms/Checkbox/components/CheckboxLabel.tsx`
   - Tipe Data: `src/components/atoms/Checkbox/Checkbox.types.ts`
+  - Class Maps & Styling: `src/components/atoms/Checkbox/Checkbox.styles.ts`
+  - Unit Test: `src/components/atoms/Checkbox/Checkbox.spec.ts`
   - Barrel Export: `src/components/atoms/Checkbox/index.ts` & `src/components/atoms/index.ts`
 - **Fitur & Props**:
   - `variant`: Varian ikon indikator saat terpilih (`'check'` untuk tanda checklist, `'solid'` untuk kotak padat/persegi) (default: `'check'`)
@@ -264,7 +277,10 @@ Komponen radio button interaktif dengan bentuk lingkaran, mendukung 2 varian ind
 
 - **Lokasi File**:
   - Implementasi: `src/components/atoms/Radio/Radio.tsx`
+  - Sub-Komponen: `src/components/atoms/Radio/components/RadioIndicator.tsx` & `src/components/atoms/Radio/components/RadioLabel.tsx`
   - Tipe Data: `src/components/atoms/Radio/Radio.types.ts`
+  - Styling Enkapsulasi: `src/components/atoms/Radio/Radio.styles.ts`
+  - Unit Test (Vitest): `src/components/atoms/Radio/Radio.spec.ts`
   - Barrel Export: `src/components/atoms/Radio/index.ts` & `src/components/atoms/index.ts`
 - **Fitur & Props**:
   - `variant`: Varian indikator saat aktif (`'solid'` untuk outer ring berwarna + celah background + solid dot padat di tengah, `'check'` untuk ikon centang kecil) (default: `'solid'`)
@@ -292,7 +308,10 @@ Komponen bidang masukan (_input field_) universal sebagai pondasi formulir UI Ga
 
 - **Lokasi File**:
   - Implementasi: `src/components/atoms/Input/Input.tsx`
+  - Sub-Komponen: `src/components/atoms/Input/components/InputLabel.tsx`, `components/InputHelperText.tsx`, & `components/InputClearButton.tsx`
   - Tipe Data: `src/components/atoms/Input/Input.types.ts`
+  - Styling Enkapsulasi: `src/components/atoms/Input/Input.styles.ts`
+  - Unit Test (Vitest): `src/components/atoms/Input/Input.spec.ts`
   - Barrel Export: `src/components/atoms/Input/index.ts` & `src/components/atoms/index.ts`
 - **Fitur & Props**:
   - `size`: Skala ukuran preset (`'sm' | 'md' | 'lg'`) (default: `'md'`)
@@ -345,7 +364,10 @@ Komponen bidang masukan teks multi-baris reaktif sebagai atom UI dasar formulir 
 
 - **Lokasi File**:
   - Implementasi: `src/components/atoms/Textarea/Textarea.tsx`
+  - Sub-Komponen: `src/components/atoms/Textarea/components/TextareaLabel.tsx` & `components/TextareaFooter.tsx`
   - Tipe Data: `src/components/atoms/Textarea/Textarea.types.ts`
+  - Styling Enkapsulasi: `src/components/atoms/Textarea/Textarea.styles.ts`
+  - Unit Test (Vitest): `src/components/atoms/Textarea/Textarea.spec.ts`
   - Barrel Export: `src/components/atoms/Textarea/index.ts` & `src/components/atoms/index.ts`
 - **Fitur & Props**:
   - `autoResize`: Menyesuaikan tinggi otomatis berdasarkan konten teks (`boolean`, default: `false`)
@@ -374,7 +396,7 @@ Komponen gelembung petunjuk (_tooltip bubble_) interaktif dengan **Sistem Kedala
 
 - **Lokasi File**:
   - Komponen Utama: `src/components/atoms/Tooltip/Tooltip.tsx`
-  - Sub-komponen Gelembung: `src/components/atoms/Tooltip/TooltipBubble.tsx`
+  - Sub-komponen Gelembung: `src/components/atoms/Tooltip/components/TooltipBubble.tsx`
   - Custom Hook Logika: `src/components/atoms/Tooltip/useTooltip.ts`
   - Styling Enkapsulasi: `src/components/atoms/Tooltip/Tooltip.styles.ts`
   - Tipe Data: `src/components/atoms/Tooltip/Tooltip.types.ts`
@@ -971,6 +993,200 @@ Komponen dropdown interaktif serbaguna yang mendukung dua varian seleksi (**`sin
   />
   ```
 
+#### 19. SourceCode (`src/components/molecules/SourceCode/`)
+
+Komponen penampil dan pemformat kode sumber (*code viewer/snippet*) interaktif dengan dukungan *syntax highlighting* berbasis token OKLCH semantik, navigasi multi-tab, penomoran baris (*line numbers*), tombol salin cepat (*copy to clipboard*) dengan umpan balik visual, serta integrasi sistem kedalaman visual **Depth System (-3 s/d 3)**. Arsitektur `SourceCode` didekomposisi secara modular menjadi sub-komponen terpisah, custom hooks, dan fungsi utilitas yang diuji secara komprehensif menggunakan Vitest.
+
+- **Lokasi File**:
+  - Komponen Utama: `src/components/molecules/SourceCode/SourceCode.tsx`
+  - Sub-komponen Header: `src/components/molecules/SourceCode/components/SourceCodeHeader.tsx`
+  - Sub-komponen Body: `src/components/molecules/SourceCode/components/SourceCodeBody.tsx`
+  - Custom Hook Logika State: `src/components/molecules/SourceCode/useSourceCode.ts`
+  - Tokenizer & Syntax Highlighting: `src/components/molecules/SourceCode/SourceCode.utils.tsx`
+  - Token Styling & Depth System: `src/components/molecules/SourceCode/SourceCode.styles.ts`
+  - Unit Test (Vitest): `src/components/molecules/SourceCode/SourceCode.spec.ts`
+  - Tipe Data & Interface: `src/components/molecules/SourceCode/SourceCode.types.ts`
+  - Barrel Export: `src/components/molecules/SourceCode/index.ts` & `src/components/molecules/index.ts`
+- **Fitur & Props**:
+  - `code`: Teks kode sumber tunggal yang akan ditampilkan (opsional bila menggunakan `tabs`)
+  - `language`: Bahasa pemrograman untuk kode tunggal (`'typescript' | 'tsx' | 'javascript' | 'jsx' | 'bash' | 'json' | 'css' | 'html'`) (default: `'typescript'`)
+  - `tabs`: Array tab multi-file / multi-snippet (`SourceCodeTab[]` dengan `id`, `label`, `code`, `language`, `icon`)
+  - `activeTabId` / `onTabChange`: Kontrol id tab yang aktif secara terkontrol (*controlled mode*)
+  - `title`: Judul atau path berkas kustom pada baris header (ditampilkan saat tidak ada tab)
+  - `showLineNumbers`: Menampilkan nomor baris pada sisi kiri panel kode (`boolean`, default: `true`)
+  - `showCopyButton`: Menampilkan tombol salin kode ke clipboard dengan feedback ikonik (`boolean`, default: `true`)
+  - `depth`: Kedalaman visual taktil container (-3 s/d 3) atau named depth (`'sunken' | 'flat' | 'raised'`) (default: `-1` / cekung natural)
+  - `maxHeight`: Batas tinggi maksimal kontainer sebelum scrollbar aktif (misal `'400px'` atau angka dalam px)
+  - `headerActions`: Elemen React tambahan untuk tombol / aksi kustom di sisi kanan header
+  - `copyLabel` / `copiedLabel`: Kustomisasi teks tooltip atau label aksesibilitas tombol salin
+- **Contoh Pemakaian**:
+
+  ```tsx
+  import { SourceCode } from '@/components/molecules';
+
+  // 1. Single Snippet dengan Depth Inset (-1) & Line Numbers
+  <SourceCode
+    language="tsx"
+    title="ExampleComponent.tsx"
+    depth={-1}
+    code={`import { Button } from '@/components/atoms';\n\nexport const MyComponent = () => (\n  <Button variant="primary">Klik Saya</Button>\n);`}
+  />
+
+  // 2. Multi-Tab Snippet dengan Syntax Highlighting & Icon Tab
+  <SourceCode
+    tabs={[
+      {
+        id: 'npm',
+        label: 'npm',
+        language: 'bash',
+        code: 'npm install @iconify/react clsx tailwind-merge',
+        icon: 'mdi:npm',
+      },
+      {
+        id: 'pnpm',
+        label: 'pnpm',
+        language: 'bash',
+        code: 'pnpm add @iconify/react clsx tailwind-merge',
+        icon: 'mdi:package-variant',
+      },
+    ]}
+  />
+  ```
+
+#### 20. Clipboard (`src/components/molecules/Clipboard/`)
+
+Komponen tombol aksi penyalinan teks ke clipboard interaktif berbasis Atomic Design yang mengombinasikan atom `Button` dan `Icon`. Dilengkapi visual feedback dinamis (latar belakang hijau `bg-success` dan teks putih `text-white` saat tombol ditekan aktif maupun saat status tersalin), dukungan kedalaman visual **Depth System (-3 s/d 3)**, proteksi pembersihan memori otomatis (*memory leak cleanup*), serta fleksibilitas mode *uncontrolled* (mandiri) maupun *controlled*.
+
+- **Struktur File**:
+  - Komponen Utama: `src/components/molecules/Clipboard/Clipboard.tsx`
+  - Sub-komponen Ikon: `src/components/molecules/Clipboard/components/ClipboardIcon.tsx`
+  - Sub-komponen Label: `src/components/molecules/Clipboard/components/ClipboardLabel.tsx`
+  - Custom Hook Logika: `src/components/molecules/Clipboard/useClipboard.ts`
+  - Token Styling & Depth System: `src/components/molecules/Clipboard/Clipboard.styles.ts`
+  - Unit Test (Vitest): `src/components/molecules/Clipboard/Clipboard.spec.ts`
+  - Tipe Data & Interface: `src/components/molecules/Clipboard/Clipboard.types.ts`
+  - Barrel Export: `src/components/molecules/Clipboard/index.ts` & `src/components/molecules/index.ts`
+- **Props Utama (`ClipboardProps`)**:
+  - `text`: Teks yang disalin (string atau fungsi resolver).
+  - `label`: Label tombol idle (default: `'Salin'`).
+  - `copiedLabel`: Label tombol setelah berhasil disalin (default: `'Tersalin!'`).
+  - `icon` & `copiedIcon`: Ikon idle dan tersalin (default: `'mdi:content-copy'` dan `'mdi:check'`).
+  - `isIconOnly`: Boolean untuk mode tombol kompak hanya-ikon.
+  - `variant`: Varian visual (`'terminal'`, `'ghost'`, `'outline'`, `'primary'`, `'secondary'`, `'contrast'`).
+  - `size`: Ukuran atom Button (`'2xs'` s/d `'xl'`).
+  - `depth`: Tingkat kedalaman shadow (-3 s/d 3).
+  - `duration`: Durasi visual status tersalin dalam ms (default: `2000`).
+  - `copied`: Mode terkontrol opsional jika state dikelola dari parent.
+  - `onCopy` & `onError`: Callback event handler.
+- **Contoh Penggunaan**:
+
+  ```tsx
+  import { Clipboard } from '@/components/molecules';
+
+  // 1. Uncontrolled Mandiri (Auto Copy + Feedback)
+  <Clipboard text="git clone https://github.com/bagusprasetyow/GamePedia-v2.git" />
+
+  // 2. Icon-Only dengan Depth Timbul Level 1
+  <Clipboard
+    text={apiToken}
+    isIconOnly
+    size="sm"
+    depth={1}
+    variant="outline"
+  />
+
+  // 3. Bergaya Terminal Window (Default)
+  <Clipboard
+    text={sourceCode}
+    label="Salin"
+    copiedLabel="Tersalin!"
+    variant="terminal"
+    size="xs"
+    depth={0}
+  />
+  ```
+
+#### 21. CodePreview (`src/components/molecules/SourceCode/CodePreview/`)
+
+Komponen blok penampil kode sumber terformat dengan penyorotan sintaks (*syntax highlighting*) real-time bergaya resmi **VS Code Dark+**, opsi penomoran baris (*line numbers*), scroll horizontal terintegrasi, dan dukungan Sistem Kedalaman visual (**Depth System skala -3 s/d 3**). Komponen ini ditempatkan di dalam `SourceCode` sebagai unit penampil kode yang modular dan dapat digunakan secara mandiri untuk menampilkan cuplikan kode, respon API JSON, atau skrip konfigurasi.
+
+- **Struktur File**:
+  - Komponen Utama: `src/components/molecules/SourceCode/CodePreview/CodePreview.tsx`
+  - Sub-komponen Baris: `src/components/molecules/SourceCode/CodePreview/components/CodePreviewLine.tsx`
+  - Custom Hook Logika: `src/components/molecules/SourceCode/CodePreview/useCodePreview.ts`
+  - Tokenizer Sintaks: `src/components/molecules/SourceCode/CodePreview/CodePreview.utils.tsx`
+  - Token Styling & Depth System: `src/components/molecules/SourceCode/CodePreview/CodePreview.styles.ts`
+  - Unit Test (Vitest): `src/components/molecules/SourceCode/CodePreview/CodePreview.spec.ts`
+  - Tipe Data & Interface: `src/components/molecules/SourceCode/CodePreview/CodePreview.types.ts`
+  - Barrel Export: `src/components/molecules/SourceCode/CodePreview/index.ts`, `src/components/molecules/SourceCode/index.ts`, & `src/components/molecules/index.ts`
+- **Props Utama (`CodePreviewProps`)**:
+  - `code`: String teks kode sumber yang akan ditampilkan.
+  - `language`: Bahasa pemrograman untuk sintaks (default: `'jsx'`).
+  - `showLineNumbers`: Menampilkan nomor baris di sisi kiri (default: `false`).
+  - `maxHeight`: Batas tinggi kontainer sebelum scroll vertikal aktif.
+  - `depth`: Tingkat kedalaman visual shadow (-3 s/d 3).
+  - `variant`: Varian kontainer (`'terminal'`, `'inset'`, `'flat'`, `'raised'`).
+  - `header`: Header kustom opsional di atas kode.
+- **Contoh Penggunaan**:
+
+  ```tsx
+  import { CodePreview } from '@/components/molecules';
+
+  // 1. Tampilan Kode Standard Terminal
+  <CodePreview code={`<Button variant="primary">Klik</Button>`} />
+
+  // 2. Dengan Nomor Baris & Depth Inset Cekung (-1)
+  <CodePreview
+    code={jsonResponse}
+    showLineNumbers
+    variant="inset"
+    depth={-1}
+    maxHeight="350px"
+  />
+  ```
+
+#### 22. ShowcasePreview (`src/components/molecules/ShowcasePreview/`)
+
+Komponen wadah kanvas interaktif (*sandbox preview canvas*) berbasis Atomic Design untuk menguji dan mempratinjau komponen UI secara langsung pada lingkungan pengembang (*showcase*). Dilengkapi bingkai garis putus-putus (*dashed border*), latar belakang berpola dekoratif (*dots matrix*, *radial*, *grid*), indikator status interaksi klik & timestamp di pojok kiri atas, pill badges monospace untuk parameter props aktif di pojok kanan atas, serta integrasi **Depth System skala -3 s/d 3**.
+
+- **Struktur File**:
+  - Komponen Utama: `src/components/molecules/ShowcasePreview/ShowcasePreview.tsx`
+  - Sub-komponen Background: `src/components/molecules/ShowcasePreview/components/ShowcasePreviewBackground.tsx`
+  - Sub-komponen Badges: `src/components/molecules/ShowcasePreview/components/ShowcasePreviewBadges.tsx`
+  - Sub-komponen Info: `src/components/molecules/ShowcasePreview/components/ShowcasePreviewInfo.tsx`
+  - Token Styling & Depth System: `src/components/molecules/ShowcasePreview/ShowcasePreview.styles.ts`
+  - Unit Test (Vitest): `src/components/molecules/ShowcasePreview/ShowcasePreview.spec.ts`
+  - Tipe Data & Interface: `src/components/molecules/ShowcasePreview/ShowcasePreview.types.ts`
+  - Barrel Export: `src/components/molecules/ShowcasePreview/index.ts` & `src/components/molecules/index.ts`
+- **Props Utama (`ShowcasePreviewProps`)**:
+  - `children`: Komponen atau elemen UI yang dipratinjau.
+  - `clickCount`: Jumlah interaksi klik yang tercatat (opsional).
+  - `lastClickedAt`: Catatan waktu interaksi klik terakhir (opsional).
+  - `badges`: Koleksi props aktif (berupa objek Record atau array item) untuk ditampilkan di pojok kanan atas.
+  - `borderStyle`: Gaya border kanvas (`'dashed'`, `'solid'`, `'none'`, default: `'dashed'`).
+  - `rounded`: Kelengkungan sudut bingkai (`'none'`, `'sm'`, `'md'`, `'lg'`, `'xl'`, `'2xl'`, `'full'`, default: `'2xl'`).
+  - `background`: Dekorasi latar belakang (`'dots'`, `'radial'`, `'grid'`, `'plain'`, default: `'dots'`).
+  - `minHeight`: Tinggi minimum kanvas (`'none'`, `'sm'`, `'md'`, `'lg'`, `'xl'`, default: `'md'`).
+  - `fullWidth`: Apakah area konten membentang 100% lebar (default: `false`).
+  - `depth`: Kedalaman visual bayangan container berstandar Depth System (-3 s/d 3, default: `0`).
+- **Contoh Penggunaan**:
+
+  ```tsx
+  import { ShowcasePreview } from '@/components/molecules';
+  import { Button } from '@/components/atoms';
+
+  <ShowcasePreview
+    clickCount={count}
+    lastClickedAt={time}
+    badges={{ variant: 'primary', size: 'md', depth: 1 }}
+    background="dots"
+  >
+    <Button variant="primary" onClick={handleClick}>
+      Jelajahi Game
+    </Button>
+  </ShowcasePreview>
+  ```
+
 ---
 
 ## 🪝 Custom Hooks & Global Utilities (`src/hooks/`)
@@ -1009,6 +1225,18 @@ Hook modular pengelola array masukan digit kode (PIN / OTP). Mendukung auto-foku
 ### 5. `usePhoneInput` (`src/components/molecules/Input/PhoneInput/usePhoneInput.ts`)
 
 Hook pengelola masukan nomor telepon internasional yang terhubung dengan modul utilitas `phoneUtils.ts`. Memilah kode negara, menerapkan spasi format dinamis, dan memvalidasi nomor telepon.
+
+### 6. `useClipboard` (`src/components/molecules/Clipboard/useClipboard.ts`)
+
+Hook pengelolaan salin teks ke clipboard interaktif dengan status `isCopied` reaktif, reset otomatis timeout, pembersihan memori timer, dan penanganan fallback callback.
+
+### 7. `useSourceCode` (`src/components/molecules/SourceCode/useSourceCode.ts`)
+
+Hook pengelolaan active tab dan resolusi kode sumber pada cuplikan multi-tab terminal dengan aksi penyalinan langsung ke clipboard.
+
+### 8. `useCodePreview` (`src/components/molecules/SourceCode/CodePreview/useCodePreview.ts`)
+
+Hook pemformatan baris kode, penomoran baris, dan penyorotan token sintaksis bergaya VS Code Dark+.
 
 ---
 

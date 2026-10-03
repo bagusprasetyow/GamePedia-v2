@@ -1,19 +1,20 @@
 import type { ButtonHTMLAttributes, ReactNode } from 'react';
-import type { IconSize } from '../Icon/Icon.types';
+import type { IconSize } from '@/components/atoms/Icon/Icon.types';
+import type { TextSize } from '@/components/atoms/Text/Text.types';
 
 export type ButtonSize = '2xs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 
-export type ButtonVariant = 
-  | 'primary' 
-  | 'secondary' 
-  | 'accent' 
-  | 'outline' 
-  | 'ghost' 
-  | 'contrast' 
-  | 'success' 
-  | 'warning' 
-  | 'error' 
-  | 'info' 
+export type ButtonVariant =
+  | 'primary'
+  | 'secondary'
+  | 'accent'
+  | 'outline'
+  | 'ghost'
+  | 'contrast'
+  | 'success'
+  | 'warning'
+  | 'error'
+  | 'info'
   | 'close';
 
 export type ButtonRounded = 'none' | 'sm' | 'default' | 'md' | 'lg' | 'xl' | 'full';
@@ -29,31 +30,31 @@ export type ButtonJustify = 'start' | 'center' | 'end' | 'between';
 
 export type ButtonGap = '2xs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 
-export type ButtonCursor = 
-  | 'auto' 
-  | 'default' 
-  | 'pointer' 
-  | 'wait' 
-  | 'text' 
-  | 'move' 
-  | 'help' 
-  | 'not-allowed' 
-  | 'none' 
-  | 'progress' 
-  | 'grab' 
-  | 'grabbing' 
-  | 'crosshair' 
+export type ButtonCursor =
+  | 'auto'
+  | 'default'
+  | 'pointer'
+  | 'wait'
+  | 'text'
+  | 'move'
+  | 'help'
+  | 'not-allowed'
+  | 'none'
+  | 'progress'
+  | 'grab'
+  | 'grabbing'
+  | 'crosshair'
   | 'copy';
 
 export interface ButtonCustomProps {
   /**
-   * Ukuran tombol.
+   * Ukuran fisik tombol.
    * @default 'md'
    */
   size?: ButtonSize;
 
   /**
-   * Varian tampilan warna/gaya tombol.
+   * Varian tampilan warna/gaya semantik tombol.
    * @default 'primary'
    */
   variant?: ButtonVariant;
@@ -72,7 +73,7 @@ export interface ButtonCustomProps {
   depth?: ButtonDepth;
 
   /**
-   * Lebar tombol ('auto', 'full', atau nilai CSS custom seperti '200px').
+   * Lebar tombol ('auto', 'full', atau nilai CSS kustom seperti '200px').
    * @default 'auto'
    */
   width?: 'auto' | 'full' | string;
@@ -121,13 +122,13 @@ export interface ButtonCustomProps {
   iconSize?: IconSize | number | string;
 
   /**
-   * Status loading, menampilkan spinner berputar dan menonaktifkan klik.
+   * Status pemuatan (loading), menampilkan spinner berputar dan menonaktifkan klik.
    * @default false
    */
   isLoading?: boolean;
 
   /**
-   * Teks pengganti yang tampil ketika status loading aktif.
+   * Teks pengganti atau teks keterangan saat status loading aktif.
    */
   loadingText?: string;
 
@@ -142,7 +143,48 @@ export interface ButtonCustomProps {
   children?: ReactNode;
 
   /**
-   * ClassName kustom tambahan.
+   * ClassName kustom tambahan untuk tombol.
+   */
+  className?: string;
+}
+
+export interface ButtonLoadingProps {
+  /**
+   * Teks pesan loading yang tampil berdampingan dengan spinner.
+   */
+  loadingText?: string;
+
+  /**
+   * Ukuran ikon spinner.
+   * @default 'sm'
+   */
+  iconSize?: IconSize | number | string;
+
+  /**
+   * Ukuran tipografi teks loading.
+   * @default 'sm'
+   */
+  textSize?: TextSize;
+
+  /**
+   * ClassName kustom tambahan untuk kontainer pembungkus loading.
+   */
+  className?: string;
+}
+
+export interface ButtonIconProps {
+  /**
+   * Elemen ikon atau nama string Iconify.
+   */
+  icon?: ReactNode;
+
+  /**
+   * Ukuran fisik ikon.
+   */
+  size?: IconSize | number | string;
+
+  /**
+   * ClassName kustom tambahan untuk ikon.
    */
   className?: string;
 }
