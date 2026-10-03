@@ -2,7 +2,7 @@ import { useState, useRef, useEffect, forwardRef, useCallback } from 'react';
 import type { ChangeEvent, KeyboardEvent } from 'react';
 import { cn } from '@/lib/utils';
 import { Input, Icon } from '@/components/atoms';
-import type { SearchInputProps } from './SearchInput.types';
+import type { SearchInputProps, SearchMatchMode } from './SearchInput.types';
 
 // ─────────────────────────────────────────────────────────────
 // 1. TAMPILAN: Class Maps & Helper Styling
@@ -14,10 +14,12 @@ const adornmentWrapperClasses = 'flex items-center gap-1.5 shrink-0';
  * 
  * Komponen bidang pencarian reaktif berbasis atom `Input`, `Button`, dan `Icon`.
  * Mendukung pencarian reaktif dengan debounce timer, indikator status loading, tombol pembersih cepat,
- * serta Depth System (-3 s/d 3).
+ * mode pencocokan awalan ("x...") atau substring ("...x..."), serta Depth System (-3 s/d 3).
  * 
  * @param {string} [props.placeholder='Cari...'] - Teks petunjuk (placeholder) bidang pencarian
- * @param {(query: string) => void} [props.onSearch] - Callback saat query pencarian terkirim/berubah
+ * @param {(query: string, matchMode?: SearchMatchMode) => void} [props.onSearch] - Callback saat query pencarian terkirim/berubah
+ * @param {SearchMatchMode} [props.searchMode='...x...'] - Mode pencarian ('x...' untuk awalan, '...x...' untuk mengandung)
+ * @param {SearchMatchMode} [props.matchMode] - Alias untuk searchMode
  * @param {number} [props.debounceTime=300] - Jeda debounce dalam milidetik (default: 300ms)
  * @param {boolean} [props.isLoading=false] - Menampilkan animasi loading spinner
  * @param {string} [props.searchIcon='mdi:magnify'] - Ikon pencarian di sisi kiri
@@ -40,11 +42,14 @@ export const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(({
   className = '',
   wrapperClassName = '',
   disabled = false,
+  searchMode,
+  matchMode,
   ...restProps
 }, ref) => {
   // ─────────────────────────────────────────────────────────────
   // 2. LOGIKA: State Management, Debounce, & Handlers
   // ─────────────────────────────────────────────────────────────
+  const resolvedMatchMode: SearchMatchMode = searchMode ?? matchMode ?? '...x...';
   const isControlled = controlledValue !== undefined;
   const [internalValue, setInternalValue] = useState<string>(
     String(controlledValue ?? defaultValue ?? '')
@@ -68,9 +73,9 @@ export const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(({
       if (debounceTimerRef.current) {
         clearTimeout(debounceTimerRef.current);
       }
-      onSearch?.(query);
+      onSearch?.(query, resolvedMatchMode);
     },
-    [onSearch]
+    [onSearch, resolvedMatchMode]
   );
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -86,10 +91,10 @@ export const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(({
           clearTimeout(debounceTimerRef.current);
         }
         debounceTimerRef.current = setTimeout(() => {
-          onSearch(newVal);
+          onSearch(newVal, resolvedMatchMode);
         }, debounceTime);
       } else {
-        onSearch(newVal);
+        onSearch(newVal, resolvedMatchMode);
       }
     }
   };

@@ -4,6 +4,10 @@ import { Button, Text, Icon } from '@/components/atoms';
 import { CodeInput } from '../CodeInput';
 import type { OtpInputProps } from './OtpInput.types';
 
+// ─────────────────────────────────────────────────────────────
+// 1. TAMPILAN: Class Maps & Styling Variables
+// ─────────────────────────────────────────────────────────────
+
 /**
  * OtpInput Component - Molecule UI Element
  * 
@@ -32,6 +36,9 @@ export const OtpInput = forwardRef<HTMLDivElement, OtpInputProps>(({
   disabled = false,
   ...restProps
 }, ref) => {
+  // ─────────────────────────────────────────────────────────────
+  // 2. LOGIKA: Calculations & State Helpers
+  // ─────────────────────────────────────────────────────────────
   const isResendDisabled = disabled || isResending || resendTimer > 0;
 
   const resendContainerClasses = cn(
@@ -40,6 +47,9 @@ export const OtpInput = forwardRef<HTMLDivElement, OtpInputProps>(({
     align === 'right' && 'justify-end w-full'
   );
 
+  // ─────────────────────────────────────────────────────────────
+  // 3. RENDER UI: Clean JSX Output (Atomic Component Compliant)
+  // ─────────────────────────────────────────────────────────────
   return (
     <CodeInput
       ref={ref}

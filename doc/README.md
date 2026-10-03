@@ -27,11 +27,14 @@ npm install
 # 2. Jalankan Backend & Frontend secara bersamaan (dev mode)
 npm run dev
 
-# 3. Menjalankan linting seluruh proyek
+# 3. Menjalankan linting seluruh proyek (Oxlint backend & ESLint frontend)
 npm run lint --prefix backend
 npm run lint --prefix frontend
 
-# 4. Menjalankan test & build
+# 4. Menjalankan unit test seluruh proyek (Vitest backend & Vitest frontend)
 npm run test --prefix backend
+npm run test --prefix frontend
+
+# 5. Menjalankan build kompilasi
 npm run build
 ```

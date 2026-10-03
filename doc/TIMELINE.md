@@ -6,6 +6,33 @@ Dokumen ini mencatat seluruh riwayat perubahan, penambahan fitur, perbaikan, ser
 
 ## 📌 Log Rilis & Timeline
 
+### 📦 [0.0.5] - 2026-10-03 08:52
+
+**Ringkasan Perubahan pada Commit Ini:**
+- 🎨 **Komponen Atomic Design Baru & Dekomposisi UI (Frontend)**:
+  - **Atom `Tooltip` (`src/components/atoms/Tooltip/`)**: Komponen gelembung petunjuk interaktif dengan Depth System (skala -3 s/d 3), 12 opsi placement, panah penunjuk, dukungan trigger (hover, click, focus, manual), delay timer, serta arsitektur modular (`Tooltip.tsx`, `TooltipBubble.tsx`, `useTooltip.ts`, `Tooltip.styles.ts`, `Tooltip.spec.ts`).
+  - **Atom `Dot` (`src/components/atoms/Dot/`)**: Komponen titik status visual interaktif dengan animasi denyut halo ripple (`ping`) & kedip halus (`pulse`), efek neon ambient glow, ring pembatas kontras (`bordered`), teks label status pendamping, serta penempatan anchor overlay pada anak (avatar/icon/button) (`Dot.tsx`, `components/DotCircle.tsx`, `Dot.styles.ts`, `Dot.spec.ts`).
+  - **Molekul `Dropdown` (`src/components/molecules/Dropdown/`)**: Komponen dropdown seleksi serbaguna mendukung single-select & multi-select (dengan badges tag & clearable), mode ComboBox pencarian reaktif (`isComboBox` / `isSearchable`), Depth System (-3 s/d 3), navigasi keyboard penuh WAI-ARIA, serta dekomposisi sub-komponen (`DropdownTrigger`, `DropdownPopover`, `DropdownItem`, `DropdownEmptyState`, `useDropdown`, `useDropdownKeyboard`, `dropdown.utils.ts`, `dropdown.utils.spec.ts`).
+  - **Dekomposisi Sub-Komponen & Utilitas Input**:
+    - `CodeInput`: Refactoring modular menjadi `CodeInputField.tsx`, `CodeInputResendTimer.tsx`, dan hook `useCodeInput.ts`.
+    - `PasswordStrengthBar`: Ekstraksi algoritma perhitungan skor ke `passwordStrength.utils.ts` dan unit test `passwordStrength.spec.ts`.
+    - `SearchInput`: Ekstraksi pemfilteran teks ke `SearchInput.utils.ts` dan unit test `SearchInput.utils.spec.ts`.
+    - `PhoneInput`: Penguatan unit test `phoneUtils.spec.ts` dan hook `usePhoneInput.ts`.
+- 🧪 **Implementasi Vitest Unit Testing di Frontend**:
+  - Konfigurasi dan integrasi **Vitest 4** di `frontend/package.json` dengan skrip `npm run test`.
+  - Pembuatan 6 test suite spesifikasi unit testing otomatis dengan total 42 tests yang lulus 100% (`Dot.spec.ts`, `Tooltip.spec.ts`, `dropdown.utils.spec.ts`, `passwordStrength.spec.ts`, `SearchInput.utils.spec.ts`, dan `phoneUtils.spec.ts`).
+- 🔄 **Workflow Baru & Penyelarasan Otomatisasi Agent**:
+  - Pembuatan workflow baru `/audit-functions` di `.agents/workflows/audit-functions.md` untuk audit efisiensi algoritma, penanganan error, memory safety, dan async safety.
+  - Perluasan dokumentasi detail seluruh 8 workflow otomatisasi di [`doc/WORKFLOWS.md`](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/WORKFLOWS.md).
+- 📚 **Pembaruan Menyeluruh Dokumentasi Proyek (`doc/` & Root)**:
+  - Pembaruan status proyek dan perintah pengujian pada [`README.md`](file:///d:/Projects/project%20GP-v2/GamePedia-v2/README.md) dan [`doc/README.md`](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/README.md).
+  - Pembaruan arsitektur sistem, struktur monorepo, dan tech stack di [`doc/ARCHITECTURE.md`](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/ARCHITECTURE.md).
+  - Penyelarasan urutan 10 Atom dan dokumentasi lengkap Dropdown di [`doc/FRONTEND.md`](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/FRONTEND.md) dan [`doc/frontend/COMPONENTS.md`](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/frontend/COMPONENTS.md).
+  - Penambahan dokumentasi custom hooks dan unit testing di [`doc/frontend/HOOKS_AND_STORE.md`](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/frontend/HOOKS_AND_STORE.md).
+- ⚙️ **Quality Control & Penyelarasan Versi**:
+  - Seluruh pengujian Oxlint (Backend), ESLint (Frontend), Vitest (Backend), Vitest (Frontend 42 tests), dan kompilasi build (NestJS + Vite React) dinyatakan PASS (0 errors, 0 warnings).
+  - Menyelaraskan versi aplikasi ke `0.0.5` secara serentak pada 6 berkas `package.json` dan `package-lock.json` di Root, Backend, dan Frontend.
+
 ### 📦 [0.0.4] - 2026-09-30 14:12
 
 **Ringkasan Perubahan pada Commit Ini:**

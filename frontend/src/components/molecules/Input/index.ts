@@ -34,7 +34,7 @@ export type * from './PinInput/PinInput.types';
 export { default as OtpInput, OtpInput as OtpInputMolecule } from './OtpInput';
 export type * from './OtpInput/OtpInput.types';
 
-export { default as SearchInput, SearchInput as SearchInputMolecule } from './SearchInput';
+export { default as SearchInput, SearchInput as SearchInputMolecule, matchesSearch } from './SearchInput';
 export type * from './SearchInput/SearchInput.types';
 
 export { default as TextareaInput, TextareaInput as TextareaInputMolecule } from './TextareaInput';

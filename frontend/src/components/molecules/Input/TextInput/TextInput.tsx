@@ -1,8 +1,12 @@
 import { useState, forwardRef } from 'react';
 import type { ChangeEvent, FocusEvent } from 'react';
 import { cn } from '@/lib/utils';
-import { Input } from '@/components/atoms';
+import { Input, Text } from '@/components/atoms';
 import type { TextInputProps, TextTransformCase } from './TextInput.types';
+
+// ─────────────────────────────────────────────────────────────
+// 1. TAMPILAN: Helpers & Styling Variables
+// ─────────────────────────────────────────────────────────────
 
 // Helper fungsi transformasi teks
 const applyTransformCase = (text: string, transform: TextTransformCase): string => {
@@ -47,7 +51,9 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(({
   type = 'text',
   ...restProps
 }, ref) => {
-  // Logika State & Handler
+  // ─────────────────────────────────────────────────────────────
+  // 2. LOGIKA: State Management & Event Handlers
+  // ─────────────────────────────────────────────────────────────
   const isControlled = value !== undefined;
   const [internalValue, setInternalValue] = useState<string>(
     String(value ?? defaultValue ?? '')
@@ -118,9 +124,9 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(({
       <div className={footerRightWrapperClasses}>
         {footerRight}
         {showCount && (
-          <span className={counterTextClasses}>
+          <Text as="span" size="xs" className={counterTextClasses}>
             {currentLength}{maxLength ? `/${maxLength}` : ''}
-          </span>
+          </Text>
         )}
       </div>
     );
@@ -131,13 +137,16 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(({
 
   const combinedDescription = hasCustomFooter ? (
     <div className={descriptionFooterClasses}>
-      <span className="truncate">{description}</span>
+      <Text as="span" size="xs" className="truncate">{description}</Text>
       {renderFooterRight()}
     </div>
   ) : (
     description
   );
 
+  // ─────────────────────────────────────────────────────────────
+  // 3. RENDER UI: Clean JSX Output (Atomic Component Compliant)
+  // ─────────────────────────────────────────────────────────────
   return (
     <Input
       ref={ref}

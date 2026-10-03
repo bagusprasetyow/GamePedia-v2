@@ -18,9 +18,13 @@ export function getSystemTheme(): ResolvedTheme {
  */
 export function getGlobalTheme(): Theme {
   if (typeof window === 'undefined') return 'system';
-  const saved = localStorage.getItem(THEME_STORAGE_KEY) as Theme | null;
-  if (saved && (saved === 'light' || saved === 'dark' || saved === 'system')) {
-    return saved;
+  try {
+    const saved = localStorage.getItem(THEME_STORAGE_KEY) as Theme | null;
+    if (saved && (saved === 'light' || saved === 'dark' || saved === 'system')) {
+      return saved;
+    }
+  } catch {
+    // Fallback aman jika localStorage tidak dapat diakses (e.g. mode incognito ketat)
   }
   return 'system';
 }
@@ -64,7 +68,11 @@ function notifyThemeChange(): void {
 export function setGlobalTheme(newTheme: Theme): void {
   if (typeof window === 'undefined') return;
 
-  localStorage.setItem(THEME_STORAGE_KEY, newTheme);
+  try {
+    localStorage.setItem(THEME_STORAGE_KEY, newTheme);
+  } catch {
+    // Abaikan jika penulisan ke localStorage gagal (e.g. storage quota exceeded)
+  }
   const resolved = getResolvedTheme(newTheme);
   applyThemeToDOM(resolved);
   notifyThemeChange();

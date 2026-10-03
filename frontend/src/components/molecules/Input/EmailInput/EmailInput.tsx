@@ -3,6 +3,10 @@ import type { ChangeEvent, FocusEvent } from 'react';
 import { TextInput } from '../TextInput';
 import type { EmailInputProps } from './EmailInput.types';
 
+// ─────────────────────────────────────────────────────────────
+// 1. TAMPILAN: Helpers & Validation Regex
+// ─────────────────────────────────────────────────────────────
+
 // Regex standar validasi alamat email
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -28,6 +32,9 @@ export const EmailInput = forwardRef<HTMLInputElement, EmailInputProps>(({
   error,
   ...restProps
 }, ref) => {
+  // ─────────────────────────────────────────────────────────────
+  // 2. LOGIKA: State Management, Validation & Handlers
+  // ─────────────────────────────────────────────────────────────
   const isControlled = value !== undefined;
   const [internalValue, setInternalValue] = useState<string>(
     String(value ?? defaultValue ?? '')
@@ -95,6 +102,9 @@ export const EmailInput = forwardRef<HTMLInputElement, EmailInputProps>(({
     Boolean(currentValueStr) && !computedError && validateEmailFormat(currentValueStr)
   );
 
+  // ─────────────────────────────────────────────────────────────
+  // 3. RENDER UI: Clean JSX Output (Atomic Component Compliant)
+  // ─────────────────────────────────────────────────────────────
   return (
     <TextInput
       ref={ref}

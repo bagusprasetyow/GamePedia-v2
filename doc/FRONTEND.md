@@ -61,8 +61,11 @@ npm run dev --prefix frontend
 # Memeriksa Type Safety & Melakukan Production Build
 npm run build --prefix frontend
 
-# Jalankan Linting Kode Frontend
+# Jalankan Linting Kode Frontend (ESLint)
 npm run lint --prefix frontend
+
+# Jalankan Pengujian Unit Frontend (Vitest)
+npm run test --prefix frontend
 
 # Preview Hasil Build Production
 npm run preview --prefix frontend
@@ -226,7 +229,7 @@ Komponen sakelar biner (toggle switch) interaktif dengan **Depth System taktil (
   />
   ```
 
-#### 4. Checkbox (`src/components/atoms/Checkbox/`)
+#### 5. Checkbox (`src/components/atoms/Checkbox/`)
 
 Komponen kotak centang interaktif dengan dukungan 2 varian indikator (`check` & `solid`), status indeterminate, depth system visual skala -3 s/d 3, dan label/deskripsi.
 
@@ -255,7 +258,7 @@ Komponen kotak centang interaktif dengan dukungan 2 varian indikator (`check` & 
   <Checkbox variant="solid" label="Setujui syarat & ketentuan" />
   ```
 
-#### 5. Radio (`src/components/atoms/Radio/`)
+#### 6. Radio (`src/components/atoms/Radio/`)
 
 Komponen radio button interaktif dengan bentuk lingkaran, mendukung 2 varian indikator (`solid` & `check`), depth system visual skala -3 s/d 3, dan label/deskripsi.
 
@@ -283,7 +286,7 @@ Komponen radio button interaktif dengan bentuk lingkaran, mendukung 2 varian ind
   <Radio name="platform" value="console" variant="check" label="PlayStation 5" />
   ```
 
-#### 6. Input (`src/components/atoms/Input/`)
+#### 7. Input (`src/components/atoms/Input/`)
 
 Komponen bidang masukan (_input field_) universal sebagai pondasi formulir UI GamePedia. Komponen ini dirancang fleksibel untuk nantinya dipecah atau diturunkan menjadi berbagai input khusus seperti `EmailInput`, `PasswordInput`, `SearchInput`, `PinInput`, dll.
 
@@ -334,6 +337,122 @@ Komponen bidang masukan (_input field_) universal sebagai pondasi formulir UI Ga
     startAdornment={<span className="text-xs font-semibold text-muted-foreground pr-1">https://</span>}
     placeholder="gamepedia.id"
   />
+  ```
+
+#### 8. Textarea (`src/components/atoms/Textarea/`)
+
+Komponen bidang masukan teks multi-baris reaktif sebagai atom UI dasar formulir GamePedia. Mendukung penyesuaian tinggi otomatis (`autoResize`), batas & penghitung karakter (`showCharacterCount`), kontrol pengubahan ukuran (`resize`), dan Depth System (-3 s/d 3).
+
+- **Lokasi File**:
+  - Implementasi: `src/components/atoms/Textarea/Textarea.tsx`
+  - Tipe Data: `src/components/atoms/Textarea/Textarea.types.ts`
+  - Barrel Export: `src/components/atoms/Textarea/index.ts` & `src/components/atoms/index.ts`
+- **Fitur & Props**:
+  - `autoResize`: Menyesuaikan tinggi otomatis berdasarkan konten teks (`boolean`, default: `false`)
+  - `showCharacterCount`: Menampilkan jumlah karakter & batas `maxLength` di kanan bawah (`boolean`, default: `false`)
+  - `rows`: Jumlah baris default (`number`, default: `3`)
+  - `resize`: Mode perentangan CSS (`'none' | 'vertical' | 'horizontal' | 'both'`, default: `'none'`)
+  - `resizable`: Mengaktifkan penyeretan/pengubahan ukuran manual oleh pengguna (`boolean`, default: `false`)
+  - `size`, `variant`, `depth`: Ukuran (`'sm' | 'md' | 'lg'`), varian border, dan kedalaman taktil visual (-3 s/d 3)
+- **Contoh Pemakaian**:
+
+  ```tsx
+  import { Textarea } from "@/components/atoms";
+
+  <Textarea
+    label="Catatan Tambahan"
+    placeholder="Tulis pesan Anda..."
+    rows={4}
+    maxLength={300}
+    showCharacterCount
+  />;
+  ```
+
+#### 9. Tooltip (`src/components/atoms/Tooltip/`)
+
+Komponen gelembung petunjuk (_tooltip bubble_) interaktif dengan **Sistem Kedalaman UI / Depth System (skala -3 s/d 3)**, 12 posisi penempatan (`placement`), varian warna semantik tema GamePedia, panah penunjuk (_arrow_), ikon pendamping, serta aksesibilitas lengkap. Arsitektur komponen ini telah didekomposisi modular memisahkan gelembung tampilan, hook logika interaksi, serta konstanta styling.
+
+- **Lokasi File**:
+  - Komponen Utama: `src/components/atoms/Tooltip/Tooltip.tsx`
+  - Sub-komponen Gelembung: `src/components/atoms/Tooltip/TooltipBubble.tsx`
+  - Custom Hook Logika: `src/components/atoms/Tooltip/useTooltip.ts`
+  - Styling Enkapsulasi: `src/components/atoms/Tooltip/Tooltip.styles.ts`
+  - Tipe Data: `src/components/atoms/Tooltip/Tooltip.types.ts`
+  - Unit Test (Vitest): `src/components/atoms/Tooltip/Tooltip.spec.ts`
+  - Barrel Export: `src/components/atoms/Tooltip/index.ts` & `src/components/atoms/index.ts`
+- **Fitur & Props**:
+  - `content`: Konten teks atau elemen di dalam gelembung (`ReactNode`)
+  - `placement`: Posisi gelembung (`'top' | 'top-start' | 'top-end' | 'bottom' | 'bottom-start' | 'bottom-end' | 'left' | 'left-start' | 'left-end' | 'right' | 'right-start' | 'right-end'`) (default: `'top'`)
+  - `variant`: Varian tema (`'dark' | 'light' | 'primary' | 'secondary' | 'accent' | 'contrast' | 'info' | 'success' | 'warning' | 'error'`) (default: `'dark'`)
+  - `size`: Skala ukuran preset (`'xs' | 'sm' | 'md' | 'lg'`) (default: `'md'`)
+  - `depth`: Tingkat kedalaman visual skala -3 s/d 3 (`-3 | -2 | -1 | 0 | 1 | 2 | 3`) (default: `3` timbul/popover)
+  - `trigger`: Mode pemicu (`'hover' | 'click' | 'focus' | 'manual'`) (default: `'hover'`)
+  - `isOpen` / `defaultOpen` / `onOpenChange`: Kontrol status terbuka (controlled & uncontrolled)
+  - `delay`: Jeda muncul dalam milidetik saat hover (`number`, default: `150`)
+  - `showArrow`: Menampilkan panah penunjuk (`boolean`, default: `true`)
+  - `icon` / `iconSize`: Ikon pendamping di dalam gelembung
+  - `maxWidth`: Lebar maksimum gelembung (`string | number`, default: `'250px'`)
+  - `disabled`: Status nonaktif (`boolean`)
+- **Contoh Pemakaian**:
+
+  ```tsx
+  import { Tooltip, Button } from '@/components/atoms';
+
+  // Tooltip standar mode hover
+  <Tooltip content="Simpan permainan ke favorit">
+    <Button variant="outline" icon="mdi:bookmark-outline" />
+  </Tooltip>
+
+  // Tooltip varian primary dengan ikon dan placement kanan
+  <Tooltip
+    content="Fitur ini memerlukan akun Premium"
+    variant="primary"
+    placement="right"
+    icon="mdi:crown"
+  >
+    <Button variant="primary">Fitur Pro</Button>
+  </Tooltip>
+  ```
+
+#### 10. Dot (`src/components/atoms/Dot/`)
+
+Komponen titik status visual terenkapsulasi penuh dengan **Depth System (skala -3 s/d 3)**, varian warna semantik token tema GamePedia, animasi denyut (_ping halo ripple_ & _pulse_), efek _ambient neon glow_, cincin pembatas kontras (`bordered`), teks label status pendamping, serta penempatan anchor overlay pada elemen anak (avatar/icon/button).
+
+- **Lokasi File**:
+  - Komponen Utama: `src/components/atoms/Dot/Dot.tsx`
+  - Sub-komponen Titik: `src/components/atoms/Dot/components/DotCircle.tsx`
+  - Styling Enkapsulasi: `src/components/atoms/Dot/Dot.styles.ts`
+  - Tipe Data: `src/components/atoms/Dot/Dot.types.ts`
+  - Unit Test (Vitest): `src/components/atoms/Dot/Dot.spec.ts`
+  - Barrel Export: `src/components/atoms/Dot/index.ts` & `src/components/atoms/index.ts`
+- **Fitur & Props**:
+  - `size`: Skala ukuran preset (`'2xs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl'`) (default: `'md'`)
+  - `variant`: Varian tema warna OKLCH (`'primary' | 'secondary' | 'accent' | 'neutral' | 'success' | 'warning' | 'error' | 'info' | 'contrast' | 'white'`) (default: `'primary'`)
+  - `depth`: Tingkat kedalaman visual taktil skala -3 s/d 3 (`-3 | -2 | -1 | 0 | 1 | 2 | 3`) (default: `0` / flat)
+  - `ping`: Menyalakan animasi halo gelombang berdenyut di belakang titik (cocok untuk status Live streaming / panggilan) (`boolean`, default: `false`)
+  - `pulse`: Animasi kedip lembut terus menerus (`boolean`, default: `false`)
+  - `glow`: Efek pencahayaan neon ambient glow warna senada (`boolean`, default: `false`)
+  - `bordered`: Cincin pemisah kontras di sekeliling titik untuk visibilitas di atas foto/avatar (`boolean`, default: `false`)
+  - `label`: Teks status pendamping di sebelah titik (misal `"Online"`, `"Live"`) (`ReactNode`)
+  - `labelPosition`: Posisi teks label (`'left' | 'right'`) (default: `'right'`)
+  - `labelSize`: Ukuran teks kustom jika berbeda dari ukuran titik
+  - `placement`: Penempatan posisi overlay saat membungkus elemen anak (`children`): (`'top-right' | 'top-left' | 'bottom-right' | 'bottom-left'`) (default: `'top-right'`)
+  - `children`: Elemen target anak (seperti gambar profil, avatar, atau tombol) yang ditempeli badge dot
+  - `invisible`: Menyembunyikan tampilan dot secara kondisional (`boolean`)
+- **Contoh Pemakaian**:
+
+  ```tsx
+  import { Dot, Icon } from '@/components/atoms';
+
+  // Dot status mandiri dengan label dan efek ping denyut
+  <Dot variant="success" ping label="Server Online" />
+
+  // Dot overlay pada icon avatar pengguna di pojok kanan atas
+  <Dot variant="primary" placement="top-right" bordered glow>
+    <div className="w-10 h-10 rounded-full bg-neutral-800 flex items-center justify-center">
+      <Icon icon="mdi:account" size="lg" />
+    </div>
+  </Dot>
   ```
 
 ### 🧬 Molecules (`src/components/molecules/`)
@@ -751,64 +870,105 @@ Komponen molekul pencarian reaktif berbasis atom `Input`, `Button`, dan `Icon`. 
     onSearch={(query) => console.log("Query:", query)}
   />;
 #### 17. TextareaInput (`src/components/molecules/Input/TextareaInput/`)
-Komponen molekul masukan teks area / multi-baris berbasis atom `Textarea` dan `Text`.
+
+Komponen molekul masukan teks area / multi-baris berbasis atom `Textarea` dan `Text`, dilengkapi label, pesan bantuan deskripsi, validasi error, dan penyesuaian tinggi otomatis.
 
 - **Lokasi File**:
   - Implementasi: `src/components/molecules/Input/TextareaInput/TextareaInput.tsx`
   - Tipe Data: `src/components/molecules/Input/TextareaInput/TextareaInput.types.ts`
   - Barrel Export: `src/components/molecules/Input/TextareaInput/index.ts` & `src/components/molecules/index.ts`
+- **Fitur & Props**:
+  - `label`: Label teks di atas textarea (`ReactNode`)
+  - `description`: Teks petunjuk bantuan di bawah bidang masukan (`ReactNode`)
+  - `error`: Pesan kesalahan validasi teks merah (`ReactNode`)
+  - `autoResize`: Tinggi dinamis otomatis mengikuti baris teks (`boolean`, default: `false`)
+  - `showCharacterCount`: Menampilkan indikator jumlah karakter (`boolean`, default: `false`)
+  - Seluruh atribut atom `Textarea`: `size`, `variant`, `depth`, `rows`, `resize`, `resizable`.
 
 - **Contoh Pemakaian**:
 
   ```tsx
-  import { PinInput, OtpInput } from '@/components/molecules';
+  import { TextareaInput } from '@/components/molecules';
 
-  // PIN Input 6 digit (Masked)
-  <PinInput
-    label="Kode PIN Keamanan"
-    length={6}
-    mask
-    onComplete={(pin) => console.log('PIN Selesai:', pin)}
-  />
-
-  // OTP Input 6 digit (Unmasked + Resend Button)
-  <OtpInput
-    label="Kode Verifikasi OTP"
-    length={6}
-    showResend
-    resendTimer={30}
-    onResend={() => console.log('Resend OTP')}
+  <TextareaInput
+    label="Ulasan Game"
+    description="Berikan opini Anda mengenai gameplay dan grafis permainan"
+    placeholder="Tulis ulasan Anda di sini..."
+    rows={4}
+    maxLength={500}
+    showCharacterCount
+    autoResize
   />
   ```
 
-#### 7. Textarea (`src/components/atoms/Textarea/`)
+#### 18. Dropdown (`src/components/molecules/Dropdown/`)
 
-Komponen bidang masukan teks multi-baris reaktif sebagai atom UI dasar formulir GamePedia. Mendukung penyesuaian tinggi otomatis (`autoResize`), batas & penghitung karakter (`showCharacterCount`), kontrol pengubahan ukuran (`resize`), dan Depth System (-3 s/d 3).
+Komponen dropdown interaktif serbaguna yang mendukung dua varian seleksi (**`single`** & **`multi`**), mode pencarian reaktif **ComboBox (`isComboBox` / `isSearchable`)**, sistem kedalaman taktil visual **Depth System (-3 s/d 3)**, serta navigasi keyboard lengkap sesuai spesifikasi WAI-ARIA. Arsitektur Dropdown dirancang secara modular dan didekomposisi menjadi sub-komponen terpisah, custom hooks, dan fungsi utilitas yang diuji dengan Vitest.
 
 - **Lokasi File**:
-  - Implementasi: `src/components/atoms/Textarea/Textarea.tsx`
-  - Tipe Data: `src/components/atoms/Textarea/Textarea.types.ts`
-  - Barrel Export: `src/components/atoms/Textarea/index.ts` & `src/components/atoms/index.ts`
+  - Komponen Utama: `src/components/molecules/Dropdown/Dropdown.tsx`
+  - Sub-komponen Trigger: `src/components/molecules/Dropdown/components/DropdownTrigger.tsx`
+  - Sub-komponen Popover: `src/components/molecules/Dropdown/components/DropdownPopover.tsx`
+  - Sub-komponen Item Opsi: `src/components/molecules/Dropdown/components/DropdownItem.tsx`
+  - Sub-komponen Status Kosong: `src/components/molecules/Dropdown/components/DropdownEmptyState.tsx`
+  - Custom Hook Logika State: `src/components/molecules/Dropdown/useDropdown.ts`
+  - Custom Hook Navigasi Keyboard: `src/components/molecules/Dropdown/useDropdownKeyboard.ts`
+  - Fungsi Pembantu & Filter: `src/components/molecules/Dropdown/dropdown.utils.ts`
+  - Unit Test (Vitest): `src/components/molecules/Dropdown/dropdown.utils.spec.ts`
+  - Tipe Data: `src/components/molecules/Dropdown/Dropdown.types.ts`
+  - Barrel Export: `src/components/molecules/Dropdown/index.ts` & `src/components/molecules/index.ts`
 - **Fitur & Props**:
-  - `autoResize`: Menyesuaikan tinggi otomatis berdasarkan konten teks (`boolean`, default: `false`)
-  - `showCharacterCount`: Menampilkan jumlah karakter & batas `maxLength` di kanan bawah (`boolean`, default: `false`)
-  - `rows`: Jumlah baris default (`number`, default: `3`)
-  - `resize`: Mode perentangan CSS (`'none' | 'vertical' | 'horizontal' | 'both'`, default: `'none'`)
-  - `resizable`: Mengaktifkan penyeretan/pengubahan ukuran manual oleh pengguna (`boolean`, default: `false`)
-  - `size`, `variant`, `depth`: Ukuran (`'sm' | 'md' | 'lg'`), varian border, dan kedalaman taktil visual (-3 s/d 3)
-
+  - `variant`: Varian seleksi (`'single' | 'multi'`) (default: `'single'`)
+  - `options`: Array daftar opsi (`DropdownOption<T>[]` dengan properti `value`, `label`, `description`, `icon`, `disabled`, `group`)
+  - `isComboBox` / `isSearchable`: Mengaktifkan kotak pencarian kata kunci di dalam menu popover (`boolean`, default: `false`)
+  - `searchMode`: Mode pencarian kata kunci (`'x...'` untuk awalan kata / prefix, `'...x...'` untuk pencarian substring) (default: `'...x...'`)
+  - `searchPlaceholder`: Teks placeholder pada kotak pencarian popover (default: `'Cari opsi...'`)
+  - `value` / `defaultValue`: Nilai aktif terkontrol (single: `T | null`, multi: `T[]`)
+  - `onChange`: Callback perubahan nilai (single: `(value, option) => void`, multi: `(values, options) => void`)
+  - `depth`: Kedalaman visual taktil formulir (-3 s/d 3) (default: `-1` / cekung natural)
+  - `size`: Skala ukuran preset (`'sm' | 'md' | 'lg'`) (default: `'md'`)
+  - `clearable`: Menampilkan tombol silang `X` untuk membersihkan seluruh nilai yang dipilih (`boolean`)
+  - `startIcon`: Ikon Iconify yang tampil di sisi kiri trigger field
+  - `label`, `description`, `error`, `required`: Properti form standar GamePedia
+  - `maxHeight`: Batas tinggi maksimal popover sebelum scrollbar aktif (default: `240` px)
+  - `notFoundText`: Teks saat opsi tidak cocok dengan kata kunci (default: `'Tidak ada opsi ditemukan'`)
 - **Contoh Pemakaian**:
 
   ```tsx
-  import { Textarea } from "@/components/atoms";
+  import { Dropdown } from '@/components/molecules';
 
-  <Textarea
-    label="Catatan Tambahan"
-    placeholder="Tulis pesan Anda..."
-    rows={4}
-    maxLength={300}
-    showCharacterCount
-  />;
+  // 1. Single Dropdown dengan Start Icon & Depth Inset
+  <Dropdown
+    label="Platform Utama"
+    placeholder="Pilih platform..."
+    startIcon="mdi:gamepad-variant"
+    options={[
+      { value: 'pc', label: 'PC / Steam', icon: 'mdi:steam' },
+      { value: 'ps5', label: 'PlayStation 5', icon: 'mdi:sony-playstation' },
+      { value: 'xbox', label: 'Xbox Series X/S', icon: 'mdi:microsoft-xbox' },
+      { value: 'switch', label: 'Nintendo Switch', icon: 'mdi:nintendo-switch' },
+    ]}
+    defaultValue="pc"
+    clearable
+    onChange={(val) => console.log('Platform:', val)}
+  />
+
+  // 2. Multi-Select ComboBox dengan Pencarian Reaktif
+  <Dropdown
+    variant="multi"
+    isComboBox
+    label="Pilih Genre Game"
+    searchPlaceholder="Cari genre..."
+    options={[
+      { value: 'action', label: 'Action & Adventure' },
+      { value: 'rpg', label: 'Role-Playing Game (RPG)' },
+      { value: 'strategy', label: 'Real-Time Strategy (RTS)' },
+      { value: 'simulation', label: 'Simulation & Sandbox' },
+      { value: 'horror', label: 'Survival Horror' },
+    ]}
+    defaultValue={['action', 'rpg']}
+    onChange={(values, options) => console.log('Selected:', values)}
+  />
   ```
 
 ---
@@ -831,6 +991,24 @@ Manajemen tema reaktif berbasis `useSyncExternalStore` dengan dukungan persisten
 
   const { isDark, theme, resolvedTheme, toggleTheme, setTheme } = useTheme();
   ```
+
+### 2. `useDropdown` & `useDropdownKeyboard` (`src/components/molecules/Dropdown/`)
+
+Hook manajemen state dan aksesibilitas keyboard interaktif untuk komponen `Dropdown`:
+- `useDropdown`: Mengelola state terbuka/tutup (`isOpen`), seleksi nilai (single / multi-selection toggle), query pencarian, dan pemfilteran opsi reaktif.
+- `useDropdownKeyboard`: Menangani navigasi keyboard penuh (`ArrowDown`, `ArrowUp`, `Enter`, `Space`, `Escape`, `Home`, `End`) dengan auto-scroll ke item aktif.
+
+### 3. `useTooltip` (`src/components/atoms/Tooltip/useTooltip.ts`)
+
+Hook internal yang mengatur lifecycle dan timer pemicu Tooltip. Menangani pemicu `hover`, `click`, `focus`, dan `manual` secara halus dengan `showDelay`, auto-dismiss timeout, serta pendeteksi klik luar (_click outside_).
+
+### 4. `useCodeInput` (`src/components/molecules/Input/CodeInput/useCodeInput.ts`)
+
+Hook modular pengelola array masukan digit kode (PIN / OTP). Mendukung auto-fokus ke slot input berikutnya, navigasi keyboard panah kiri/kanan, backspace penghapusan mundur otomatis, serta penempelan kode multi-digit dari clipboard (_paste handling_).
+
+### 5. `usePhoneInput` (`src/components/molecules/Input/PhoneInput/usePhoneInput.ts`)
+
+Hook pengelola masukan nomor telepon internasional yang terhubung dengan modul utilitas `phoneUtils.ts`. Memilah kode negara, menerapkan spasi format dinamis, dan memvalidasi nomor telepon.
 
 ---
 

@@ -46,6 +46,16 @@ Komponen tombol radio pilihan tunggal dengan styling terenkapsulasi dan Depth Sy
 - **File**: `Radio.tsx`, `Radio.types.ts`, `index.ts`
 - **Props Utama**: `checked`, `onChange`, `label`, `description`, `variant`, `depth`, `size`.
 
+### 9. Tooltip (`src/components/atoms/Tooltip/`)
+Komponen gelembung petunjuk interaktif dengan Depth System (skala -3 s/d 3), varian warna semantik, 12 pilihan arah kemunculan (`placement`), panah penunjuk (`showArrow`), ikon pendamping, dan dukungan mode pemicu (`hover`, `click`, `focus`, `manual`). Arsitektur modular dengan dekomposisi view, logic hook, styling terpisah, dan unit testing Vitest.
+- **File**: `Tooltip.tsx`, `TooltipBubble.tsx`, `useTooltip.ts`, `Tooltip.styles.ts`, `Tooltip.types.ts`, `Tooltip.spec.ts`, `index.ts`
+- **Props Utama**: `content`, `children`, `placement` (`top`, `bottom`, `left`, `right`, dll.), `variant` (`dark`, `light`, `primary`, `secondary`, `accent`, `contrast`, `info`, `success`, `warning`, `error`), `size` (`xs`, `sm`, `md`, `lg`), `depth` (-3 s/d 3), `trigger` (`hover`, `click`, `focus`, `manual`), `isOpen`, `defaultOpen`, `onOpenChange`, `delay`, `showArrow`, `icon`, `iconSize`, `maxWidth`, `disabled`.
+
+### 10. Dot (`src/components/atoms/Dot/`)
+Komponen titik status visual terenkapsulasi penuh dengan Depth System (skala -3 s/d 3), varian warna semantik token tema GamePedia, animasi denyut (ping halo ripple & pulse), efek ambient neon glow, cincin pembatas kontras (`bordered`), teks label status pendamping, serta penempatan anchor overlay pada elemen anak (avatar/icon/button). Didukung unit test komprehensif Vitest.
+- **File**: `Dot.tsx`, `components/DotCircle.tsx`, `Dot.styles.ts`, `Dot.types.ts`, `Dot.spec.ts`, `index.ts`
+- **Props Utama**: `size` (`2xs`, `xs`, `sm`, `md`, `lg`, `xl`), `variant` (`primary`, `secondary`, `accent`, `neutral`, `success`, `warning`, `error`, `info`, `contrast`, `white`), `depth` (-3 s/d 3), `ping` (halo berdenyut), `pulse`, `glow`, `bordered` (ring kontras pemisah), `label`, `labelPosition` (`left` | `right`), `labelSize`, `labelClassName`, `placement` (`top-right`, `top-left`, `bottom-right`, `bottom-left`), `invisible`, `children`, `className`, `dotClassName`.
+
 ---
 
 ## 🧪 Molecules (`src/components/molecules/`)
@@ -67,16 +77,22 @@ Komponen pengalih tema (`light` / `dark` / `system`) terintegrasi dengan hook `u
 
 ### 4. Special Inputs (`src/components/molecules/Input/`)
 
-| Komponen | Deskripsi & Fitur Spesifik | File |
-| :--- | :--- | :--- |
-| **TextInput** | Bidang masukan teks umum dengan label, helper text, error text, dan status validasi. | `TextInput/` |
-| **EmailInput** | Bidang masukan email otomatis dengan ikon amplop dan pengvalidasi format email real-time. | `EmailInput/` |
-| **PasswordInput** | Bidang masukan kata sandi dengan toggle intip (`show/hide password`), `PasswordStrengthMeter`, `PasswordStrengthBar`, dan `PasswordRequirements`. | `PasswordInput/` |
-| **UsernameInput** | Bidang masukan nama pengguna dengan prefix `@` otomatis dan sanitasi karakter. | `UsernameInput/` |
-| **PhoneInput** | Bidang masukan nomor telepon dengan pemilih kode negara, bendera, dan format otomatis (`phoneUtils.ts`, `usePhoneInput.ts`). | `PhoneInput/` |
-| **FullNameInput** | Bidang masukan nama lengkap dengan validasi huruf & spasi. | `FullNameInput/` |
-| **CodeInput** | Komponen dasar masukan kode multi-digit (PIN / OTP) dengan auto-focus & transfer clipboard. | `CodeInput/` |
-| **PinInput** | Masukan kode PIN transaksi berbasis `CodeInput` dengan fitur masking karakter (`mask=true`). | `PinInput/` |
-| **OtpInput** | Masukan kode OTP berbasis `CodeInput` unmasked dengan tombol & timer kirim ulang (`onResend`). | `OtpInput/` |
-| **SearchInput** | Bidang pencarian reaktif dengan fitur debounce, indikator loading spinner, dan clear button. | `SearchInput/` |
-| **TextareaInput** | Bidang masukan teks multi-baris molekul berbasis atom `Textarea` dan `Text`. | `TextareaInput/` |
+| Komponen | Deskripsi & Fitur Spesifik | Sub-komponen / Utilitas Terdekomposisi | File |
+| :--- | :--- | :--- | :--- |
+| **TextInput** | Bidang masukan teks umum dengan label, helper text, error text, dan status validasi. | - | `TextInput/` |
+| **EmailInput** | Bidang masukan email otomatis dengan ikon amplop dan pengvalidasi format email real-time. | - | `EmailInput/` |
+| **PasswordInput** | Bidang masukan kata sandi dengan toggle intip (`show/hide`), `PasswordRequirements`, dan meter kekuatan sandi teruji. | `PasswordStrengthBar/passwordStrength.utils.ts`, `passwordStrength.spec.ts` | `PasswordInput/` |
+| **UsernameInput** | Bidang masukan nama pengguna dengan prefix `@` otomatis dan sanitasi karakter. | - | `UsernameInput/` |
+| **PhoneInput** | Bidang masukan nomor telepon dengan pemilih kode negara, bendera, dan format otomatis teruji Vitest. | `phoneUtils.ts`, `phoneUtils.spec.ts`, `usePhoneInput.ts` | `PhoneInput/` |
+| **FullNameInput** | Bidang masukan nama lengkap dengan validasi huruf & spasi serta title-case otomatis. | - | `FullNameInput/` |
+| **CodeInput** | Komponen dasar masukan multi-digit dengan auto-focus, paste handling, dan navigasi keyboard. | `components/CodeInputField.tsx`, `components/CodeInputResendTimer.tsx`, `useCodeInput.ts` | `CodeInput/` |
+| **PinInput** | Masukan kode PIN transaksi berbasis `CodeInput` dengan fitur masking karakter (`mask=true`). | Memakai sub-komponen `CodeInput` | `PinInput/` |
+| **OtpInput** | Masukan kode OTP berbasis `CodeInput` unmasked dengan tombol & timer hitung mundur kirim ulang. | Memakai `CodeInputResendTimer` | `OtpInput/` |
+| **SearchInput** | Bidang pencarian reaktif dengan fitur debounce, indikator loading spinner, dan filter utils teruji Vitest. | `SearchInput.utils.ts`, `SearchInput.utils.spec.ts` | `SearchInput/` |
+| **TextareaInput** | Bidang masukan teks multi-baris molekul berbasis atom `Textarea` dan `Text`. | - | `TextareaInput/` |
+
+### 5. Dropdown (`src/components/molecules/Dropdown/`)
+Komponen dropdown interaktif serbaguna yang mendukung 2 varian seleksi (**`single`** & **`multi`**), mode **ComboBox / pencarian reaktif (`isComboBox` / `isSearchable`)**, Depth System taktil visual (-3 s/d 3), serta aksesibilitas keyboard dan form standar GamePedia. Didekomposisi menjadi sub-komponen modular, custom hook, dan utility teruji Vitest.
+- **File**: `Dropdown.tsx`, `components/DropdownTrigger.tsx`, `components/DropdownPopover.tsx`, `components/DropdownItem.tsx`, `components/DropdownEmptyState.tsx`, `useDropdown.ts`, `useDropdownKeyboard.ts`, `dropdown.utils.ts`, `dropdown.utils.spec.ts`, `Dropdown.types.ts`, `index.ts`
+- **Props Utama**: `variant` (`single`, `multi`), `options`, `isComboBox` / `isSearchable`, `value`, `defaultValue`, `onChange`, `size`, `depth`, `label`, `description`, `error`, `clearable`, `startIcon`, `searchPlaceholder`, `placeholder`, `maxTagCount`, `notFoundText`.
+

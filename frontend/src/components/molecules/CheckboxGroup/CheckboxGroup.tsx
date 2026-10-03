@@ -25,11 +25,19 @@ import type { CheckboxGroupProps } from './CheckboxGroup.types';
  * 
  * @returns {ReactElement} Elemen grup checkbox
  */
+// ─────────────────────────────────────────────────────────────
+// 1. TAMPILAN: Class Maps & Styling Variables
+// ─────────────────────────────────────────────────────────────
 const gridColumnsMap: Record<number, string> = {
   1: 'grid grid-cols-1 gap-y-2.5 gap-x-4 w-full',
   2: 'grid grid-cols-2 gap-y-2.5 gap-x-4 w-full',
   3: 'grid grid-cols-3 gap-y-2.5 gap-x-4 w-full',
   4: 'grid grid-cols-4 gap-y-2.5 gap-x-4 w-full',
+};
+
+const orientationClasses: Record<'vertical' | 'horizontal', string> = {
+  vertical: 'flex flex-col gap-3',
+  horizontal: 'flex flex-row flex-wrap gap-5',
 };
 
 export const CheckboxGroup: FC<CheckboxGroupProps> = ({
@@ -87,9 +95,7 @@ export const CheckboxGroup: FC<CheckboxGroupProps> = ({
     // layout & grid/flex
     columns
       ? gridColumnsMap[columns] || gridColumnsMap[2]
-      : orientation === 'vertical'
-        ? 'flex flex-col gap-3'
-        : 'flex flex-row flex-wrap gap-5'
+      : orientationClasses[orientation] || orientationClasses.vertical
   );
 
   // ─────────────────────────────────────────────────────────────

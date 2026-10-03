@@ -22,3 +22,8 @@ export type * from './Input/Input.types';
 export { default as Textarea, Textarea as TextareaAtom } from './Textarea';
 export type * from './Textarea/Textarea.types';
 
+export { default as Tooltip, Tooltip as TooltipAtom } from './Tooltip';
+export type * from './Tooltip/Tooltip.types';
+
+export { default as Dot, Dot as DotAtom } from './Dot';
+export type * from './Dot/Dot.types';

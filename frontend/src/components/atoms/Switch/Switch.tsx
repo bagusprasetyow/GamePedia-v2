@@ -214,7 +214,7 @@ export const Switch: FC<SwitchProps> = ({
     // size
     sizeConfig.thumb,
     // background & text
-    'bg-white dark:bg-neutral-100 text-neutral-900',
+    'bg-neutral-50 dark:bg-neutral-100 text-neutral-900',
     // shadow & depth
     'shadow-1',
     // transition slide

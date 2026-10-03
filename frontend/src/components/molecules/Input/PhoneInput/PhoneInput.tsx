@@ -1,8 +1,13 @@
 import { forwardRef } from 'react';
 import { cn } from '@/lib/utils';
+import { Text } from '@/components/atoms';
 import { TextInput } from '../TextInput';
 import type { PhoneInputProps } from './PhoneInput.types';
 import { usePhoneInput } from './usePhoneInput';
+
+// ─────────────────────────────────────────────────────────────
+// 1. TAMPILAN: Class Maps & Styling Variables
+// ─────────────────────────────────────────────────────────────
 
 /**
  * PhoneInput Component - Molecule UI Element
@@ -36,6 +41,9 @@ export const PhoneInput = forwardRef<HTMLInputElement, PhoneInputProps>(({
   error,
   ...restProps
 }, ref) => {
+  // ─────────────────────────────────────────────────────────────
+  // 2. LOGIKA: Custom Hook Logic & Handlers
+  // ─────────────────────────────────────────────────────────────
   const isControlled = value !== undefined;
 
   const {
@@ -76,12 +84,15 @@ export const PhoneInput = forwardRef<HTMLInputElement, PhoneInputProps>(({
   // Render prefix Kode Negara di startAdornment jika diset
   const computedStartAdornment = startAdornment || (
     countryCode ? (
-      <span className={countryCodeClasses}>
+      <Text as="span" size="xs" weight="bold" className={countryCodeClasses}>
         {countryCode}
-      </span>
+      </Text>
     ) : undefined
   );
 
+  // ─────────────────────────────────────────────────────────────
+  // 3. RENDER UI: Clean JSX Output (Atomic Component Compliant)
+  // ─────────────────────────────────────────────────────────────
   return (
     <TextInput
       ref={ref}

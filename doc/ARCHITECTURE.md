@@ -11,7 +11,7 @@ GamePedia v2 dirancang mengadopsi pola **Monorepo** untuk mempermudah manajemen 
 ```
 GamePedia-v2/
 ├── .agents/              # Antigravity Workflows & Rules
-│   └── workflows/       # Defined Slash Commands (/update-docs, /update-timeline, /commit-and-push)
+│   └── workflows/       # Defined Slash Commands (/create-component, /audit, /audit-components, /audit-tailwind, /audit-functions, /update-docs, /update-timeline, /commit-and-push)
 ├── backend/              # Aplikasi NestJS 12 (API Gateway & Core Logic)
 │   ├── data/            # Data JSON Dinamis untuk SSE Stream
 │   ├── src/             # Source Code (App Module, Controller, Service, Config)
@@ -23,9 +23,9 @@ GamePedia-v2/
 │   ├── src/
 │   │   ├── assets/      # Static Assets
 │   │   ├── components/  # Atomic Design System
-│   │   │   ├── atoms/   # Text, Icon, Button, Switch, Input, Textarea, Checkbox, Radio
-│   │   │   └── molecules/# CheckboxGroup, RadioGroup, ThemeToggle, Inputs (Email, Password, Username, Phone, PIN, OTP, Search, dll.)
-│   │   ├── hooks/       # Custom React Hooks (useTheme, usePhoneInput)
+│   │   │   ├── atoms/   # Text, Icon, Button, Switch, Input, Textarea, Checkbox, Radio, Tooltip, Dot
+│   │   │   └── molecules/# CheckboxGroup, RadioGroup, ThemeToggle, Inputs (Email, Password, Username, Phone, PIN, OTP, Search, dll.), Dropdown
+│   │   ├── hooks/       # Custom React Hooks (useTheme, usePhoneInput, useDropdown, useTooltip, useCodeInput)
 │   │   ├── lib/         # Utility Libraries & Class Merger (cn)
 │   │   ├── App.tsx      # Showcase & Main View Component
 │   │   └── index.css    # OKLCH Theme Palette & Tailwind CSS v4
@@ -53,6 +53,7 @@ GamePedia-v2/
 - **Build Tool**: [Vite 8](https://vitejs.dev/)
 - **Styling**: [Tailwind CSS v4](https://tailwindcss.com/) (dengan Engine CSS performa tinggi `@tailwindcss/vite` & Palette OKLCH)
 - **Design System**: Atomic Design (Atoms & Molecules terenkapsulasi dengan Depth Scale -3 s/d 3)
+- **Test Runner**: [Vitest 4](https://vitest.dev/) (Unit testing logika komponen, sub-komponen, dan utility functions)
 - **Linter**: [ESLint 10](https://eslint.org/) (dengan `typescript-eslint` dan Plugin React Hooks)
 
 ---

@@ -1,8 +1,46 @@
 import { useState, forwardRef } from 'react';
 import type { ChangeEvent, ReactNode } from 'react';
-import { Icon } from '@/components/atoms';
+import { Icon, Text } from '@/components/atoms';
 import { TextInput } from '../TextInput';
 import type { UsernameInputProps, UsernameAvailability } from './UsernameInput.types';
+
+// ─────────────────────────────────────────────────────────────
+// 1. TAMPILAN: Helper Functions & Sanitizers
+// ─────────────────────────────────────────────────────────────
+
+/**
+ * Sanitasi karakter username: lowercase, tanpa spasi, hanya karakter diizinkan.
+ */
+const sanitizeUsername = (
+  rawText: string,
+  options: {
+    forceLowercase: boolean;
+    allowUnderscore: boolean;
+    allowDot: boolean;
+    allowHyphen: boolean;
+  }
+): string => {
+  let result = rawText;
+
+  // Paksa huruf kecil
+  if (options.forceLowercase) {
+    result = result.toLowerCase();
+  }
+
+  // Buang spasi
+  result = result.replace(/\s+/g, '');
+
+  // Bangun regex izin karakter valid
+  const allowedChars: string[] = ['a-z0-9'];
+  if (options.allowUnderscore) allowedChars.push('_');
+  if (options.allowDot) allowedChars.push('\\.');
+  if (options.allowHyphen) allowedChars.push('\\-');
+
+  const regex = new RegExp(`[^${allowedChars.join('')}]`, 'g');
+  result = result.replace(regex, '');
+
+  return result;
+};
 
 /**
  * UsernameInput Component - Molecule UI Element
@@ -33,38 +71,22 @@ export const UsernameInput = forwardRef<HTMLInputElement, UsernameInputProps>(({
   endAdornment,
   ...restProps
 }, ref) => {
+  // ─────────────────────────────────────────────────────────────
+  // 2. LOGIKA: State Management, Validation & Handlers
+  // ─────────────────────────────────────────────────────────────
   const isControlled = value !== undefined;
   const [internalValue, setInternalValue] = useState<string>(
     String(value ?? defaultValue ?? '')
   );
 
-  // Sanitasi karakter username
-  const sanitizeUsername = (rawText: string): string => {
-    let result = rawText;
-
-    // Paksa huruf kecil
-    if (forceLowercase) {
-      result = result.toLowerCase();
-    }
-
-    // Buang spasi
-    result = result.replace(/\s+/g, '');
-
-    // Bangun regex izin karakter valid
-    const allowedChars: string[] = ['a-z0-9'];
-    if (allowUnderscore) allowedChars.push('_');
-    if (allowDot) allowedChars.push('\\.');
-    if (allowHyphen) allowedChars.push('\\-');
-
-    const regex = new RegExp(`[^${allowedChars.join('')}]`, 'g');
-    result = result.replace(regex, '');
-
-    return result;
-  };
-
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const rawValue = e.target.value;
-    const sanitized = sanitizeUsername(rawValue);
+    const sanitized = sanitizeUsername(rawValue, {
+      forceLowercase,
+      allowUnderscore,
+      allowDot,
+      allowHyphen,
+    });
 
     if (!isControlled) {
       setInternalValue(sanitized);
@@ -84,9 +106,9 @@ export const UsernameInput = forwardRef<HTMLInputElement, UsernameInputProps>(({
     switch (availability as UsernameAvailability) {
       case 'checking':
         return (
-          <span className="flex items-center text-primary" title="Mengecek ketersediaan...">
+          <Text as="span" className="flex items-center text-primary" title="Mengecek ketersediaan...">
             <Icon icon="mdi:loading" size="xs" className="animate-spin" />
-          </span>
+          </Text>
         );
       case 'available':
         // Ikon centang dihilangkan, indikasi status tersedia diwakili oleh border hijau (success)
@@ -111,15 +133,18 @@ export const UsernameInput = forwardRef<HTMLInputElement, UsernameInputProps>(({
   // Prefix @ di sisi kiri
   const computedStartAdornment = startAdornment || (
     showPrefix ? (
-      <span className="text-xs font-bold text-muted-foreground/80 pr-0.5 select-none">
+      <Text as="span" size="xs" weight="bold" className="text-muted-foreground/80 pr-0.5 select-none">
         {prefixSymbol}
-      </span>
+      </Text>
     ) : undefined
   );
 
   // End Adornment (gabungan indikator ketersediaan & adornment kustom)
   const computedEndAdornment = endAdornment || renderAvailabilityIndicator();
 
+  // ─────────────────────────────────────────────────────────────
+  // 3. RENDER UI: Clean JSX Output (Atomic Component Compliant)
+  // ─────────────────────────────────────────────────────────────
   return (
     <TextInput
       ref={ref}

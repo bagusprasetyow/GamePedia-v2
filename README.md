@@ -6,9 +6,9 @@ GamePedia v2 adalah platform katalog dan ensiklopedia game modern berarsitektur 
 
 ## 📌 Status Proyek Terbaru
 
-- **Versi Saat Ini**: `0.0.4`
+- **Versi Saat Ini**: `0.0.5`
 - **Status Monorepo**: 
-  - **Frontend**: Implementasi penuh **Atomic Design System** (Atoms: Text, Icon, Button, Switch, Input, Textarea, Checkbox, Radio | Molecules: CheckboxGroup, RadioGroup, ThemeToggle, TextInput, EmailInput, PasswordInput, UsernameInput, PhoneInput, FullNameInput, CodeInput, PinInput, OtpInput, SearchInput, TextareaInput), Depth System (-3 s/d 3), custom hook `useTheme` & `usePhoneInput`.
+  - **Frontend**: Implementasi penuh **Atomic Design System** (Atoms: Text, Icon, Button, Switch, Input, Textarea, Checkbox, Radio, Tooltip, Dot | Molecules: CheckboxGroup, RadioGroup, ThemeToggle, TextInput, EmailInput, PasswordInput, UsernameInput, PhoneInput, FullNameInput, CodeInput, PinInput, OtpInput, SearchInput, TextareaInput, Dropdown), Depth System (-3 s/d 3), custom hooks (`useTheme`, `usePhoneInput`, `useDropdown`, `useTooltip`, `useCodeInput`), serta suite pengujian unit **Vitest** (42 unit tests lulus 100%).
   - **Backend**: Integrasi real-time Backend SSE dengan pengiriman data JSON dinamis (`live-data.json`), NestJS `@nestjs/config` & `cookie-parser`.
   - **Dokumentasi**: Modularisasi & pemecahan dokumentasi secara terstruktur di direktori `doc/frontend/` dan `doc/backend/`.
 
@@ -20,9 +20,9 @@ Seluruh dokumentasi teknis dan panduan operasional proyek tersedia secara modula
 
 - 🏠 [**Pusat Dokumentasi (doc/README.md)**](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/README.md) - Indeks utama seluruh berkas dokumentasi.
 - 🏗️ [**Arsitektur Sistem (doc/ARCHITECTURE.md)**](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/ARCHITECTURE.md) - Struktur monorepo, alur komunikasi data, dan tech stack.
-- 🎨 [**Dokumentasi Frontend (doc/FRONTEND.md & doc/frontend/)**](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/FRONTEND.md) - Panduan React 19, Vite 8, Tailwind CSS v4, dan Atomic Design System ([Katalog Komponen](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/frontend/COMPONENTS.md), [Styling](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/frontend/STYLING.md), [Hooks](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/frontend/HOOKS_AND_STORE.md)).
+- 🎨 [**Dokumentasi Frontend (doc/FRONTEND.md & doc/frontend/)**](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/FRONTEND.md) - Panduan React 19, Vite 8, Tailwind CSS v4, dan Atomic Design System ([Katalog Komponen](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/frontend/COMPONENTS.md), [Styling](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/frontend/STYLING.md), [Hooks & Testing](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/frontend/HOOKS_AND_STORE.md)).
 - ⚙️ [**Dokumentasi Backend (doc/BACKEND.md & doc/backend/)**](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/BACKEND.md) - Panduan NestJS 12, TS 6, Vitest unit testing, dan Oxlint ([Modul & Controller](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/backend/MODULES.md), [Testing](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/backend/TESTING.md)).
-- 🔄 [**Panduan Workflows Agent (doc/WORKFLOWS.md)**](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/WORKFLOWS.md) - Detail workflow otomatisasi agent (`/update-docs`, `/update-timeline`, `/commit-and-push`).
+- 🔄 [**Panduan Workflows Agent (doc/WORKFLOWS.md)**](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/WORKFLOWS.md) - Detail workflow otomatisasi agent (`/create-component`, `/audit`, `/audit-components`, `/audit-tailwind`, `/audit-functions`, `/update-docs`, `/update-timeline`, `/commit-and-push`).
 - ⏳ [**Timeline & Log Rilis (doc/TIMELINE.md)**](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/TIMELINE.md) - Histori versi dan log rilis per commit.
 
 ---
@@ -44,12 +44,13 @@ npm run dev
 
 ### Menjalankan Quality Check & Build
 ```bash
-# Linting
+# Linting (Backend Oxlint & Frontend ESLint)
 npm run lint --prefix backend
 npm run lint --prefix frontend
 
-# Unit Test Backend
+# Unit Testing (Vitest Backend & Frontend)
 npm run test --prefix backend
+npm run test --prefix frontend
 
 # Build seluruh proyek (Backend & Frontend)
 npm run build

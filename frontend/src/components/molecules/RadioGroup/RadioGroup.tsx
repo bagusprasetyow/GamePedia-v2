@@ -4,6 +4,14 @@ import { cn } from '@/lib/utils';
 import { Radio, Text } from '@/components/atoms';
 import type { RadioGroupProps } from './RadioGroup.types';
 
+// ─────────────────────────────────────────────────────────────
+// 1. TAMPILAN: Class Maps & Styling Variables
+// ─────────────────────────────────────────────────────────────
+const orientationClasses: Record<'vertical' | 'horizontal', string> = {
+  vertical: 'flex flex-col gap-3',
+  horizontal: 'flex flex-row flex-wrap gap-5',
+};
+
 /**
  * RadioGroup Component - Molecule UI
  * 
@@ -73,7 +81,7 @@ export const RadioGroup: FC<RadioGroupProps> = ({
 
   const listClasses = cn(
     // layout & flex
-    orientation === 'vertical' ? 'flex flex-col gap-3' : 'flex flex-row flex-wrap gap-5'
+    orientationClasses[orientation] || orientationClasses.vertical
   );
 
   // ─────────────────────────────────────────────────────────────

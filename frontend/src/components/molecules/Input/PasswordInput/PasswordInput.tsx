@@ -5,6 +5,10 @@ import { TextInput } from "../TextInput";
 import { PasswordStrengthMeter } from "./PasswordStrengthMeter";
 import type { PasswordInputProps } from "./PasswordInput.types";
 
+// ─────────────────────────────────────────────────────────────
+// 1. TAMPILAN: Class Maps & Styling Variables
+// ─────────────────────────────────────────────────────────────
+
 /**
  * PasswordInput Component - Molecule UI Element
  *
@@ -33,6 +37,9 @@ export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
     },
     ref,
   ) => {
+    // ─────────────────────────────────────────────────────────────
+    // 2. LOGIKA: State Management, Mode Resolution & Handlers
+    // ─────────────────────────────────────────────────────────────
     const isCreateMode = mode === "create" || mode === "membuat";
 
     // Resolusi label & placeholder (default normal: "Kata Sandi", create mode: "Buat Kata Sandi Baru")
@@ -120,6 +127,9 @@ export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
     const computedErrorPosition =
       restProps.errorPosition || (hasExtraFooter ? "relative" : undefined);
 
+    // ─────────────────────────────────────────────────────────────
+    // 3. RENDER UI: Clean JSX Output (Atomic Component Compliant)
+    // ─────────────────────────────────────────────────────────────
     return (
       <TextInput
         ref={ref}

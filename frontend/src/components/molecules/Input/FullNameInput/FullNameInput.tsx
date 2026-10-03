@@ -3,6 +3,10 @@ import type { ChangeEvent, FocusEvent } from 'react';
 import { TextInput } from '../TextInput';
 import type { FullNameInputProps } from './FullNameInput.types';
 
+// ─────────────────────────────────────────────────────────────
+// 1. TAMPILAN: Helpers & Text Formatters
+// ─────────────────────────────────────────────────────────────
+
 // Helper memformat Title Case (Budi Santoso)
 const toTitleCase = (str: string): string => {
   return str.replace(/\b[a-zA-Z\u00C0-\u024F]+/g, (txt) => {
@@ -34,6 +38,9 @@ export const FullNameInput = forwardRef<HTMLInputElement, FullNameInputProps>(({
   error,
   ...restProps
 }, ref) => {
+  // ─────────────────────────────────────────────────────────────
+  // 2. LOGIKA: State Management, Calculations & Handlers
+  // ─────────────────────────────────────────────────────────────
   const isControlled = value !== undefined;
   const [internalValue, setInternalValue] = useState<string>(
     String(value ?? defaultValue ?? '')
@@ -91,6 +98,9 @@ export const FullNameInput = forwardRef<HTMLInputElement, FullNameInputProps>(({
     }
   }
 
+  // ─────────────────────────────────────────────────────────────
+  // 3. RENDER UI: Clean JSX Output (Atomic Component Compliant)
+  // ─────────────────────────────────────────────────────────────
   return (
     <TextInput
       ref={ref}

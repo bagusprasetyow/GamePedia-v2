@@ -22,7 +22,7 @@ Silakan klik tautan di bawah ini untuk mempelajari komponen, styling, atau hooks
 frontend/src/
 ├── assets/                  # Media Assets (images, SVG)
 ├── components/              # Komponen UI (Atomic Design)
-│   ├── atoms/               # Komponen Atomik dasar (Text, Icon, Button, Switch, Input, Textarea, Checkbox, Radio)
+│   ├── atoms/               # Komponen Atomik dasar (Text, Icon, Button, Switch, Input, Textarea, Checkbox, Radio, Tooltip, Dot)
 │   └── molecules/           # Komponen Molekul gabungan (CheckboxGroup, RadioGroup, ThemeToggle, Inputs)
 ├── hooks/                   # Custom React Hooks (useTheme, usePhoneInput)
 ├── lib/                     # Library utilities (cn - clsx & tailwind-merge)
