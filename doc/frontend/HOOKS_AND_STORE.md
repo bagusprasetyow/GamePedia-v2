@@ -195,22 +195,25 @@ Frontend GamePedia v2 dilengkapi dengan **Vitest** untuk pengujian unit otomatis
 npm run test --prefix frontend
 ```
 
-### Hasil Verifikasi Test Suite Aktif (18 File, 171 Tests Passed):
-1. `Button.spec.ts` (19 tests): Pengujian varian warna semantik, ukuran, depth -3 s/d 3, status loading (`ButtonLoading`), dan sub-atom ikon (`ButtonIcon`).
-2. `Checkbox.spec.ts` (9 tests): Pengujian sub-komponen `CheckboxIndicator` dan `CheckboxLabel`, status indeterminate, varian visual (`check`/`solid`), dan interaksi checked.
-3. `Dot.spec.ts` (11 tests): Pengujian sub-atom `DotCircle`, ukuran 2xs s/d xl, animasi denyut (ping halo ripple & pulse), efek ambient neon glow, cincin pembatas kontras (`bordered`), teks label status, dan placement anchor overlay.
-4. `Icon.spec.ts` (4 tests): Pengujian render ikon Iconify, varian warna semantik token tema, animasi spin & pulse, dan ukuran preset.
-5. `Input.spec.ts` (8 tests): Pengujian sub-komponen `InputLabel`, `InputHelperText`, dan `InputClearButton`, status validasi (error, success, warning), ikon start/end, dan Depth System.
-6. `Radio.spec.ts` (8 tests): Pengujian sub-atom `RadioIndicator` dan `RadioLabel`, status checked/disabled, ukuran, dan Depth System.
-7. `Switch.spec.ts` (8 tests): Pengujian sub-komponen `SwitchTrack` dan `SwitchLabel`, alur kedalaman cekung (-1 s/d -3), varian warna semantik, dan ikon knop thumb.
-8. `Text.spec.ts` (9 tests): Pengujian tag HTML polimorfik (`as`), varian semantik token OKLCH, skala tipografi, perataan teks, clamp, dan truncate.
-9. `Textarea.spec.ts` (9 tests): Pengujian sub-komponen `TextareaLabel` dan `TextareaFooter`, penghitung karakter (`showCharacterCount`), resize kontrol, dan auto-resize.
-10. `Tooltip.spec.ts` (10 tests): Pengujian sub-komponen `TooltipBubble`, 12 penempatan arah (`placement`), Depth System visual (-3 s/d 3), delay timer, dan status trigger pemicu.
-11. `Clipboard.spec.ts` (8 tests): Pengujian sub-komponen `ClipboardIcon` dan `ClipboardLabel`, feedback visual taktil saat teks disalin, durasi reset, timer cleanup, dan varian depth.
-12. `ShowcasePreview.spec.ts` (17 tests): Pengujian sub-komponen `ShowcasePreviewBackground`, `ShowcasePreviewBadges`, `ShowcasePreviewInfo`, border styles, backgrounds, dan Depth System.
-13. `SourceCode.spec.ts` (15 tests): Pengujian sub-komponen `SourceCodeHeader` dan `SourceCodeBody`, multi-tab switching, token highlighter sintaksis, copy-to-clipboard, dan styling terminal window.
-14. `CodePreview.spec.ts` (11 tests): Pengujian sub-komponen `CodePreviewLine`, token parser sintaks VS Code Dark+, penomoran baris (*line numbers*), dan kedalaman kedalaman visual.
-15. `dropdown.utils.spec.ts` (5 tests): Pengujian pemfilteran opsi ComboBox (prefix vs substring), normalisasi nilai terpilih (single vs multi), dan batas tag maksimal.
-16. `phoneUtils.spec.ts` (11 tests): Pengujian validasi format nomor telepon internasional, pemetaan bendera negara, dan ekstraksi digit.
-17. `SearchInput.utils.spec.ts` (4 tests): Pengujian utilitas pemfilteran kata kunci pencarian reaktif dan debouncing.
-18. `passwordStrength.spec.ts` (5 tests): Pengujian algoritma skor kekuatan kata sandi (panjang, huruf kapital, angka, dan karakter khusus).
+### Hasil Verifikasi Test Suite Aktif (21 File, 199 Tests Passed):
+1. `Badge.spec.ts` (10 tests): Pengujian sub-komponen `BadgeIcon` dan `BadgeLabel`, 4 appearance visual (`filled`, `ghost`, `outline`, `tint`), varian semantik token OKLCH, radius rounded, dan Depth System (-3 s/d 3).
+2. `Button.spec.ts` (19 tests): Pengujian varian warna semantik, ukuran, depth -3 s/d 3, status loading (`ButtonLoading`), dan sub-atom ikon (`ButtonIcon`).
+3. `Checkbox.spec.ts` (9 tests): Pengujian sub-komponen `CheckboxIndicator` dan `CheckboxLabel`, status indeterminate, varian visual (`check`/`solid`), dan interaksi checked.
+4. `Chip.spec.ts` (9 tests): Pengujian sub-komponen `ChipIcon`, `ChipLabel`, dan `ChipRemove`, status terpilih/toggle (`selected`), tombol hapus interaktif dengan efek merah, dan Depth System (-3 s/d 3).
+5. `ClearButton.spec.ts` (9 tests): Pengujian tombol pembersih interaktif dengan varian visual (`default`, `subtle`, `ghost`, `danger`), transisi hover merah, kompatibilitas ARIA, dan Depth System (-3 s/d 3).
+6. `Dot.spec.ts` (11 tests): Pengujian sub-atom `DotCircle`, ukuran 2xs s/d xl, animasi denyut (ping halo ripple & pulse), efek ambient neon glow, cincin pembatas kontras (`bordered`), teks label status, dan placement anchor overlay.
+7. `Icon.spec.ts` (4 tests): Pengujian render ikon Iconify, varian warna semantik token tema, animasi spin & pulse, dan ukuran preset.
+8. `Input.spec.ts` (8 tests): Pengujian sub-komponen `InputLabel`, `InputHelperText`, dan `InputClearButton`, status validasi (error, success, warning), ikon start/end, dan Depth System.
+9. `Radio.spec.ts` (8 tests): Pengujian sub-atom `RadioIndicator` dan `RadioLabel`, status checked/disabled, ukuran, dan Depth System.
+10. `Switch.spec.ts` (8 tests): Pengujian sub-komponen `SwitchTrack` dan `SwitchLabel`, alur kedalaman cekung (-1 s/d -3), varian warna semantik, dan ikon knop thumb.
+11. `Text.spec.ts` (9 tests): Pengujian tag HTML polimorfik (`as`), varian semantik token OKLCH, skala tipografi, perataan teks, clamp, dan truncate.
+12. `Textarea.spec.ts` (9 tests): Pengujian sub-komponen `TextareaLabel` dan `TextareaFooter`, penghitung karakter (`showCharacterCount`), resize kontrol, dan auto-resize.
+13. `Tooltip.spec.ts` (10 tests): Pengujian sub-komponen `TooltipBubble`, 12 penempatan arah (`placement`), Depth System visual (-3 s/d 3), delay timer, dan status trigger pemicu.
+14. `Clipboard.spec.ts` (8 tests): Pengujian sub-komponen `ClipboardIcon` dan `ClipboardLabel`, feedback visual taktil saat teks disalin, durasi reset, timer cleanup, dan varian depth.
+15. `ShowcasePreview.spec.ts` (17 tests): Pengujian sub-komponen `ShowcasePreviewBackground`, `ShowcasePreviewBadges`, `ShowcasePreviewInfo`, border styles, backgrounds, dan Depth System.
+16. `SourceCode.spec.ts` (15 tests): Pengujian sub-komponen `SourceCodeHeader` dan `SourceCodeBody`, multi-tab switching, token highlighter sintaksis, copy-to-clipboard, dan styling terminal window.
+17. `CodePreview.spec.ts` (11 tests): Pengujian sub-komponen `CodePreviewLine`, token parser sintaks VS Code Dark+, penomoran baris (*line numbers*), dan kedalaman visual.
+18. `dropdown.utils.spec.ts` (5 tests): Pengujian pemfilteran opsi ComboBox (prefix vs substring), normalisasi nilai terpilih (single vs multi), dan batas tag maksimal.
+19. `phoneUtils.spec.ts` (11 tests): Pengujian validasi format nomor telepon internasional, pemetaan bendera negara, dan ekstraksi digit.
+20. `SearchInput.utils.spec.ts` (4 tests): Pengujian utilitas pemfilteran kata kunci pencarian reaktif dan debouncing.
+21. `passwordStrength.spec.ts` (5 tests): Pengujian algoritma skor kekuatan kata sandi (panjang, huruf kapital, angka, dan karakter khusus).

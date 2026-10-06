@@ -1,6 +1,6 @@
 import { type FC, type MouseEvent, type Ref } from 'react';
 import { cn } from '@/lib/utils';
-import { Icon, Text } from '@/components/atoms';
+import { ClearButton, Icon, Text } from '@/components/atoms';
 import type { IconSize } from '@/components/atoms/Icon/Icon.types';
 import type { DropdownOption } from '../Dropdown.types';
 
@@ -18,7 +18,6 @@ export interface DropdownTriggerProps {
     clearIconSize: IconSize;
   };
   triggerClasses: string;
-  clearButtonClasses: string;
   selectedSingleOption: DropdownOption | null;
   selectedMultiOptions: DropdownOption[];
   isMulti: boolean;
@@ -39,7 +38,6 @@ export const DropdownTrigger: FC<DropdownTriggerProps> = ({
   startIcon,
   sizeStyle,
   triggerClasses,
-  clearButtonClasses,
   selectedSingleOption,
   selectedMultiOptions,
   isMulti,
@@ -145,15 +143,11 @@ export const DropdownTrigger: FC<DropdownTriggerProps> = ({
       {/* Konten Kanan (Clear Button + Chevron Arrow) */}
       <div className={rightContentWrapperClasses}>
         {clearable && hasValue && !disabled && (
-          <button
-            type="button"
-            tabIndex={-1}
+          <ClearButton
+            iconSize={sizeStyle.clearIconSize}
             onClick={handleClear}
-            className={clearButtonClasses}
-            aria-label="Bersihkan pilihan"
-          >
-            <Icon icon="mdi:close" size={sizeStyle.clearIconSize} />
-          </button>
+            label="Bersihkan pilihan"
+          />
         )}
 
         <Icon

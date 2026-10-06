@@ -173,10 +173,6 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(<T extends str
     popoverClassName
   );
 
-  const clearButtonClasses = cn(
-    'flex shrink-0 items-center justify-center p-0.5 rounded-full text-muted-foreground hover:text-destructive focus:outline-none transition-colors'
-  );
-
   // ─────────────────────────────────────────────────────────────
   // 3. RENDER UI: Dekomposisi Bersih & Terstruktur
   // ─────────────────────────────────────────────────────────────
@@ -213,7 +209,6 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(<T extends str
           startIcon={dynamicIcon}
           sizeStyle={sizeStyle}
           triggerClasses={triggerClasses}
-          clearButtonClasses={clearButtonClasses}
           selectedSingleOption={selectedSingleOption as unknown as DropdownOption | null}
           selectedMultiOptions={selectedMultiOptions as unknown as DropdownOption[]}
           isMulti={isMulti}

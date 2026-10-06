@@ -8,9 +8,9 @@ GamePedia v2 adalah platform katalog dan ensiklopedia game modern berarsitektur 
 
 - **Versi Saat Ini**: `0.0.6`
 - **Status Monorepo**: 
-  - **Frontend**: Implementasi penuh **Atomic Design System** (Atoms: Text, Icon, Button, Switch, Input, Textarea, Checkbox, Radio, Tooltip, Dot dengan sub-komponen modular & styling terenkapsulasi | Molecules: CheckboxGroup, RadioGroup, ThemeToggle, Special Inputs, Dropdown, SourceCode, CodePreview, Clipboard, ShowcasePreview), Depth System (-3 s/d 3), custom hooks (`useTheme`, `usePhoneInput`, `useDropdown`, `useTooltip`, `useCodeInput`, `useClipboard`, `useSourceCode`, `useCodePreview`), serta suite pengujian unit **Vitest** (18 test suites, 171 unit tests lulus 100%).
+  - **Frontend**: Implementasi penuh **Atomic Design System** (Atoms: Text, Icon, Button, Switch, Input, Textarea, Checkbox, Radio, Tooltip, Dot, Badge, Chip, ClearButton dengan sub-komponen modular & styling terenkapsulasi | Molecules: CheckboxGroup, RadioGroup, ThemeToggle, Special Inputs, Dropdown, SourceCode, CodePreview, Clipboard, ShowcasePreview), Depth System (-3 s/d 3), custom hooks (`useTheme`, `usePhoneInput`, `useDropdown`, `useTooltip`, `useCodeInput`, `useClipboard`, `useSourceCode`, `useCodePreview`), serta suite pengujian unit **Vitest** (21 test suites, 199 unit tests lulus 100%).
   - **Backend**: Integrasi real-time Backend SSE dengan pengiriman data JSON dinamis (`live-data.json`), NestJS `@nestjs/config` & `cookie-parser`.
-  - **Dokumentasi**: Modularisasi & pemecahan dokumentasi secara terstruktur di direktori `doc/frontend/` dan `doc/backend/`.
+  - **Dokumentasi**: Modularisasi & pemecahan dokumentasi secara terstruktur di direktori `doc/frontend/` dan `doc/backend/`, termasuk direktori individual berkas `.md` per komponen UI di `doc/frontend/components/`.
 
 ---
 
@@ -20,7 +20,7 @@ Seluruh dokumentasi teknis dan panduan operasional proyek tersedia secara modula
 
 - 🏠 [**Pusat Dokumentasi (doc/README.md)**](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/README.md) - Indeks utama seluruh berkas dokumentasi.
 - 🏗️ [**Arsitektur Sistem (doc/ARCHITECTURE.md)**](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/ARCHITECTURE.md) - Struktur monorepo, alur komunikasi data, dan tech stack.
-- 🎨 [**Dokumentasi Frontend (doc/FRONTEND.md & doc/frontend/)**](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/FRONTEND.md) - Panduan React 19, Vite 8, Tailwind CSS v4, dan Atomic Design System ([Katalog Komponen](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/frontend/COMPONENTS.md), [Styling](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/frontend/STYLING.md), [Hooks & Testing](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/frontend/HOOKS_AND_STORE.md)).
+- 🎨 [**Dokumentasi Frontend (doc/FRONTEND.md & doc/frontend/)**](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/FRONTEND.md) - Panduan React 19, Vite 8, Tailwind CSS v4, dan Atomic Design System ([Katalog Komponen](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/frontend/COMPONENTS.md), [Dokumen Komponen Terpecah](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/frontend/components/README.md), [Styling](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/frontend/STYLING.md), [Hooks & Testing](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/frontend/HOOKS_AND_STORE.md)).
 - ⚙️ [**Dokumentasi Backend (doc/BACKEND.md & doc/backend/)**](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/BACKEND.md) - Panduan NestJS 12, TS 6, Vitest unit testing, dan Oxlint ([Modul & Controller](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/backend/MODULES.md), [Testing](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/backend/TESTING.md)).
 - 🔄 [**Panduan Workflows Agent (doc/WORKFLOWS.md)**](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/WORKFLOWS.md) - Detail workflow otomatisasi agent (`/create-component`, `/audit`, `/audit-components`, `/audit-tailwind`, `/audit-functions`, `/update-docs`, `/update-timeline`, `/commit-and-push`).
 - ⏳ [**Timeline & Log Rilis (doc/TIMELINE.md)**](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/TIMELINE.md) - Histori versi dan log rilis per commit.

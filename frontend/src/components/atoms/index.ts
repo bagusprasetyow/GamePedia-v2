@@ -27,3 +27,13 @@ export type * from './Tooltip/Tooltip.types';
 
 export { default as Dot, Dot as DotAtom } from './Dot';
 export type * from './Dot/Dot.types';
+
+export { default as Badge, Badge as BadgeAtom } from './Badge';
+export type * from './Badge/Badge.types';
+
+export { default as Chip, Chip as ChipAtom } from './Chip';
+export type * from './Chip/Chip.types';
+
+export { default as ClearButton, ClearButton as ClearButtonAtom } from './ClearButton';
+export type * from './ClearButton/ClearButton.types';
+

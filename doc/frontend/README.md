@@ -10,7 +10,8 @@ Silakan klik tautan di bawah ini untuk mempelajari komponen, styling, atau hooks
 
 | Dokumen | Deskripsi |
 | :--- | :--- |
-| 🧩 [**Katalog Komponen UI (COMPONENTS.md)**](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/frontend/COMPONENTS.md) | Dokumentasi lengkap komponen **Atoms** & **Molecules** berbasis Atomic Design, props, tipe data, serta contoh penggunaan. |
+| 🧩 [**Katalog Komponen UI (COMPONENTS.md)**](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/frontend/COMPONENTS.md) | Indeks & katalog lengkap seluruh komponen UI GamePedia v2. |
+| 📁 [**Detail Komponen Terpecah (components/)**](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/frontend/components/README.md) | Dokumentasi individual `.md` untuk setiap **Atom** (`Badge`, `Button`, `Chip`, `ClearButton`, dll.) & **Molekul** (`Dropdown`, `SourceCode`, `inputs/`, dll.). |
 | 🎨 [**Panduan Styling & Depth System (STYLING.md)**](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/frontend/STYLING.md) | Penjelasan skema warna OKLCH, Tailwind CSS v4 `@theme`, Depth System (-3 s/d 3), utility `cn()`, dan konvensi penamaan class. |
 | 🪝 [**Custom Hooks & Utilities (HOOKS_AND_STORE.md)**](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/frontend/HOOKS_AND_STORE.md) | Panduan custom hooks React (`useTheme`, `usePhoneInput`), manajemen tema global, dan pengolahan data SSE real-time. |
 
@@ -20,9 +21,9 @@ Silakan klik tautan di bawah ini untuk mempelajari komponen, styling, atau hooks
 
 ```
 frontend/src/
-├── assets/                  # Media Assets (images, SVG)
+├── assets/                  # Media Assets (images, SVG, logo)
 ├── components/              # Komponen UI (Atomic Design)
-│   ├── atoms/               # Komponen Atomik dasar (Text, Icon, Button, Switch, Input, Textarea, Checkbox, Radio, Tooltip, Dot)
+│   ├── atoms/               # Komponen Atomik dasar (Badge, Button, Checkbox, Chip, ClearButton, Dot, Icon, Input, Radio, Switch, Text, Textarea, Tooltip)
 │   └── molecules/           # Komponen Molekul gabungan (CheckboxGroup, RadioGroup, ThemeToggle, Inputs, Dropdown, SourceCode, Clipboard, ShowcasePreview)
 ├── hooks/                   # Custom React Hooks (useTheme, usePhoneInput, useDropdown, useTooltip, useCodeInput, useClipboard, useSourceCode, useCodePreview)
 ├── lib/                     # Library utilities (cn - clsx & tailwind-merge)

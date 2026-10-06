@@ -10,6 +10,7 @@ Untuk informasi yang lebih terstruktur dan modular, silakan merujuk ke sub-dokum
 
 - 🏠 [**Pusat Dokumentasi Frontend (doc/frontend/README.md)**](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/frontend/README.md)
 - 🧩 [**Katalog Komponen UI (doc/frontend/COMPONENTS.md)**](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/frontend/COMPONENTS.md)
+- 📁 [**Detail Komponen Terpecah (doc/frontend/components/)**](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/frontend/components/README.md)
 - 🎨 [**Panduan Styling & Depth System (doc/frontend/STYLING.md)**](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/frontend/STYLING.md)
 - 🪝 [**Custom Hooks & Utilities (doc/frontend/HOOKS_AND_STORE.md)**](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/frontend/HOOKS_AND_STORE.md)
 
@@ -475,6 +476,123 @@ Komponen titik status visual terenkapsulasi penuh dengan **Depth System (skala -
       <Icon icon="mdi:account" size="lg" />
     </div>
   </Dot>
+  ```
+
+#### 11. Badge (`src/components/atoms/Badge/`)
+
+Komponen label status/kategori ringkas non-interaktif terenkapsulasi penuh dengan **Depth System (skala -3 s/d 3)**, 4 mode gaya tampilan (`appearance`: `filled`, `ghost`, `outline`, `tint`), varian semantik tema GamePedia, dukungan ikon depan/belakang opsional, mode lingkaran otomatis untuk icon-only, dan sub-atom teks/ikon teruji Vitest.
+
+- **Lokasi File**:
+  - Komponen Utama: `src/components/atoms/Badge/Badge.tsx`
+  - Sub-komponen Ikon: `src/components/atoms/Badge/components/BadgeIcon.tsx`
+  - Sub-komponen Label: `src/components/atoms/Badge/components/BadgeLabel.tsx`
+  - Styling Enkapsulasi: `src/components/atoms/Badge/Badge.styles.ts`
+  - Tipe Data: `src/components/atoms/Badge/Badge.types.ts`
+  - Unit Test (Vitest): `src/components/atoms/Badge/Badge.spec.ts`
+  - Barrel Export: `src/components/atoms/Badge/index.ts` & `src/components/atoms/index.ts`
+- **Fitur & Props**:
+  - `size`: Skala ukuran preset (`'xs' | 'sm' | 'md' | 'lg'`) (default: `'md'`)
+  - `variant`: Varian tema warna (`'brand' | 'danger' | 'important' | 'informative' | 'severe' | 'subtle' | 'primary' | 'secondary' | 'accent' | 'muted' | 'outline' | 'success' | 'warning' | 'error' | 'info'`) (default: `'primary'`)
+  - `appearance`: Gaya tampilan visual (`'filled' | 'ghost' | 'outline' | 'tint'`) (default: `'filled'`)
+  - `depth`: Skala kedalaman Depth System (-3 s/d 3 atau alias `sunken`, `flat`, `raised-sm`, `raised-md`, `raised-lg`) (default: `0` / flat)
+  - `rounded`: Sudut kelengkungan (`'sm' | 'md' | 'lg' | 'full'`) (default: `'full'`)
+  - `weight`: Ketebalan font label (`'normal' | 'medium' | 'semibold' | 'bold'`) (default: `'medium'`)
+  - `startIcon` / `endIcon`: Ikon awalan/akhiran badge (string Iconify atau ReactNode)
+  - `children`: Konten teks label badge (dirender via sub-atom `BadgeLabel` menggunakan atom `Text`)
+- **Contoh Pemakaian**:
+
+  ```tsx
+  import { Badge } from '@/components/atoms';
+
+  // Badge filled semantik
+  <Badge variant="brand" size="sm">Brand New</Badge>
+
+  // Badge tint dengan icon
+  <Badge variant="success" appearance="tint" startIcon="mdi:check-circle">Verified</Badge>
+
+  // Badge icon-only otomatis lingkaran (aspect-square)
+  <Badge variant="muted" startIcon="mdi:star" />
+  ```
+
+#### 12. Chip / Tag (`src/components/atoms/Chip/`)
+
+Komponen chip interaktif atau tag taktil serbaguna dengan dukungan **Depth System (skala -3 s/d 3)**, status seleksi/toggle (`selected`), tombol hapus instan ("x") dengan hover interaktif merah ala `InputClearButton`, dan integrasi ikon opsional.
+
+- **Lokasi File**:
+  - Komponen Utama: `src/components/atoms/Chip/Chip.tsx`
+  - Sub-komponen Ikon: `src/components/atoms/Chip/components/ChipIcon.tsx`
+  - Sub-komponen Label: `src/components/atoms/Chip/components/ChipLabel.tsx`
+  - Sub-komponen Hapus: `src/components/atoms/Chip/components/ChipRemove.tsx`
+  - Styling Enkapsulasi: `src/components/atoms/Chip/Chip.styles.ts`
+  - Tipe Data: `src/components/atoms/Chip/Chip.types.ts`
+  - Unit Test (Vitest): `src/components/atoms/Chip/Chip.spec.ts`
+  - Barrel Export: `src/components/atoms/Chip/index.ts` & `src/components/atoms/index.ts`
+- **Fitur & Props**:
+  - `size`: Skala ukuran preset (`'sm' | 'md' | 'lg'`) (default: `'md'`)
+  - `variant`: Varian tema warna semantik (mengikuti varian Badge)
+  - `appearance`: Gaya saat tidak terpilih (`'filled' | 'ghost' | 'outline' | 'tint'`) (default: `'outline'`). Saat `selected={true}`, otomatis beralih ke `filled` dengan ring indikator.
+  - `depth`: Skala kedalaman Depth System (-3 s/d 3) (default: `0`)
+  - `rounded`: Sudut kelengkungan (`'sm' | 'md' | 'lg' | 'full'`) (default: `'full'`)
+  - `selected`: Status aktif/terpilih (`boolean`, default: `false`)
+  - `disabled`: Menonaktifkan interaksi klik/hapus (`boolean`, default: `false`)
+  - `startIcon`: Ikon di sisi kiri label
+  - `onRemove`: Callback tombol hapus ("x"). Jika disediakan, merender tombol "x" dengan hover merah.
+  - `removeLabel`: Aksesibilitas aria-label untuk tombol hapus (default: `'Hapus'`)
+  - `onClick`: Menjadikan chip dapat diklik/di-toggle (dengan keyboard Enter/Space support dan `role="button"`)
+- **Contoh Pemakaian**:
+
+  ```tsx
+  import { Chip } from '@/components/atoms';
+
+  // Chip filter interaktif (selectable)
+  <Chip
+    variant="brand"
+    selected={isSelected}
+    onClick={() => setIsSelected(!isSelected)}
+  >
+    Action RPG
+  </Chip>
+
+  // Chip tag yang dapat dihapus
+  <Chip
+    variant="info"
+    appearance="tint"
+    startIcon="mdi:tag-outline"
+    onRemove={() => handleRemove(tagId)}
+  >
+    Multiplayer
+  </Chip>
+  ```
+
+#### 13. ClearButton (`src/components/atoms/ClearButton/`)
+
+Komponen tombol pembersih atau penutup ("x") ringkas terstandardisasi untuk input, chip, dropdown, modal, atau kontainer lainnya. Menerapkan **Depth System (skala -3 s/d 3)**, 4 varian visual (`default`, `subtle`, `ghost`, `danger`), ukuran presisi, a11y `aria-label`, dan integrasi ikon `@iconify/react`.
+
+- **Lokasi File**:
+  - Komponen Utama: `src/components/atoms/ClearButton/ClearButton.tsx`
+  - Styling Enkapsulasi: `src/components/atoms/ClearButton/ClearButton.styles.ts`
+  - Tipe Data: `src/components/atoms/ClearButton/ClearButton.types.ts`
+  - Unit Test (Vitest): `src/components/atoms/ClearButton/ClearButton.spec.ts`
+  - Barrel Export: `src/components/atoms/ClearButton/index.ts` & `src/components/atoms/index.ts`
+- **Fitur & Props**:
+  - `size`: Skala ukuran preset (`'2xs' | 'xs' | 'sm' | 'md' | 'lg'`) (default: `'md'`)
+  - `variant`: Varian tema warna (`'default' | 'subtle' | 'ghost' | 'danger'`) (default: `'default'`)
+  - `depth`: Skala kedalaman Depth System (-3 s/d 3 atau alias named) (default: `0`)
+  - `rounded`: Sudut kelengkungan (`'none' | 'sm' | 'md' | 'lg' | 'full'`) (default: `'full'`)
+  - `icon`: Ikon tombol (string Iconify atau ReactNode, default: `'mdi:close'`)
+  - `iconSize`: Ukuran eksplisit ikon (opsional, fallback ke ukuran otomatis per size)
+  - `label`: Label aksesibilitas aria-label (default: `'Bersihkan'`)
+  - `disabled`: Menonaktifkan tombol (`boolean`, default: `false`)
+- **Contoh Pemakaian**:
+
+  ```tsx
+  import { ClearButton } from '@/components/atoms';
+
+  // Tombol clear default pada input/form
+  <ClearButton onClick={() => setValue('')} label="Bersihkan input" />
+
+  // Tombol close transparan pada chip (variant ghost)
+  <ClearButton variant="ghost" size="xs" onClick={handleRemove} label="Hapus chip" />
   ```
 
 ### 🧬 Molecules (`src/components/molecules/`)

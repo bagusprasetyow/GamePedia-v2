@@ -1,13 +1,11 @@
 import type { FC, ReactElement } from 'react';
-import { Icon } from '@/components/atoms/Icon';
-import { cn } from '@/lib/utils';
+import { ClearButton } from '@/components/atoms/ClearButton';
 import type { InputClearButtonProps } from '../Input.types';
-import { clearButtonClasses } from '../Input.styles';
 
 /**
  * InputClearButton Component - Sub-Atom Internal Input
  *
- * Merender tombol pembersih teks instan di sisi kanan input.
+ * Merender tombol pembersih teks instan di sisi kanan input memakai atom ClearButton.
  */
 export const InputClearButton: FC<InputClearButtonProps> = ({
   size,
@@ -15,15 +13,12 @@ export const InputClearButton: FC<InputClearButtonProps> = ({
   className = '',
 }): ReactElement => {
   return (
-    <button
-      type="button"
-      tabIndex={-1}
+    <ClearButton
+      iconSize={size}
       onClick={onClick}
-      className={cn(clearButtonClasses, className)}
-      aria-label="Bersihkan input"
-    >
-      <Icon icon="mdi:close" size={size} />
-    </button>
+      className={className}
+      label="Bersihkan input"
+    />
   );
 };
 

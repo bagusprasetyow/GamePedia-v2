@@ -86,6 +86,12 @@
   --color-info-700:    oklch(0.44 0.12 240);
   --color-info:        oklch(0.62 0.15 240);
 
+  --color-severe-50:   oklch(0.97 0.04 45);
+  --color-severe-500:  oklch(0.60 0.20 45);
+  --color-severe-600:  oklch(0.52 0.19 45);
+  --color-severe-700:  oklch(0.44 0.16 45);
+  --color-severe:      oklch(0.60 0.20 45);
+
   /* ── Dynamic Semantic Tokens (Auto switches with light/dark) ── */
   /* Brand */
   --color-primary:             var(--primary);

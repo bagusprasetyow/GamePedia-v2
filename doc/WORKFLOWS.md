@@ -82,26 +82,32 @@ Workflow untuk menyelaraskan dan memperbarui seluruh dokumentasi proyek secara m
 
 - **Tahap 1: Inspeksi Git Status & Git Diff**: Memeriksa file yang diubah (`modified`), file baru (`untracked`), atau dihapus (`deleted`).
 - **Tahap 2: Analisis Perubahan per Domain**: Dampak perubahan terhadap frontend (`frontend/`), backend (`backend/`), dan workflows (`.agents/`).
-- **Tahap 3: Pembaruan Berkas Dokumentasi Terpecah di `doc/`**:
+- **Tahap 3: Pembaruan Mandat Berkas `.md` Individual per Komponen**:
+  - Setiap komponen UI (atom, molekul, input) di `frontend/src/components/` **wajib** memiliki/memperbarui file `.md` spesifik di `doc/frontend/components/atoms/`, `doc/frontend/components/molecules/`, atau `doc/frontend/components/molecules/inputs/`.
+  - Berkas individual memuat deskripsi, lokasi file & sub-komponen, tabel API props & default, Depth System (-3 s/d 3), contoh kode JSX, dan aksesibilitas WAI-ARIA.
+- **Tahap 4: Pembaruan Berkas Katalog & Indeks di `doc/`**:
   - `doc/README.md` & `doc/ARCHITECTURE.md` (indeks utama & struktur monorepo).
-  - `doc/FRONTEND.md` & sub-direktori `doc/frontend/` (`COMPONENTS.md`, `STYLING.md`, `HOOKS_AND_STORE.md`).
-  - `doc/BACKEND.md` & sub-direktori `doc/backend/` (`MODULES.md`, `TESTING.md`).
+  - `doc/frontend/components/README.md` & `doc/frontend/COMPONENTS.md` (indeks & master katalog komponen).
+  - `doc/frontend/README.md`, `doc/FRONTEND.md`, `doc/frontend/STYLING.md`, `doc/frontend/HOOKS_AND_STORE.md`.
+  - `doc/backend/README.md`, `doc/BACKEND.md`, `doc/backend/MODULES.md`, `doc/backend/TESTING.md`.
   - `doc/WORKFLOWS.md` & `doc/TIMELINE.md`.
-- **Tahap 4: Penyelarasan README Utama**: Memastikan `README.md` di root selalu mutakhir.
+- **Tahap 5: Penyelarasan README Utama**: Memastikan `README.md` di root selalu mutakhir.
 
 ---
 
 ### 7. Workflow: `/update-timeline` (Update Timeline & Catatan Rilis)
-Workflow untuk mencatat log perubahan komprehensif ke berkas [`doc/TIMELINE.md`](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/TIMELINE.md):
+Workflow untuk mencatat log perubahan komprehensif ke berkas [`doc/TIMELINE.md`](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/TIMELINE.md) secara terstandarisasi:
 
-- **Tahap 1: Ekstraksi Ringkasan Perubahan**: Mengambil histori git diff dan status terkini.
-- **Tahap 2: Pengelompokan Kategori**:
-  - 🚀 **Fitur Baru & UI**
-  - 🛠️ **Refactoring & Dekomposisi Komponen**
-  - 🧪 **Pengujian Unit & Quality Control**
-  - ⚙️ **Konfigurasi & Build System**
-  - 📚 **Pembaruan Dokumentasi**
-- **Tahap 3: Penulisan Entri Timeline**: Menyisipkan entri rilis di bagian paling atas dengan format `[Versi] - YYYY-MM-DD HH:mm`.
+- **Tahap 1: Analisis Perubahan**: Memeriksa `git status` dan `git diff` untuk merangkum esensi teknis commit terkini.
+- **Tahap 2: Pembaruan Tabel Ringkasan Rilis**: Menambahkan baris baru di tabel `## 📊 Ringkasan Riwayat Rilis` dengan link anchor, timestamp, fokus utama, dan status QC.
+- **Tahap 3: Penulisan Entri Detail Rilis**: Menyisipkan blok entri baru di bawah `## 📌 Log Rilis & Timeline Detail` dengan format judul `### 📦 [Versi] — YYYY-MM-DD HH:mm`, blok kutipan `> **Fokus Rilis**: ...`, dan rincian kategori:
+  1. 🚀 / 🎨 / ⚡ **Fitur Baru, Antarmuka & Layanan** (Frontend / Backend)
+  2. 🛠️ **Refactoring & Dekomposisi Komponen**
+  3. 🧪 **Pengujian Unit & Kualitas Kode (Vitest)**
+  4. 🔄 **Alur Kerja & Otomatisasi (Workflows)** *(jika ada)*
+  5. 📚 **Pembaruan Dokumentasi Proyek**
+  6. ⚙️ **Quality Control & Penyelarasan Versi**
+- **Tahap 4: Pembatas & Tautan Berkas**: Seluruh path file menggunakan clickable markdown link (`file:///...`) dan diakhiri pemisah garis `---`.
 
 ---
 
