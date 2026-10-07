@@ -13,8 +13,12 @@ GamePedia-v2/
 ├── .agents/              # Antigravity Workflows & Rules
 │   └── workflows/       # Defined Slash Commands (/create-component, /audit, /audit-components, /audit-tailwind, /audit-functions, /update-docs, /update-timeline, /commit-and-push)
 ├── backend/              # Aplikasi NestJS 12 (API Gateway & Core Logic)
-│   ├── data/            # Data JSON Dinamis untuk SSE Stream
-│   ├── src/             # Source Code (App Module, Controller, Service, Config)
+│   ├── src/
+│   │   ├── modules/     # Domain Feature Modules (games, auth, users, reviews, wishlist, search)
+│   │   ├── common/      # Cross-Cutting Concerns (guards, interceptors, filters, pipes, decorators)
+│   │   ├── config/      # Centralized Configuration & Environment Validation
+│   │   ├── app.module.ts# Root Orchestrator Module
+│   │   └── main.ts      # Bootstrap Entry Point
 │   ├── test/            # Vitest E2E Tests
 │   ├── .env.example     # Environment Variables Template
 │   ├── oxlintrc.json    # Oxlint Fast Linter Config
@@ -22,11 +26,14 @@ GamePedia-v2/
 ├── frontend/             # Aplikasi React 19 + Vite 8 (User Interface)
 │   ├── src/
 │   │   ├── assets/      # Static Assets
-│   │   ├── components/  # Atomic Design System
-│   │   │   ├── atoms/   # Text, Icon, Button, Switch, Input, Textarea, Checkbox, Radio, Tooltip, Dot
+│   │   ├── components/  # Atomic Design System (Agnostik Domain Bisnis)
+│   │   │   ├── atoms/   # Text, Icon, Button, Switch, Input, Textarea, Checkbox, Radio, Tooltip, Dot, ProgressBar, Slider
 │   │   │   └── molecules/# CheckboxGroup, RadioGroup, ThemeToggle, Inputs, Dropdown, SourceCode, Clipboard, ShowcasePreview
-│   │   ├── hooks/       # Custom React Hooks (useTheme, usePhoneInput, useDropdown, useTooltip, useCodeInput, useClipboard, useSourceCode, useCodePreview)
-│   │   ├── lib/         # Utility Libraries & Class Merger (cn)
+│   │   ├── features/    # Feature-Driven Business Logic (games, auth, reviews, wishlist, search)
+│   │   │   └── <feature>/ # components/, hooks/, services/, types/, utils/
+│   │   ├── hooks/       # Global Reusable Hooks (useTheme)
+│   │   ├── lib/         # Infrastructure & Client Setup
+│   │   ├── utils/       # Pure Generic Utilities (cn)
 │   │   ├── App.tsx      # Main Application Entry Component
 │   │   └── index.css    # OKLCH Theme Palette & Tailwind CSS v4
 │   ├── eslint.config.js # ESLint Flat Config
@@ -68,3 +75,31 @@ GamePedia-v2/
    - Memproses bisnis logika, validasi DTO, streaming data RxJS (SSE), serta komunikasi ke database/external API services.
 3. **Monorepo Runner (`concurrently`)**:
    - Skrip root `npm run dev` menjalankan instance backend (`npm run start:dev --prefix backend`) dan frontend (`npm run dev --prefix frontend`) secara paralel dalam satu terminal dengan warna konsol terpisah (`cyan` & `magenta`).
+
+---
+
+## 🏛️ Pola Arsitektur Skalabilitas (Target Architecture)
+
+Berdasarkan evaluasi arsitektur GamePedia-v2, sistem menerapkan prinsip pemisahan tegas untuk menjaga skalabilitas seiring bertambahnya fitur bisnis:
+
+### 1. Frontend: Design System vs Feature-Driven
+- **`frontend/src/components/` (Design System)**:
+  - Berbasis *Atomic Design* (`atoms`, `molecules`, `organisms`, `templates`).
+  - **Murni agnostik domain**: Komponen UI tidak mengenal model bisnis GamePedia (`wishlist`, `reviews`, `gamePrice`).
+- **`frontend/src/features/` (Domain Business Logic)**:
+  - Seluruh fitur bisnis GamePedia dikelompokkan per modul (`games/`, `auth/`, `reviews/`, `wishlist/`, `search/`).
+  - Setiap folder fitur memiliki struktur mandiri: `components/`, `hooks/`, `services/`, `types/`, dan `utils/`.
+  - Komponen fitur mengonsumsi komponen atom & molecule dari `@/components/`.
+- **Disiplin Direktori Global**:
+  - `src/hooks/`: Hanya untuk utility hooks global (misal `useTheme`).
+  - `src/lib/`: Hanya untuk setup library/infrastruktur (misal `apiClient`).
+  - `src/utils/`: Hanya untuk generic pure utilities (`cn.ts`).
+
+### 2. Backend: Modular NestJS Domain
+- **`backend/src/modules/<domain>/`**:
+  - Menghindari struktur flat di root `backend/src/`.
+  - Setiap domain (misal `games`, `auth`, `users`, `reviews`) memiliki modul mandiri dengan `.module.ts`, controller, service, DTO validasi, dan testing.
+- **`backend/src/common/`**:
+  - Pusat *cross-cutting concerns* (guards, filters, interceptors, pipes, decorators).
+- **`backend/src/config/`**:
+  - Konfigurasi terpusat dan validasi environment variable berbasis `ConfigService`.

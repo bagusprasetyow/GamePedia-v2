@@ -37,3 +37,11 @@ export type * from './Chip/Chip.types';
 export { default as ClearButton, ClearButton as ClearButtonAtom } from './ClearButton';
 export type * from './ClearButton/ClearButton.types';
 
+export { default as Slider, Slider as SliderAtom } from './Slider';
+export type * from './Slider/Slider.types';
+
+export { default as ProgressBar, ProgressBar as ProgressBarAtom } from './ProgressBar';
+export type * from './ProgressBar/ProgressBar.types';
+
+export { default as SegmentedControl, SegmentedControl as SegmentedControlAtom } from './SegmentedControl';
+export type * from './SegmentedControl/SegmentedControl.types';

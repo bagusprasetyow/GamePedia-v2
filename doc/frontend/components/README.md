@@ -17,10 +17,13 @@ Direktori ini memuat dokumentasi terperinci untuk setiap komponen UI GamePedia v
 | **Icon** | Ikon universal berbasis Iconify dengan kontrol warna semantik | [Icon.md](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/frontend/components/atoms/Icon.md) |
 | **Input** | Bidang masukan dasar dengan state validasi & dekomposisi sub-komponen | [Input.md](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/frontend/components/atoms/Input.md) |
 | **Radio** | Tombol radio pilihan tunggal terenkapsulasi | [Radio.md](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/frontend/components/atoms/Radio.md) |
+| **Slider** | Penggeser nilai tunggal taktil dengan alur cekung, penanda, & tooltip | [Slider.md](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/frontend/components/atoms/Slider.md) |
 | **Switch** | Sakelar biner toggle switch dengan kedalaman cekung inset | [Switch.md](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/frontend/components/atoms/Switch.md) |
 | **Text** | Tipografi polimorfik dasar dengan token warna semantik | [Text.md](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/frontend/components/atoms/Text.md) |
 | **Textarea** | Bidang teks multi-baris dengan auto-resize & counter | [Textarea.md](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/frontend/components/atoms/Textarea.md) |
 | **Tooltip** | Gelembung petunjuk interaktif dengan 12 arah placement | [Tooltip.md](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/frontend/components/atoms/Tooltip.md) |
+| **ProgressBar** | Bilah kemajuan status dengan Depth System, indeterminate mode, & label | [ProgressBar.md](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/frontend/components/atoms/ProgressBar.md) |
+| **SegmentedControl** | Kumpulan pilihan segmen tunggal interaktif dengan roving tabindex & ikon | [SegmentedControl.md](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/frontend/components/atoms/SegmentedControl.md) |
 
 ---
 

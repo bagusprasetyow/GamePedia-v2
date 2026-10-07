@@ -8,6 +8,7 @@ Dokumen ini mencatat seluruh riwayat perubahan, penambahan fitur, perbaikan refa
 
 | Versi | Tanggal & Waktu | Fokus Utama Perubahan | Status QC |
 | :--- | :--- | :--- | :--- |
+| [**0.0.8**](#-008--2026-10-07-1240) | 2026-10-07 12:40 | 3 Atom baru (`ProgressBar`, `SegmentedControl`, `Slider`), custom hooks (`useDebounce`, `useCache`), utilitas cache/debounce, & ekspansi 357 unit tests | ✅ PASS 100% |
 | [**0.0.7**](#-007--2026-10-06-1505) | 2026-10-06 15:05 | Atom baru (`Badge`, `Chip`, `ClearButton`), 32 dokumen individual komponen, ekspansi 199 unit tests Vitest, & workflows `/update-docs`, `/update-timeline` | ✅ PASS 100% |
 | [**0.0.6**](#-006--2026-10-04-0602) | 2026-10-04 06:02 | Molekul UI baru, dekomposisi 10 Atom, ekspansi 171 unit test Vitest, dan cleanup `App.tsx` | ✅ PASS 100% |
 | [**0.0.5**](#-005--2026-10-03-0852) | 2026-10-03 08:52 | Komponen Tooltip, Dot, Dropdown, dekomposisi input, integrasi Vitest frontend, & workflow `/audit-functions` | ✅ PASS 100% |
@@ -19,6 +20,35 @@ Dokumen ini mencatat seluruh riwayat perubahan, penambahan fitur, perbaikan refa
 ---
 
 ## 📌 Log Rilis & Timeline Detail
+
+### 📦 [0.0.8] — 2026-10-07 12:40
+
+> **Fokus Rilis**: Penambahan 3 komponen atom baru (`ProgressBar`, `SegmentedControl`, `Slider`), integrasi custom hooks (`useDebounce`, `useDebouncedCallback`, `useCache`), utilitas pendukung (`debounce`, `MemoryCache`), ekspansi komprehensif pengujian unit Vitest frontend hingga 357 unit tests (28 test suites), serta penyelarasan dokumentasi komponen dan hooks.
+
+#### 📋 Rincian Perubahan:
+- 🎨 **Antarmuka & Komponen UI (Atoms)**:
+  - **Atom `ProgressBar`** ([`ProgressBar`](file:///d:/Projects/project%20GP-v2/GamePedia-v2/frontend/src/components/atoms/ProgressBar/)): Komponen bilah kemajuan status dengan Depth System (-3 s/d 3), mode determinate & indeterminate (animasi strip bergerak), kalkulasi persentase clamped, format kustom label (persen atau teks nilai), dekomposisi sub-komponen `ProgressBarTrack.tsx`, `ProgressBarFill.tsx`, `ProgressBarLabel.tsx`, helper `ProgressBar.utils.ts`, styling modular `ProgressBar.styles.ts`, serta unit test `ProgressBar.spec.tsx` (35 tests).
+  - **Atom `SegmentedControl`** ([`SegmentedControl`](file:///d:/Projects/project%20GP-v2/GamePedia-v2/frontend/src/components/atoms/SegmentedControl/)): Komponen sakelar segmen tunggal interaktif multi-opsi dengan keyboard navigation WAI-ARIA roving tabindex (panah kiri/kanan/home/end), rendering ikon pendamping, status disabled item, dekomposisi sub-komponen `SegmentedControlItem.tsx`, helper `SegmentedControl.utils.ts`, styling modular `SegmentedControl.styles.ts`, serta unit test `SegmentedControl.spec.tsx` (35 tests).
+  - **Atom `Slider`** ([`Slider`](file:///d:/Projects/project%20GP-v2/GamePedia-v2/frontend/src/components/atoms/Slider/)): Komponen penggeser nilai taktil kontinu/diskrit dengan alur cekung Depth System (-1 s/d -3), titik penanda (*marks*), tooltip bubble nilai aktif, navigasi keyboard (panah/PageUp/PageDown/Home/End), dekomposisi sub-komponen `SliderTrack.tsx`, `SliderRange.tsx`, `SliderThumb.tsx`, `SliderMarks.tsx`, `SliderLabel.tsx`, `SliderHelperText.tsx`, helper `Slider.utils.ts`, styling modular `Slider.styles.ts`, serta unit test `Slider.spec.tsx` (54 tests).
+- 🪝 **Custom Hooks & Utilitas Frontend**:
+  - **Custom Hook Debounce** ([`src/hooks/debounce/`](file:///d:/Projects/project%20GP-v2/GamePedia-v2/frontend/src/hooks/debounce/)): Implementasi hook `useDebounce` dan `useDebouncedCallback` untuk mengoptimalkan kinerja input dan panggilan API asinkron dengan fitur cancel, flush, pending, serta unit test `useDebounce.spec.tsx` (7 tests).
+  - **Custom Hook In-Memory Cache** ([`src/hooks/cache/`](file:///d:/Projects/project%20GP-v2/GamePedia-v2/frontend/src/hooks/cache/)): Implementasi hook `useCache` untuk persistensi state reaktif berbasis TTL dan penggusuran LRU, lengkap dengan unit test `useCache.spec.tsx` (8 tests).
+  - **Utilitas `debounce`** ([`src/utils/debounce/`](file:///d:/Projects/project%20GP-v2/GamePedia-v2/frontend/src/utils/debounce/)): Fungsi utilitas murni dengan opsi leading, trailing, maxWait, dan unit test `debounce.spec.ts` (9 tests).
+  - **Utilitas `MemoryCache`** ([`src/utils/cache/`](file:///d:/Projects/project%20GP-v2/GamePedia-v2/frontend/src/utils/cache/)): Struktur data cache performa tinggi berbasis LRU dan timer kedaluwarsa TTL, lengkap dengan unit test `MemoryCache.spec.ts` (10 tests).
+  - **Integrasi `SearchInput`**: Penyelarasan molekul `SearchInput.tsx` menggunakan utilitas debounce dan hook.
+- 🧪 **Pengujian Unit & Kualitas Kode (Vitest)**:
+  - Ekspansi pengujian frontend dari 21 file (199 tests) menjadi **28 file test suite** dengan total **357 unit tests** (lulus 100%).
+  - Pengujian baru mencakup `ProgressBar.spec.tsx` (35 tests), `SegmentedControl.spec.tsx` (35 tests), `Slider.spec.tsx` (54 tests), `useDebounce.spec.tsx` (7 tests), `useCache.spec.tsx` (8 tests), `debounce.spec.ts` (9 tests), dan `MemoryCache.spec.ts` (10 tests).
+- 📚 **Pembaruan Dokumentasi Proyek**:
+  - Penambahan 3 berkas spesifikasi individual di [`doc/frontend/components/atoms/`](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/frontend/components/atoms/): `ProgressBar.md`, `SegmentedControl.md`, dan `Slider.md`.
+  - Penyelarasan katalog komponen di [`doc/frontend/COMPONENTS.md`](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/frontend/COMPONENTS.md) dan [`doc/frontend/components/README.md`](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/frontend/components/README.md).
+  - Penambahan panduan custom hooks debounce, cache, utilitas, dan pembaruan rekapitulasi test suite di [`doc/frontend/HOOKS_AND_STORE.md`](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/frontend/HOOKS_AND_STORE.md) dan [`doc/frontend/README.md`](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/frontend/README.md).
+  - Pembaruan status monorepo pada root [`README.md`](file:///d:/Projects/project%20GP-v2/GamePedia-v2/README.md).
+- ⚙️ **Quality Control & Penyelarasan Versi**:
+  - Seluruh pengujian Oxlint (Backend), ESLint (Frontend), Vitest (Backend 1 test), Vitest (Frontend 357 tests), dan build kompilasi (NestJS + Vite React) dinyatakan PASS 100% (0 errors, 0 warnings).
+  - Menyelaraskan versi aplikasi ke `0.0.8` secara serentak pada 6 berkas `package.json` dan `package-lock.json` di Root, Backend, dan Frontend.
+
+---
 
 ### 📦 [0.0.7] — 2026-10-06 15:05
 

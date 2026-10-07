@@ -6,9 +6,9 @@ GamePedia v2 adalah platform katalog dan ensiklopedia game modern berarsitektur 
 
 ## 📌 Status Proyek Terbaru
 
-- **Versi Saat Ini**: `0.0.6`
+- **Versi Saat Ini**: `0.0.8`
 - **Status Monorepo**: 
-  - **Frontend**: Implementasi penuh **Atomic Design System** (Atoms: Text, Icon, Button, Switch, Input, Textarea, Checkbox, Radio, Tooltip, Dot, Badge, Chip, ClearButton dengan sub-komponen modular & styling terenkapsulasi | Molecules: CheckboxGroup, RadioGroup, ThemeToggle, Special Inputs, Dropdown, SourceCode, CodePreview, Clipboard, ShowcasePreview), Depth System (-3 s/d 3), custom hooks (`useTheme`, `usePhoneInput`, `useDropdown`, `useTooltip`, `useCodeInput`, `useClipboard`, `useSourceCode`, `useCodePreview`), serta suite pengujian unit **Vitest** (21 test suites, 199 unit tests lulus 100%).
+  - **Frontend**: Implementasi penuh **Atomic Design System** (Atoms: Text, Icon, Button, Switch, Slider, Input, Textarea, Checkbox, Radio, Tooltip, Dot, Badge, Chip, ClearButton, ProgressBar, SegmentedControl dengan sub-komponen modular & styling terenkapsulasi | Molecules: CheckboxGroup, RadioGroup, ThemeToggle, Special Inputs, Dropdown, SourceCode, CodePreview, Clipboard, ShowcasePreview), Depth System (-3 s/d 3), custom hooks (`useTheme`, `usePhoneInput`, `useDropdown`, `useTooltip`, `useCodeInput`, `useClipboard`, `useSourceCode`, `useCodePreview`, `useDebounce`, `useCache`), utilitas (`debounce`, `MemoryCache`), serta suite pengujian unit **Vitest** (28 test suites, 357 unit tests lulus 100%).
   - **Backend**: Integrasi real-time Backend SSE dengan pengiriman data JSON dinamis (`live-data.json`), NestJS `@nestjs/config` & `cookie-parser`.
   - **Dokumentasi**: Modularisasi & pemecahan dokumentasi secara terstruktur di direktori `doc/frontend/` dan `doc/backend/`, termasuk direktori individual berkas `.md` per komponen UI di `doc/frontend/components/`.
 

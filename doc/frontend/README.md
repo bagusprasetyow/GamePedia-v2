@@ -23,11 +23,11 @@ Silakan klik tautan di bawah ini untuk mempelajari komponen, styling, atau hooks
 frontend/src/
 ├── assets/                  # Media Assets (images, SVG, logo)
 ├── components/              # Komponen UI (Atomic Design)
-│   ├── atoms/               # Komponen Atomik dasar (Badge, Button, Checkbox, Chip, ClearButton, Dot, Icon, Input, Radio, Switch, Text, Textarea, Tooltip)
+│   ├── atoms/               # Komponen Atomik dasar (Badge, Button, Checkbox, Chip, ClearButton, Dot, Icon, Input, ProgressBar, Radio, SegmentedControl, Slider, Switch, Text, Textarea, Tooltip)
 │   └── molecules/           # Komponen Molekul gabungan (CheckboxGroup, RadioGroup, ThemeToggle, Inputs, Dropdown, SourceCode, Clipboard, ShowcasePreview)
-├── hooks/                   # Custom React Hooks (useTheme, usePhoneInput, useDropdown, useTooltip, useCodeInput, useClipboard, useSourceCode, useCodePreview)
+├── hooks/                   # Custom React Hooks (useTheme, usePhoneInput, useDropdown, useTooltip, useCodeInput, useClipboard, useSourceCode, useCodePreview, useDebounce, useCache)
 ├── lib/                     # Library utilities (cn - clsx & tailwind-merge)
-├── utils/                   # Helper utilities
+├── utils/                   # Helper utilities (debounce, cache/MemoryCache)
 ├── App.tsx                  # Root Entry Component
 ├── index.css                # Style Utama (OKLCH palette & Tailwind v4 @theme)
 └── main.tsx                 # Entry Point React

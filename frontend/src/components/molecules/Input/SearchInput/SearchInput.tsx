@@ -1,7 +1,8 @@
-import { useState, useRef, useEffect, forwardRef, useCallback } from 'react';
+import { useState, useEffect, forwardRef } from 'react';
 import type { ChangeEvent, KeyboardEvent } from 'react';
 import { cn } from '@/lib/utils';
 import { Input, Icon } from '@/components/atoms';
+import { useDebouncedCallback } from '@/hooks';
 import type { SearchInputProps, SearchMatchMode } from './SearchInput.types';
 
 // ─────────────────────────────────────────────────────────────
@@ -59,8 +60,6 @@ export const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(({
     ? String(controlledValue ?? '')
     : internalValue;
 
-  const debounceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-
   // Sync internal state bila controlled value berubah dari luar
   useEffect(() => {
     if (isControlled) {
@@ -68,15 +67,17 @@ export const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(({
     }
   }, [controlledValue, isControlled]);
 
-  const triggerSearch = useCallback(
+  const debouncedSearch = useDebouncedCallback(
     (query: string) => {
-      if (debounceTimerRef.current) {
-        clearTimeout(debounceTimerRef.current);
-      }
       onSearch?.(query, resolvedMatchMode);
     },
-    [onSearch, resolvedMatchMode]
+    Math.max(0, debounceTime)
   );
+
+  const triggerImmediateSearch = (query: string) => {
+    debouncedSearch.cancel();
+    onSearch?.(query, resolvedMatchMode);
+  };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const newVal = e.target.value;
@@ -87,14 +88,9 @@ export const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(({
 
     if (onSearch) {
       if (debounceTime > 0) {
-        if (debounceTimerRef.current) {
-          clearTimeout(debounceTimerRef.current);
-        }
-        debounceTimerRef.current = setTimeout(() => {
-          onSearch(newVal, resolvedMatchMode);
-        }, debounceTime);
+        debouncedSearch.run(newVal);
       } else {
-        onSearch(newVal, resolvedMatchMode);
+        triggerImmediateSearch(newVal);
       }
     }
   };
@@ -104,24 +100,15 @@ export const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(({
       setInternalValue('');
     }
     onClear?.();
-    triggerSearch('');
+    triggerImmediateSearch('');
   };
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
-      triggerSearch(currentValue);
+      triggerImmediateSearch(currentValue);
     }
     restProps.onKeyDown?.(e);
   };
-
-  // Cleanup debounce timer saat komponen unmount
-  useEffect(() => {
-    return () => {
-      if (debounceTimerRef.current) {
-        clearTimeout(debounceTimerRef.current);
-      }
-    };
-  }, []);
 
   // Rakit End Adornment (Loading Spinner)
   const renderEndAdornment = () => {

@@ -595,7 +595,175 @@ Komponen tombol pembersih atau penutup ("x") ringkas terstandardisasi untuk inpu
   <ClearButton variant="ghost" size="xs" onClick={handleRemove} label="Hapus chip" />
   ```
 
+#### 14. Slider (`src/components/atoms/Slider/`)
+
+Komponen penggeser nilai tunggal (*Single-Value Slider*) interaktif dan terstandarisasi untuk GamePedia-v2 Design System. Mendukung **Depth System taktil (alur cekung -1 s/d -3)**, orientasi horizontal maupun vertikal, arah normal/reverse, controlled & uncontrolled mode, touch/mouse pointer events, navigasi keyboard komprehensif, titik penanda (*marks*), gelembung tooltip, form integration dengan hidden input, dan aksesibilitas ARIA komprehensif.
+
+- **Lokasi File**:
+  - Implementasi: `src/components/atoms/Slider/Slider.tsx`
+  - Sub-Komponen: `src/components/atoms/Slider/components/` (`SliderTrack`, `SliderRange`, `SliderThumb`, `SliderMarks`, `SliderLabel`, `SliderHelperText`)
+  - Tipe Data: `src/components/atoms/Slider/Slider.types.ts`
+  - Class Maps & Styling: `src/components/atoms/Slider/Slider.styles.ts`
+  - Fungsi Utilitas: `src/components/atoms/Slider/Slider.utils.ts`
+  - Unit Test: `src/components/atoms/Slider/Slider.spec.tsx`
+  - Barrel Export: `src/components/atoms/Slider/index.ts` & `src/components/atoms/index.ts`
+- **Fitur & Props**:
+  - `min`, `max`, `step`: Batasan range dan pergeseran kelipatan (default: `0`, `100`, `1`)
+  - `value`, `defaultValue`: Kontrol nilai dalam controlled maupun uncontrolled mode
+  - `onChange`, `onChangeEnd`: Callback interaksi nilai saat bergeser dan saat pointer dilepaskan
+  - `orientation`: Orientasi tata letak (`'horizontal' | 'vertical'`) (default: `'horizontal'`)
+  - `direction`: Arah pertambahan nilai (`'normal' | 'reverse'`) (default: `'normal'`)
+  - `size`: Skala ukuran preset (`'sm' | 'md' | 'lg'`) (default: `'md'`)
+  - `color`: Varian tema warna semantik (`'primary' | 'secondary' | 'accent' | 'success' | 'warning' | 'error' | 'info'`)
+  - `depth`: Kedalaman visual trek (Depth System skala -3 s/d 3) (default: `-1` / cekung)
+  - `label`, `description`, `error`, `success`, `required`: Ekosistem form label dan feedback validasi
+  - `showValue`, `valuePosition`, `formatValue`: Penampil nilai teks fleksibel (`'top' | 'bottom' | 'tooltip'`)
+  - `tooltip`: Gelembung nilai melayang saat hover, fokus, atau dragging
+  - `marks`, `marksClickable`: Titik penanda nilai interaktif di sepanjang trek
+  - `trackClickable`: Klik langsung pada trek untuk memindahkan knop ke posisi kursor
+  - `thumbIcon`: Ikon di dalam knop penggeser
+  - `disabled`: Status nonaktif (`boolean`, default: `false`)
+- **Contoh Pemakaian**:
+
+  ```tsx
+  import { useState } from 'react';
+  import { Slider } from '@/components/atoms';
+
+  // 1. Slider Dasar Uncontrolled dengan Label & Nilai Terformat
+  <Slider
+    label="Volume Audio"
+    defaultValue={75}
+    showValue
+    valuePosition="top"
+    formatValue={(val) => `${val}%`}
+  />
+
+  // 2. Slider Controlled dengan Tooltip, Marks, & Varian Warna
+  <Slider
+    value={volume}
+    onChange={setVolume}
+    label="Master Audio"
+    tooltip
+    color="accent"
+    marks={[
+      { value: 0, label: '0%' },
+      { value: 50, label: '50%' },
+      { value: 100, label: '100%' },
+    ]}
+  />
+
+  // 3. Slider Vertikal
+  <Slider
+    orientation="vertical"
+    min={0}
+    max={100}
+    defaultValue={60}
+    tooltip
+  />
+  ```
+
+#### 15. ProgressBar (`src/components/atoms/ProgressBar/`)
+
+Komponen bilah kemajuan (*status indicator*) terstandarisasi untuk GamePedia-v2 Design System. Mendukung **Depth System (alur cekung -1 s/d -3)**, varian warna semantik, skala ukuran responsif, mode terukur (*determinate*) dan alur tak tentu (*indeterminate*), penyesuaian label & tampilan persentase, custom value formatter, serta aksesibilitas ARIA komprehensif.
+
+- **Lokasi File**:
+  - Implementasi: `src/components/atoms/ProgressBar/ProgressBar.tsx`
+  - Sub-Komponen: `src/components/atoms/ProgressBar/components/` (`ProgressBarTrack`, `ProgressBarFill`, `ProgressBarLabel`)
+  - Tipe Data: `src/components/atoms/ProgressBar/ProgressBar.types.ts`
+  - Class Maps & Styling: `src/components/atoms/ProgressBar/ProgressBar.styles.ts`
+  - Fungsi Utilitas: `src/components/atoms/ProgressBar/ProgressBar.utils.ts`
+  - Unit Test: `src/components/atoms/ProgressBar/ProgressBar.spec.tsx`
+  - Barrel Export: `src/components/atoms/ProgressBar/index.ts` & `src/components/atoms/index.ts`
+- **Fitur & Props**:
+  - `value`: Nilai progres saat ini (dibatasi otomatis antara 0 dan `max`, default: `0`)
+  - `max`: Batas nilai maksimum kapasitas (default: `100`)
+  - `indeterminate`: Mode alur tak tentu untuk proses berdurasi tak diketahui (`boolean`, default: `false`)
+  - `size`: Skala ukuran preset (`'sm' | 'md' | 'lg'`) (default: `'md'`)
+  - `color`: Varian tema warna semantik (`'primary' | 'secondary' | 'accent' | 'success' | 'warning' | 'error' | 'info'`) (default: `'primary'`)
+  - `depth`: Kedalaman visual trek (Depth System skala -3 s/d 3) (default: `-1` / cekung)
+  - `label`: Teks label judul di atas bilah progres (`ReactNode`)
+  - `showValue`: Menampilkan teks nilai persentase secara visual (`boolean`, default: `false`)
+  - `formatValue`: Pemformat kustom tampilan nilai teks (`(value: number, max: number) => ReactNode`)
+  - `description`: Teks petunjuk atau keterangan tambahan di bawah bilah (`ReactNode`)
+  - `disabled`: Status redup visual (`boolean`, default: `false`)
+  - `fullWidth`: Membentang selebar 100% kontainer induk (`boolean`, default: `true`)
+  - `width`: Lebar kustom spesifik (`'auto' | 'full' | string`)
+- **Contoh Pemakaian**:
+
+  ```tsx
+  import { ProgressBar } from '@/components/atoms';
+
+  // 1. Determinate dengan Label dan Nilai
+  <ProgressBar
+    label="Mengunduh Game"
+    value={75}
+    showValue
+  />
+
+  // 2. Custom Format Nilai
+  <ProgressBar
+    label="Instalasi Shaders"
+    value={750}
+    max={1000}
+    showValue
+    formatValue={(val, max) => `${val}/${max} MB`}
+  />
+
+  // 3. Indeterminate Loading
+  <ProgressBar
+    indeterminate
+    color="info"
+    label="Sinkronisasi Data Cloud..."
+  />
+  ```
+
+#### 16. SegmentedControl (`src/components/atoms/SegmentedControl/`)
+
+Komponen kumpulan pilihan segmen tunggal (*single-selection segmented control*) terstandarisasi untuk GamePedia-v2 Design System. Mendukung **Depth System (alur cekung -1 s/d -3)**, navigasi keyboard roving tabindex standar WAI-ARIA Radio Group, integrasi ikon, opsi individual disabled, mode controlled/uncontrolled, integrasi form native, dan pembagian lebar fleksibel (*fullWidth*).
+
+- **Lokasi File**:
+  - Implementasi: `src/components/atoms/SegmentedControl/SegmentedControl.tsx`
+  - Sub-Komponen: `src/components/atoms/SegmentedControl/components/SegmentedControlItem.tsx`
+  - Tipe Data: `src/components/atoms/SegmentedControl/SegmentedControl.types.ts`
+  - Class Maps & Styling: `src/components/atoms/SegmentedControl/SegmentedControl.styles.ts`
+  - Fungsi Utilitas: `src/components/atoms/SegmentedControl/SegmentedControl.utils.ts`
+  - Unit Test: `src/components/atoms/SegmentedControl/SegmentedControl.spec.tsx`
+  - Barrel Export: `src/components/atoms/SegmentedControl/index.ts` & `src/components/atoms/index.ts`
+- **Fitur & Props**:
+  - `options`: Daftar opsi pilihan segmen ber-tipe generik (`SegmentedControlOption<T>[]`)
+  - `value`: Nilai segmen aktif dalam mode *controlled*
+  - `defaultValue`: Nilai segmen awal dalam mode *uncontrolled* (default: opsi pertama yang *enabled*)
+  - `onChange`: Callback pemanggilan saat pilihan segmen berubah
+  - `size`: Skala ukuran preset (`'sm' | 'md' | 'lg'`) (default: `'md'`)
+  - `color`: Varian tema warna semantik untuk item aktif (`'primary' | 'secondary' | 'accent' | 'success' | 'warning' | 'error' | 'info'`) (default: `'primary'`)
+  - `depth`: Kedalaman visual wadah alur (Depth System skala -3 s/d 3) (default: `-1` / cekung)
+  - `fullWidth`: Membagi lebar segmen secara merata 100% (`boolean`, default: `false`)
+  - `disabled`: Menonaktifkan seluruh pilihan segmen (`boolean`, default: `false`)
+  - `ariaLabel`: Label aksesibilitas kontainer pembaca layar (`aria-label`)
+  - `name`: Nama form input untuk native form submission otomatis
+- **Contoh Pemakaian**:
+
+  ```tsx
+  import { useState } from 'react';
+  import { SegmentedControl } from '@/components/atoms';
+
+  type ViewMode = 'grid' | 'list';
+  const [mode, setMode] = useState<ViewMode>('grid');
+
+  <SegmentedControl<ViewMode>
+    options={[
+      { value: 'grid', label: 'Grid', icon: 'mdi:view-grid' },
+      { value: 'list', label: 'List', icon: 'mdi:view-list' },
+    ]}
+    value={mode}
+    onChange={setMode}
+    color="primary"
+  />
+  ```
+
 ### 🧬 Molecules (`src/components/molecules/`)
+
+
 
 #### 1. ThemeToggle (`src/components/molecules/ThemeToggle/`)
 

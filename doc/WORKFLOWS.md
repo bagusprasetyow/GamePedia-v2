@@ -37,10 +37,12 @@ Workflow standar untuk membuat komponen UI di `frontend/src/components/` berbasi
 Workflow untuk melakukan audit kepatuhan menyeluruh terhadap konvensi arsitektur, standar styling, dan integritas build monorepo:
 
 - **Audit Komponen Custom**: Memindai seluruh komponen bertingkat dari penggunaan tag HTML murni.
-- **Audit Hirarki Atomic Design**: Memastikan atom tidak mengimpor dari molekul/organism, dan molekul hanya mengimpor dari atom.
+- **Audit Hirarki Atomic Design & Isolasi Domain**: Memastikan atom & molecule tetap murni agnostik domain; domain logic GamePedia wajib dipisahkan ke `src/features/<feature>/`.
+- **Audit Kebersihan Folder Global**: Memastikan `src/hooks/`, `src/lib/`, dan `src/utils/` tidak terkontaminasi oleh logika domain khusus.
+- **Audit Modularitas Backend**: Memastikan endpoint & logic baru dikelompokkan ke modul domain `backend/src/modules/<domain>/` (larangan flat controller/service di root `src/`) serta pemanfaatan `common/` dan `config/`.
 - **Audit Warna OKLCH & Depth System**: Memastikan seluruh styling menggunakan token `@theme` OKLCH (dilarang hardcoded Hex/RGB) dan prop `depth`.
 - **Audit Path Alias**: Memastikan seluruh path import menggunakan alias `@/` tanpa relative import `../../`.
-- **Verifikasi Lint & Build**: Menjalankan linting dan build kompilasi untuk backend dan frontend.
+- **Verifikasi Lint & Build**: Menjalankan linting (Oxlint & ESLint), unit test (Vitest backend & frontend), dan build kompilasi monorepo.
 
 ---
 
@@ -82,9 +84,11 @@ Workflow untuk menyelaraskan dan memperbarui seluruh dokumentasi proyek secara m
 
 - **Tahap 1: Inspeksi Git Status & Git Diff**: Memeriksa file yang diubah (`modified`), file baru (`untracked`), atau dihapus (`deleted`).
 - **Tahap 2: Analisis Perubahan per Domain**: Dampak perubahan terhadap frontend (`frontend/`), backend (`backend/`), dan workflows (`.agents/`).
-- **Tahap 3: Pembaruan Mandat Berkas `.md` Individual per Komponen**:
+- **Tahap 3: Pembaruan Mandat Berkas `.md` Individual per Komponen & Modul**:
   - Setiap komponen UI (atom, molekul, input) di `frontend/src/components/` **wajib** memiliki/memperbarui file `.md` spesifik di `doc/frontend/components/atoms/`, `doc/frontend/components/molecules/`, atau `doc/frontend/components/molecules/inputs/`.
   - Berkas individual memuat deskripsi, lokasi file & sub-komponen, tabel API props & default, Depth System (-3 s/d 3), contoh kode JSX, dan aksesibilitas WAI-ARIA.
+  - Setiap fitur bisnis di `frontend/src/features/<feature>/` wajib didokumentasikan di `doc/frontend/features/<feature>.md`.
+  - Setiap modul backend di `backend/src/modules/<domain>/` wajib didokumentasikan di `doc/backend/modules/<domain>.md`.
 - **Tahap 4: Pembaruan Berkas Katalog & Indeks di `doc/`**:
   - `doc/README.md` & `doc/ARCHITECTURE.md` (indeks utama & struktur monorepo).
   - `doc/frontend/components/README.md` & `doc/frontend/COMPONENTS.md` (indeks & master katalog komponen).

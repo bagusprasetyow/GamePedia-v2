@@ -1,0 +1,10 @@
+export { default, Slider } from './Slider';
+export { SliderTrack } from './components/SliderTrack';
+export { SliderRange } from './components/SliderRange';
+export { SliderThumb } from './components/SliderThumb';
+export { SliderMarks } from './components/SliderMarks';
+export { SliderLabel } from './components/SliderLabel';
+export { SliderHelperText } from './components/SliderHelperText';
+export type * from './Slider.types';
+export * from './Slider.styles';
+export * from './Slider.utils';

@@ -317,3 +317,17 @@
     font-family: inherit;
   }
 }
+
+/* ── Indeterminate Progress Animation Keyframes ── */
+@keyframes progress-indeterminate {
+  0% {
+    transform: translateX(-140%);
+  }
+  50% {
+    transform: translateX(50%);
+  }
+  100% {
+    transform: translateX(250%);
+  }
+}
+
