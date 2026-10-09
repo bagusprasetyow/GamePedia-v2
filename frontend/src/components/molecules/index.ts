@@ -23,5 +23,12 @@ export type * from './SourceCode/CodePreview/CodePreview.types';
 export { default as ShowcasePreview, ShowcasePreview as ShowcasePreviewMolecule } from './ShowcasePreview';
 export type * from './ShowcasePreview/ShowcasePreview.types';
 
-
+export {
+  default as ImageUpload,
+  ImageUpload as ImageUploadMolecule,
+  useImageUpload,
+  formatFileSize,
+  validateImageFile,
+} from './ImageUpload';
+export type * from './ImageUpload/ImageUpload.types';
 

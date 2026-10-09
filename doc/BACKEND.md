@@ -10,6 +10,7 @@ Untuk informasi yang lebih terstruktur dan modular, silakan merujuk ke sub-dokum
 
 - 🏠 [**Pusat Dokumentasi Backend (doc/backend/README.md)**](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/backend/README.md)
 - 🧩 [**Struktur Module & Controller (doc/backend/MODULES.md)**](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/backend/MODULES.md)
+- 📦 [**Modul Storage & Watcher (doc/backend/modules/storage.md)**](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/backend/modules/storage.md)
 - 🧪 [**Pengujian & Quality Control (doc/backend/TESTING.md)**](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/backend/TESTING.md)
 
 ---
@@ -19,6 +20,8 @@ Untuk informasi yang lebih terstruktur dan modular, silakan merujuk ke sub-dokum
 - **NestJS 12**: Framework aplikasi server-side berbasis Node.js yang modular dan scalable.
 - **Config Module (`@nestjs/config`)**: Pengelolaan environment variable secara terpusat (`ConfigModule.forRoot`).
 - **Cookie Parser (`cookie-parser`)**: Middleware penanganan cookie HTTP request.
+- **Multer (`@nestjs/platform-express`)**: Penanganan multipart/form-data untuk upload berkas gambar.
+- **Logging Interceptor**: Observabilitas lalu lintas HTTP global dengan kalkulasi latensi ms.
 - **TypeScript 6**: Type checking generasi terbaru.
 - **RxJS Server-Sent Events (SSE)**: Streaming data real-time via `@Sse('time')` endpoint di `AppController` dengan pengiriman payload timestamp dan data JSON dinamis (`data/live-data.json`).
 - **Vitest**: Test runner alternatif super cepat menggantikan Jest untuk Unit Testing dan End-to-End (E2E) testing.
@@ -32,13 +35,18 @@ Untuk informasi yang lebih terstruktur dan modular, silakan merujuk ke sub-dokum
 ```
 backend/
 ├── data/
-│   └── live-data.json         # Data JSON Dinamis untuk Stream SSE
+│   ├── live-data.json         # Data JSON Dinamis untuk Stream SSE
+│   └── storage/image/         # Direktori Penyimpanan Unggahan Gambar
 ├── src/
+│   ├── common/
+│   │   └── interceptors/      # Global Interceptors (LoggingInterceptor)
+│   ├── modules/
+│   │   └── storage/           # Modul Storage, Controller, Service & Watcher
 │   ├── app.controller.ts      # Controller Utama (Handling Request & Route)
 │   ├── app.controller.spec.ts # Unit Test Controller (Vitest)
-│   ├── app.module.ts          # Root Module Aplikasi (Imports ConfigModule)
+│   ├── app.module.ts          # Root Module Aplikasi (Imports ConfigModule & StorageModule)
 │   ├── app.service.ts         # Service Utama (Bisnis Logika & Dynamic JSON Reader)
-│   └── main.ts                # Entry Point NestJS App (CORS, Cookie Parser, Dynamic Port)
+│   └── main.ts                # Entry Point NestJS App (CORS, Cookie Parser, LoggingInterceptor, Dynamic Port)
 ├── test/
 │   └── app.e2e-spec.ts        # Testing End-to-End (Vitest)
 ├── .env.example               # Contoh Konfigurasi Environment Variable

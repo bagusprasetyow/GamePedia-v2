@@ -24,6 +24,7 @@ Direktori ini memuat dokumentasi terperinci untuk setiap komponen UI GamePedia v
 | **Tooltip** | Gelembung petunjuk interaktif dengan 12 arah placement | [Tooltip.md](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/frontend/components/atoms/Tooltip.md) |
 | **ProgressBar** | Bilah kemajuan status dengan Depth System, indeterminate mode, & label | [ProgressBar.md](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/frontend/components/atoms/ProgressBar.md) |
 | **SegmentedControl** | Kumpulan pilihan segmen tunggal interaktif dengan roving tabindex & ikon | [SegmentedControl.md](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/frontend/components/atoms/SegmentedControl.md) |
+| **Image** | Primitif gambar tingkat lanjut dengan Depth System, ambient blur, fallback, & shimmer skeleton | [Image.md](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/frontend/components/atoms/Image.md) |
 
 ---
 
@@ -39,6 +40,7 @@ Direktori ini memuat dokumentasi terperinci untuk setiap komponen UI GamePedia v
 | **CodePreview** | Blok kode terformat dengan syntax highlighting VS Code Dark+ | [CodePreview.md](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/frontend/components/molecules/CodePreview.md) |
 | **Clipboard** | Tombol salin teks ke papan klip dengan feedback taktil dinamis | [Clipboard.md](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/frontend/components/molecules/Clipboard.md) |
 | **ShowcasePreview**| Kanvas wadah interaktif untuk pengujian komponen UI | [ShowcasePreview.md](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/frontend/components/molecules/ShowcasePreview.md) |
+| **ImageUpload** | Pengunggah berkas gambar interaktif (drag-and-drop, validasi, preview, & Depth System) | [ImageUpload.md](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/frontend/components/molecules/ImageUpload.md) |
 
 ---
 

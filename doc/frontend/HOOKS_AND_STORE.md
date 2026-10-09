@@ -221,7 +221,56 @@ if (!has('user-123')) {
 
 ---
 
-## 🛠️ 11. Utilitas Frontend (`src/utils/`)
+## 🖼️ 11. Hook Pengunggah Gambar (`useImageUpload`)
+
+File: [`src/components/molecules/ImageUpload/useImageUpload.ts`](file:///d:/Projects/project%20GP-v2/GamePedia-v2/frontend/src/components/molecules/ImageUpload/useImageUpload.ts)
+
+Hook modular pengelola alur pengunggahan, pemrosesan, dan pratinjau gambar:
+- **Fitur Utama**:
+  - Penanganan status drag-and-drop (`isDragging`) dengan feedback visual taktil.
+  - Validasi tipe MIME dan batasan ukuran berkas (`maxSizeMB`) dengan callback error komprehensif.
+  - Pratinjau gambar instan (*instant preview*) dengan pembersihan memori otomatis (`URL.revokeObjectURL`) untuk mencegah memory leak.
+  - Integrasi kompresi otomatis (`compress`) dan konversi format gambar (`convertTo`, misal WebP) sebelum trigger `onChange`.
+  - Penanganan mode terkontrol (*controlled*) via prop `value` maupun mode mandiri (*uncontrolled*).
+
+```tsx
+import { useImageUpload } from '@/components/molecules/ImageUpload/useImageUpload';
+
+const {
+  previewUrl,
+  selectedFile,
+  isDragging,
+  isProcessing,
+  handleDragOver,
+  handleDragLeave,
+  handleDrop,
+  handleFileChange,
+  handleRemove,
+} = useImageUpload({
+  compress: { quality: 0.8, maxWidth: 1920 },
+  convertTo: 'webp',
+  onChange: (file, url) => console.log('File terpilih:', file, url),
+});
+```
+
+### Hook Drag-and-Drop Area Gambar (`useImageDragDrop`)
+
+File: [`src/hooks/image/useImageDragDrop.ts`](file:///d:/Projects/project%20GP-v2/GamePedia-v2/frontend/src/hooks/image/useImageDragDrop.ts)
+
+Hook modular untuk mengelola state visual dan event handling interaksi drag-and-drop (`isDragging`, `handleDragEnter`, `handleDragOver`, `handleDragLeave`, `handleDrop`) pada dropzone area berkas gambar:
+
+```tsx
+import { useImageDragDrop } from '@/hooks/image';
+
+const { isDragging, handleDragEnter, handleDragOver, handleDragLeave, handleDrop } = useImageDragDrop(
+  disabled,
+  (file) => console.log('File di-drop:', file)
+);
+```
+
+---
+
+## 🛠️ 12. Utilitas Frontend (`src/utils/`)
 
 ### A. Utilitas Debounce (`debounce`)
 File: [`src/utils/debounce/debounce.ts`](file:///d:/Projects/project%20GP-v2/GamePedia-v2/frontend/src/utils/debounce/debounce.ts)
@@ -231,9 +280,16 @@ Fungsi murni TypeScript untuk mendebounce panggilan fungsi apa pun dengan konfig
 File: [`src/utils/cache/MemoryCache.ts`](file:///d:/Projects/project%20GP-v2/GamePedia-v2/frontend/src/utils/cache/MemoryCache.ts)
 Kelas struktur data cache in-memory berbasis Map dengan algoritma LRU (*Least Recently Used*) dan penghapusan otomatis entri kedaluwarsa berbasis TTL (*Time To Live*).
 
+### C. Utilitas Manipulasi & Pengunggahan Gambar (`@/utils/image`)
+File: [`src/utils/image/`](file:///d:/Projects/project%20GP-v2/GamePedia-v2/frontend/src/utils/image/)
+- **`imageCompressor.ts`**: Kompresi gambar sisi klien berbasis HTML5 Canvas dengan opsi penyesuaian resolusi (`maxWidth`, `maxHeight`), rasio kualitas, dan kompresi adaptif hingga mencapai target ukuran spesifik (`maxSizeKB`).
+- **`imageConverter.ts`**: Konversi format berkas gambar secara instan ke WebP, JPEG, PNG, atau AVIF dengan penanganan background transparan / fallback warna.
+- **`imageUploader.ts`**: Utilitas pengunggahan berkas gambar ke backend API (`/storage/upload`) via `FormData` dengan pelacakan progres unggah reaktif (`onProgress`).
+- **`image.helpers.ts`**: Validasi MIME type, kalkulasi ukuran file (KB/MB), pembuatan blob URL, dan ekstraksi dimensi natural gambar.
+
 ---
 
-## 📡 12. Konsumsi Real-Time SSE (Server-Sent Events)
+## 📡 13. Konsumsi Real-Time SSE (Server-Sent Events)
 
 File: `src/App.tsx`
 
@@ -246,7 +302,7 @@ Frontend mengonsumsi data real-time streaming waktu dan live data dari backend N
 
 ---
 
-## 🧪 13. Pengujian Unit Frontend (Vitest)
+## 🧪 14. Pengujian Unit Frontend (Vitest)
 
 Frontend GamePedia v2 dilengkapi dengan **Vitest** untuk pengujian unit otomatis pada seluruh komponen atomik, sub-komponen, molekul, utilitas, kalkulasi logika, dan aksesibilitas:
 
@@ -255,7 +311,7 @@ Frontend GamePedia v2 dilengkapi dengan **Vitest** untuk pengujian unit otomatis
 npm run test --prefix frontend
 ```
 
-### Hasil Verifikasi Test Suite Aktif (28 File, 357 Tests Passed):
+### Hasil Verifikasi Test Suite Aktif (30 File, 408 Tests Passed):
 1. `Badge.spec.ts` (10 tests): Pengujian sub-komponen `BadgeIcon` dan `BadgeLabel`, 4 appearance visual (`filled`, `ghost`, `outline`, `tint`), varian semantik token OKLCH, radius rounded, dan Depth System (-3 s/d 3).
 2. `Button.spec.ts` (19 tests): Pengujian varian warna semantik, ukuran, depth -3 s/d 3, status loading (`ButtonLoading`), dan sub-atom ikon (`ButtonIcon`).
 3. `Checkbox.spec.ts` (9 tests): Pengujian sub-komponen `CheckboxIndicator` dan `CheckboxLabel`, status indeterminate, varian visual (`check`/`solid`), dan interaksi checked.
@@ -284,3 +340,5 @@ npm run test --prefix frontend
 26. `useCache.spec.tsx` (8 tests): Pengujian hook `useCache` integrasi, persistensi sesi komponen, mutasi cache get/set/clear, dan event listener reaktif.
 27. `debounce.spec.ts` (9 tests): Pengujian fungsi debounce murni, pembatalan eksekusi, opsi maxWait, dan pencegahan memory leak.
 28. `MemoryCache.spec.ts` (10 tests): Pengujian algoritma penggusuran LRU (*Least Recently Used*), kedaluwarsa TTL, kapasitas cache, dan metode sanitasi data.
+29. `image.spec.ts` (21 tests): Pengujian utilitas kompresi lossy (`compressImage`), konversi format WebP/JPEG/PNG (`convertImage`), penyesuaian dimensi gambar (`resizeImage`), validasi MIME, dan ekstraksi metadata gambar.
+30. `ImageUpload.spec.ts` (30 tests): Pengujian komponen `ImageUpload`, sub-komponen `ImageUploadDropzone`, `ImageUploadPreview`, `ImageUploadProgress`, `ImageUploadInfo`, `ImageUploadActions`, validasi format dan ukuran, integrasi kompresi & konversi otomatis, serta Depth System (-3 s/d 3).

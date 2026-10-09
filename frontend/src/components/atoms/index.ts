@@ -45,3 +45,7 @@ export type * from './ProgressBar/ProgressBar.types';
 
 export { default as SegmentedControl, SegmentedControl as SegmentedControlAtom } from './SegmentedControl';
 export type * from './SegmentedControl/SegmentedControl.types';
+
+export { default as Image, Image as ImageAtom } from './Image';
+export type * from './Image/Image.types';
+

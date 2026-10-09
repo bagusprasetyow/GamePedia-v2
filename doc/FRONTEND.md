@@ -1524,6 +1524,10 @@ Hook pengelolaan active tab dan resolusi kode sumber pada cuplikan multi-tab ter
 
 Hook pemformatan baris kode, penomoran baris, dan penyorotan token sintaksis bergaya VS Code Dark+.
 
+### 9. `useImageUpload` (`src/components/molecules/ImageUpload/useImageUpload.ts`)
+
+Hook pengelola unggah berkas gambar interaktif yang menangani drag-and-drop, validasi tipe berkas dan ukuran maksimum, pratinjau instan (*instant preview*), sinkronisasi mode terkontrol (*controlled*) vs mandiri (*uncontrolled*), serta pembersihan memori otomatis (`URL.revokeObjectURL`) saat berkas diganti atau komponen di-unmount.
+
 ---
 
 ## 📜 Aturan & Konvensi Komponen Frontend

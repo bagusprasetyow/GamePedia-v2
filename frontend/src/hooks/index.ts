@@ -2,3 +2,4 @@ export { useTheme, getGlobalTheme, getSystemTheme, getResolvedTheme, applyThemeT
 export type { Theme, ResolvedTheme } from './useTheme';
 export * from './debounce';
 export * from './cache';
+export * from './image';

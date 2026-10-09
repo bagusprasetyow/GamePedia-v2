@@ -10,7 +10,15 @@ Backend GamePedia v2 menggunakan **Vitest 4** sebagai test runner utama penggant
 
 ### 1. Unit Testing (`src/**/*.spec.ts`)
 - **Konfigurasi**: `vitest.config.ts`
-- **Tujuan**: Menguji isolasi logika pada controller dan service.
+- **Tujuan**: Menguji isolasi logika pada controller, service, data watcher, dan utilitas.
+- **Test Suites Aktif (7 Suites, 42 Tests Passed)**:
+  - `image-validator.spec.ts` (18 tests): Verifikasi validasi 3-lapis (ekstensi, MIME, dan magic bytes biner untuk JPEG, PNG, WebP, AVIF, serta proteksi anti-XSS SVG dan MIME spoofing).
+  - `storage.service.spec.ts` (12 tests): Validasi pencegahan path traversal (`..`), karakter terlarang, containment path, validasi berkas kosong, integrasi image validator, pembuatan nama berkas unik, penghapusan berkas, dan penulisan berkas ke filesystem.
+  - `data-watcher.service.spec.ts` (5 tests): Verifikasi penemuan root data, inisialisasi baseline snapshot, konfigurasi `ENABLE_DATA_WATCHER`, serta deteksi reaktif operasi penambahan, perubahan, dan penghapusan berkas dengan debounce.
+  - `multer-exception.filter.spec.ts` (3 tests): Verifikasi penanganan exception Multer (`LIMIT_FILE_SIZE`, `LIMIT_FILE_COUNT`, `LIMIT_PART_COUNT`) menjadi respons HTTP terstandarisasi.
+  - `logging.interceptor.spec.ts` (2 tests): Verifikasi interceptor logging HTTP request, latensi, dan penanganan galat error.
+  - `storage.controller.spec.ts` (1 test): Verifikasi penanganan endpoint `POST /storage/upload`.
+  - `app.controller.spec.ts` (1 test): Verifikasi endpoint salam default root controller.
 - **Perintah Exec**:
   ```bash
   npm run test --prefix backend

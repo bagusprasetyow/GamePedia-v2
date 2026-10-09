@@ -14,11 +14,12 @@ GamePedia-v2/
 │   └── workflows/       # Defined Slash Commands (/create-component, /audit, /audit-components, /audit-tailwind, /audit-functions, /update-docs, /update-timeline, /commit-and-push)
 ├── backend/              # Aplikasi NestJS 12 (API Gateway & Core Logic)
 │   ├── src/
-│   │   ├── modules/     # Domain Feature Modules (games, auth, users, reviews, wishlist, search)
-│   │   ├── common/      # Cross-Cutting Concerns (guards, interceptors, filters, pipes, decorators)
+│   │   ├── modules/     # Domain Feature Modules (storage, games, auth, users, reviews, wishlist, search)
+│   │   │   └── storage/ # Upload Gambar Multer, Path Sanitizer, dan DataWatcherService
+│   │   ├── common/      # Cross-Cutting Concerns (interceptors/logging.interceptor.ts, guards, filters)
 │   │   ├── config/      # Centralized Configuration & Environment Validation
-│   │   ├── app.module.ts# Root Orchestrator Module
-│   │   └── main.ts      # Bootstrap Entry Point
+│   │   ├── app.module.ts# Root Orchestrator Module (ConfigModule & StorageModule)
+│   │   └── main.ts      # Bootstrap Entry Point (Global Logging Interceptor)
 │   ├── test/            # Vitest E2E Tests
 │   ├── .env.example     # Environment Variables Template
 │   ├── oxlintrc.json    # Oxlint Fast Linter Config
@@ -27,20 +28,20 @@ GamePedia-v2/
 │   ├── src/
 │   │   ├── assets/      # Static Assets
 │   │   ├── components/  # Atomic Design System (Agnostik Domain Bisnis)
-│   │   │   ├── atoms/   # Text, Icon, Button, Switch, Input, Textarea, Checkbox, Radio, Tooltip, Dot, ProgressBar, Slider
-│   │   │   └── molecules/# CheckboxGroup, RadioGroup, ThemeToggle, Inputs, Dropdown, SourceCode, Clipboard, ShowcasePreview
+│   │   │   ├── atoms/   # Text, Icon, Button, Switch, Input, Textarea, Checkbox, Radio, Tooltip, Dot, ProgressBar, Slider, Chip, Badge, ClearButton, SegmentedControl
+│   │   │   └── molecules/# CheckboxGroup, RadioGroup, ThemeToggle, Inputs, Dropdown, SourceCode, Clipboard, ShowcasePreview, ImageUpload
 │   │   ├── features/    # Feature-Driven Business Logic (games, auth, reviews, wishlist, search)
 │   │   │   └── <feature>/ # components/, hooks/, services/, types/, utils/
-│   │   ├── hooks/       # Global Reusable Hooks (useTheme)
+│   │   ├── hooks/       # Global Reusable Hooks (useTheme, useCache, useDebounce, useImageUpload)
 │   │   ├── lib/         # Infrastructure & Client Setup
-│   │   ├── utils/       # Pure Generic Utilities (cn)
+│   │   ├── utils/       # Pure Generic Utilities (cn, debounce, MemoryCache, imageCompressor, imageConverter, imageUploader)
 │   │   ├── App.tsx      # Main Application Entry Component
 │   │   └── index.css    # OKLCH Theme Palette & Tailwind CSS v4
 │   ├── eslint.config.js # ESLint Flat Config
 │   └── package.json
 ├── doc/                  # Pusat Dokumentasi Terpisah & Terperinci
 │   ├── frontend/        # Sub-dokumentasi Frontend (COMPONENTS.md, STYLING.md, HOOKS_AND_STORE.md)
-│   └── backend/         # Sub-dokumentasi Backend (MODULES.md, TESTING.md)
+│   └── backend/         # Sub-dokumentasi Backend (MODULES.md, TESTING.md, modules/storage.md)
 ├── package.json          # Root Monorepo Configuration (Concurrently & Scripts)
 └── README.md             # Dokumen Utama Proyek
 ```
@@ -52,7 +53,9 @@ GamePedia-v2/
 ### ⚙️ Backend Core Stack
 - **Framework**: [NestJS 12](https://nestjs.com/) (Modular REST Architecture)
 - **Language**: [TypeScript 6](https://www.typescriptlang.org/)
-- **Test Runner**: [Vitest 4](https://vitest.dev/) (Unit & E2E Testing)
+- **Multipart Storage**: Multer (`@nestjs/platform-express`) untuk penanganan upload gambar ke `data/storage/image/` (validasi 3 lapis: Extension -> MIME -> Magic Bytes)
+- **Observabilitas**: Global `LoggingInterceptor` untuk pelacakan latensi HTTP dan response code
+- **Test Runner**: [Vitest 4](https://vitest.dev/) (7 test suites, 42 unit tests lulus 100%)
 - **Linter & Formatter**: [Oxlint](https://oxc-project.github.io/) + [Prettier](https://prettier.io/)
 
 ### 🎨 Frontend Core Stack
@@ -60,7 +63,7 @@ GamePedia-v2/
 - **Build Tool**: [Vite 8](https://vitejs.dev/)
 - **Styling**: [Tailwind CSS v4](https://tailwindcss.com/) (dengan Engine CSS performa tinggi `@tailwindcss/vite` & Palette OKLCH)
 - **Design System**: Atomic Design (Atoms & Molecules terenkapsulasi dengan Depth Scale -3 s/d 3)
-- **Test Runner**: [Vitest 4](https://vitest.dev/) (18 test suite otomatis, 171 tests lulus 100% untuk logika komponen, sub-komponen, dan utility functions)
+- **Test Runner**: [Vitest 4](https://vitest.dev/) (32 test suites, 438 tests lulus 100% untuk logika komponen, sub-komponen, hooks, utilitas kompresi/konversi gambar, dan caching)
 - **Linter**: [ESLint 10](https://eslint.org/) (dengan `typescript-eslint` dan Plugin React Hooks)
 
 ---

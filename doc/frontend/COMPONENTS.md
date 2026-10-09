@@ -35,6 +35,7 @@ Setiap komponen memiliki dokumentasi spesifikasi `.md` tersendiri dengan rincian
 | **ClearButton**| 📄 [ClearButton.md](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/frontend/components/atoms/ClearButton.md) | Tombol silang pembersih mandiri dengan hover merah interaktif dan varian visual lengkap. | - |
 | **ProgressBar**| 📄 [ProgressBar.md](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/frontend/components/atoms/ProgressBar.md) | Bilah kemajuan status dengan Depth System, mode determinate/indeterminate, warna semantik, dan label. | `ProgressBarTrack`, `ProgressBarFill`, `ProgressBarLabel`, `ProgressBar.utils` |
 | **SegmentedControl**| 📄 [SegmentedControl.md](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/frontend/components/atoms/SegmentedControl.md) | Kumpulan pilihan segmen tunggal interaktif dengan roving tabindex, Depth System, warna semantik, dan ikon. | `SegmentedControlItem`, `SegmentedControl.utils` |
+| **Image** | 📄 [Image.md](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/frontend/components/atoms/Image.md) | Primitif gambar tingkat lanjut dengan Depth System (-3 s/d 3), efek ambient blur glow, shimmer skeleton loader, dan graceful fallback. | `ImageSkeleton`, `ImageFallback`, `ImageAmbientBlur`, `Image.styles` |
 
 ---
 
@@ -50,6 +51,7 @@ Setiap komponen memiliki dokumentasi spesifikasi `.md` tersendiri dengan rincian
 | **CodePreview** | 📄 [CodePreview.md](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/frontend/components/molecules/CodePreview.md) | Blok kode terformat dengan penyorotan sintaks tokenik real-time VS Code Dark+. | `CodePreviewLine`, `useCodePreview`, `CodePreview.utils` |
 | **Clipboard** | 📄 [Clipboard.md](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/frontend/components/molecules/Clipboard.md) | Tombol aksi salin ke papan klip dengan transisi visual sukses taktil dinamis. | `ClipboardIcon`, `ClipboardLabel`, `useClipboard` |
 | **ShowcasePreview**| 📄 [ShowcasePreview.md](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/frontend/components/molecules/ShowcasePreview.md) | Kanvas pengujian interaktif untuk mendemonstrasikan komponen UI di playground. | `ShowcasePreviewBackground`, `ShowcasePreviewBadges`, `ShowcasePreviewInfo` |
+| **ImageUpload** | 📄 [ImageUpload.md](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/frontend/components/molecules/ImageUpload.md) | Pengunggah berkas gambar interaktif (drag-drop, validasi format/size, preview, Depth System, progress). | `ImageUploadHeader`, `ImageUploadDropzone`, `ImageUploadPreview`, `ImageUploadProgress`, `ImageUploadInfo`, `ImageUploadActions`, `useImageUpload`, `useImageDragDrop`, `ImageUpload.utils` |
 
 ---
 

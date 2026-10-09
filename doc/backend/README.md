@@ -11,6 +11,7 @@ Silakan klik tautan di bawah ini untuk mempelajari modul, controller, service, a
 | Dokumen | Deskripsi |
 | :--- | :--- |
 | 🧩 [**Struktur Module & Controller (MODULES.md)**](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/backend/MODULES.md) | Penjelasan `AppModule`, `AppController`, `AppService`, endpoint SSE real-time (`@Sse('time')`), serta pengolahan data JSON dinamis (`live-data.json`). |
+| 📦 [**Modul Storage & Watcher (modules/storage.md)**](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/backend/modules/storage.md) | Dokumentasi detail `StorageModule`, endpoint upload gambar, sanitasi direktori aman, serta `DataWatcherService` real-time. |
 | 🧪 [**Pengujian & Quality Control (TESTING.md)**](file:///d:/Projects/project%20GP-v2/GamePedia-v2/doc/backend/TESTING.md) | Panduan pengujian Unit Test & End-to-End (E2E) menggunakan **Vitest** serta linter cepat berbasis Rust **Oxlint**. |
 
 ---
@@ -20,11 +21,16 @@ Silakan klik tautan di bawah ini untuk mempelajari modul, controller, service, a
 ```
 backend/
 ├── data/
-│   └── live-data.json         # Data JSON Dinamis untuk Stream SSE
+│   ├── live-data.json         # Data JSON Dinamis untuk Stream SSE
+│   └── storage/image/         # Direktori Penyimpanan Unggahan Gambar
 ├── src/
+│   ├── common/
+│   │   └── interceptors/      # Global Interceptors (LoggingInterceptor)
+│   ├── modules/
+│   │   └── storage/           # Modul Storage, Controller, Service & Watcher
 │   ├── app.controller.ts      # Controller Utama (Handling Request & Route)
 │   ├── app.controller.spec.ts # Unit Test Controller (Vitest)
-│   ├── app.module.ts          # Root Module Aplikasi (ConfigModule)
+│   ├── app.module.ts          # Root Module Aplikasi (ConfigModule, StorageModule)
 │   ├── app.service.ts         # Service Utama (Bisnis Logika & SSE Stream Reader)
 │   └── main.ts                # Entry Point NestJS (CORS, Cookie Parser, Dynamic Port)
 ├── test/

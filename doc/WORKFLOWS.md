@@ -16,6 +16,7 @@ Dokumen ini menjelaskan secara terperinci tata cara penggunaan dan aturan intern
 | `/update-docs` | Update Dokumentasi | [`.agents/workflows/update-docs.md`](file:///d:/Projects/project%20GP-v2/GamePedia-v2/.agents/workflows/update-docs.md) | Mengecek `git status` dan memecah/memperbarui seluruh file dokumentasi terperinci di folder `doc/` |
 | `/update-timeline` | Update Timeline | [`.agents/workflows/update-timeline.md`](file:///d:/Projects/project%20GP-v2/GamePedia-v2/.agents/workflows/update-timeline.md) | Mencatat ringkasan detail perubahan/commit saat ini pada log rilis `doc/TIMELINE.md` |
 | `/commit-and-push` | Commit & Push Quality Control | [`.agents/workflows/commit-and-push.md`](file:///d:/Projects/project%20GP-v2/GamePedia-v2/.agents/workflows/commit-and-push.md) | Memeriksa build/lint/test, menyelaraskan versi di 6 berkas `package.json` & `package-lock.json`, mensinkronkan timestamp timeline, serta melakukan git commit & push |
+| `/discuss` | Diskusi & Brainstorming | [`.agents/workflows/discuss.md`](file:///d:/Projects/project%20GP-v2/GamePedia-v2/.agents/workflows/discuss.md) | Mode diskusi, brainstorming arsitektur, dan investigasi tanpa mengubah kode (Zero Code Mutation) |
 
 ---
 
@@ -133,3 +134,15 @@ Gerbang utama verifikasi kualitas sebelum pengiriman kode ke repository remote:
   - `git add .`
   - Pesan commit **HANYA berisi string versi aplikasi** (contoh: `git commit -m "0.0.5"`).
   - Eksekusi `git push origin main`.
+
+---
+
+### 9. Workflow: `/discuss` (Diskusi & Brainstorming Tanpa Ubah Kode)
+Workflow khusus untuk konsultasi, brainstorming fitur baru, evaluasi arsitektur, atau troubleshooting konseptual dengan mandat **Zero Code Mutation**:
+
+- **Mandat Zero Code Mutation**: Agent dilarang memodifikasi file repositori (`write_to_file`, `replace_file_content`, edit git, install package, dll.) selama sesi diskusi.
+- **Investigasi Read-Only**: Agent hanya menggunakan tool inspeksi (`view_file`, `grep_search`, `list_dir`) untuk mempelajari arsitektur eksisting.
+- **Penyajian Multi-Opsi & Analisis Trade-Off**: Menyajikan minimal 2 alternatif pendekatan dengan kelebihan, kekurangan, dan estimasi dampak.
+- **Kode Contoh Hanya di Chat**: Segala potongan kode/types/hook hanya disajikan dalam markdown code block di respon percakapan.
+- **Transisi ke Eksekusi**: Transisi ke penulisan kode baru diizinkan setelah pengguna memberikan instruksi persetujuan eksplisit.
+
