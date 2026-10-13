@@ -19,6 +19,14 @@ export default defineConfig({
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, ''),
       },
+      '/storage': {
+        target: 'http://localhost:4003',
+        changeOrigin: true,
+      },
+      '/videos': {
+        target: 'http://localhost:4003',
+        changeOrigin: true,
+      },
     },
   },
   plugins: [react(), tailwindcss()],

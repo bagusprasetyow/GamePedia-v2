@@ -178,6 +178,13 @@ export interface TooltipProps {
   delay?: number;
 
   /**
+   * Apakah tooltip otomatis ditutup saat elemen pemicu diklik pada mode hover.
+   * Atur ke `false` agar tooltip tetap tampil dengan konten terupdate saat tombol aksi/toggle diklik.
+   * @default true
+   */
+  closeOnClick?: boolean;
+
+  /**
    * Menampilkan panah penunjuk (arrow) pada gelembung tooltip.
    * @default true
    */

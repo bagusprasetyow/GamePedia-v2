@@ -330,4 +330,78 @@
     transform: translateX(250%);
   }
 }
+
+/* ── Video Player Overlay Play/Pause Keyframes (Sesuai dev/videoPlayer) ── */
+@keyframes fade-scale {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  20% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  70% {
+    opacity: 0;
+    transform: scale(1.1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.2);
+  }
+}
+
+.animate-fade-scale {
+  animation: fade-scale 1s ease-in-out forwards;
+}
+
+/* ── Video Player WebVTT Subtitle Cue Styling ── */
+::cue,
+video::cue {
+  font-size: 0.875rem; /* 14px - Lebih ramping, proporsional, dan tidak menutupi video */
+  line-height: 1.35;
+  color: #ffffff;
+  background-color: rgba(0, 0, 0, 0.75);
+  font-family: var(--font-sans);
+  font-weight: 500;
+}
+
+:fullscreen ::cue,
+:fullscreen video::cue {
+  font-size: 1.25rem; /* 20px di mode layar penuh */
+  line-height: 1.35;
+}
+
+/* ── Subtitle Text Outline Utility (Sesuai dev/videoPlayer) ── */
+.text-outline-04 {
+  color: #ffffff !important;
+  -webkit-text-stroke: 0.6px #000000;
+  paint-order: stroke fill;
+  text-shadow:
+    -1px -1px 0 #000000,
+     1px -1px 0 #000000,
+    -1px  1px 0 #000000,
+     1px  1px 0 #000000,
+     0px -1px 0 #000000,
+     0px  1px 0 #000000,
+    -1px  0px 0 #000000,
+     1px  0px 0 #000000,
+     0 1.5px 3px rgba(0, 0, 0, 0.95);
+}
+
+.text-outline-1 {
+  color: #ffffff !important;
+  -webkit-text-stroke: 1.2px #000000;
+  paint-order: stroke fill;
+  text-shadow:
+    -2px -2px 0 #000000,
+     2px -2px 0 #000000,
+    -2px  2px 0 #000000,
+     2px  2px 0 #000000,
+     0px -2px 0 #000000,
+     0px  2px 0 #000000,
+    -2px  0px 0 #000000,
+     2px  0px 0 #000000,
+     0 2.5px 5px rgba(0, 0, 0, 0.95);
+}
 

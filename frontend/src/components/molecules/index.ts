@@ -31,4 +31,11 @@ export {
   validateImageFile,
 } from './ImageUpload';
 export type * from './ImageUpload/ImageUpload.types';
-
+export {
+  default as VideoPlayer,
+  VideoPlayer as VideoPlayerMolecule,
+  useVideoPlayer,
+  formatTime,
+  calculateProgress,
+} from './VideoPlayer';
+export type * from './VideoPlayer/VideoPlayer.types';

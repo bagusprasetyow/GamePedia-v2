@@ -547,6 +547,34 @@ describe('Slider Atom - Unit Tests', () => {
       const htmlCustom = renderToString(<Slider width="350px" />);
       expect(htmlCustom).toContain('width:350px');
     });
+
+    it('harus meneruskan thumbClassName dan rangeClassName ke sub-komponen terkait', () => {
+      const html = renderToString(
+        <Slider
+          value={50}
+          className="custom-track"
+          thumbClassName="custom-thumb border-0"
+          rangeClassName="custom-range"
+        />
+      );
+      expect(html).toContain('custom-track');
+      expect(html).toContain('custom-thumb');
+      expect(html).toContain('custom-range');
+    });
+
+    it('harus menerima callback onDragChange tanpa error', () => {
+      let isDragging = false;
+      const html = renderToString(
+        <Slider
+          value={50}
+          onDragChange={(dragging) => {
+            isDragging = dragging;
+          }}
+        />
+      );
+      expect(html).toBeDefined();
+      expect(isDragging).toBe(false);
+    });
   });
 
   // ─────────────────────────────────────────────────────────────

@@ -22,7 +22,7 @@ export type * from './Input/Input.types';
 export { default as Textarea, Textarea as TextareaAtom } from './Textarea';
 export type * from './Textarea/Textarea.types';
 
-export { default as Tooltip, Tooltip as TooltipAtom } from './Tooltip';
+export { default as Tooltip, Tooltip as TooltipAtom, TooltipBubble } from './Tooltip';
 export type * from './Tooltip/Tooltip.types';
 
 export { default as Dot, Dot as DotAtom } from './Dot';
@@ -48,4 +48,7 @@ export type * from './SegmentedControl/SegmentedControl.types';
 
 export { default as Image, Image as ImageAtom } from './Image';
 export type * from './Image/Image.types';
+
+export { default as Spinner, Spinner as SpinnerAtom } from './Spinner';
+export type * from './Spinner/Spinner.types';
 

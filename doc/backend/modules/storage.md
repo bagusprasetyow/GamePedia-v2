@@ -20,6 +20,8 @@ Modul backend GamePedia v2 untuk menangani pengunggahan, validasi bertingkat, da
   - [`backend/src/modules/storage/utils/image-validator.spec.ts`](file:///d:/Projects/project%20GP-v2/GamePedia-v2/backend/src/modules/storage/utils/image-validator.spec.ts)
   - [`backend/src/modules/storage/filters/multer-exception.filter.spec.ts`](file:///d:/Projects/project%20GP-v2/GamePedia-v2/backend/src/modules/storage/filters/multer-exception.filter.spec.ts)
   - [`backend/src/modules/storage/data-watcher.service.spec.ts`](file:///d:/Projects/project%20GP-v2/GamePedia-v2/backend/src/modules/storage/data-watcher.service.spec.ts)
+- **Integration Tests (Vitest E2E)**:
+  - [`backend/test/storage-stream.e2e-spec.ts`](file:///d:/Projects/project%20GP-v2/GamePedia-v2/backend/test/storage-stream.e2e-spec.ts)
 - **Barrel Export**: [`backend/src/modules/storage/index.ts`](file:///d:/Projects/project%20GP-v2/GamePedia-v2/backend/src/modules/storage/index.ts)
 
 ---
@@ -50,6 +52,43 @@ Mengunggah berkas gambar tunggal dengan multipart form-data.
   }
 }
 ```
+
+### `GET /storage/video`
+Mengambil daftar berkas video yang tersimpan di direktori `data/storage/video/`.
+
+#### Format Respons Sukses (`200 OK`):
+```json
+{
+  "success": true,
+  "data": [
+    {
+      "filename": "test.mp4",
+      "size": 153473805,
+      "url": "/storage/video/test.mp4"
+    }
+  ]
+}
+```
+
+### `GET /storage/video/*path`
+Mengalirkan berkas video tunggal maupun bertingkat (HLS playlist `.m3u8`, segmen `.ts`/`.m4s`, subtitle `.vtt`, poster) dari direktori `data/storage/video/` dengan dukungan HTTP Range Requests RFC 9110 (`206 Partial Content`, `200 OK`, dan `416 Range Not Satisfiable`). Sesuai spesifikasi `path-to-regexp` v8 dan NestJS 12, parameter rute menggunakan named wildcard `*path`.
+
+- **Rate Limiting**: Dilindungi Throttling maksimal 600 chunk requests per menit (mengakomodasi burst fetching segmen HLS resolusi tinggi).
+- **Headers Request**:
+  - `Range`: `bytes=0-1024000` (atau prefix `bytes=1000-`, suffix `bytes=-500`)
+- **Response Headers**:
+  - `Content-Range`: `bytes start-end/fileSize` (pada status 206) atau `bytes */fileSize` (pada status 416)
+  - `Accept-Ranges`: `bytes`
+  - `Content-Type`: MIME sesuai allowlist (`video/mp4`, `application/vnd.apple.mpegurl`, `video/mp2t`, `text/vtt`, dll.)
+  - `Content-Length`: ukuran chunk yang dikirim
+- **Keamanan & Stabilitas**:
+  - Allowlist ekstensi media (hanya `.mp4`, `.webm`, `.ogg`, `.mov`, `.mkv`, `.m3u8`, `.ts`, `.m4s`, `.vtt`, `.jpg`, `.jpeg`, `.png`, `.webp`) divalidasi sebelum akses filesystem.
+  - Multi-range requests (misal `bytes=0-10,20-30`) atau format unit di luar `bytes` diabaikan secara anggun (*graceful fallback*) dengan respons `200 OK` menyajikan berkas lengkap sesuai spesifikasi RFC 9110 §14.2 alih-alih melempar 416.
+  - Express security middleware di [`backend/src/main.ts`](file:///d:/Projects/project%20GP-v2/GamePedia-v2/backend/src/main.ts) memblokir berkas statis di luar allowlist dan path traversal (`403 Forbidden`). Berkas `.svg` sengaja dikecualikan dari allowlist statis gambar demi mencegah injeksi konten aktif (XSS).
+  - Akses statis video melayani prefix `/storage/video/` serta prefix kompatibilitas `/videos/Video-Trailer/` dan `/videos/` (untuk berkas manifest HLS bertingkat) yang dilindungi oleh security middleware yang sama.
+  - Verifikasi berkas reguler via `stat.isFile()` mencegah stream crash pada direktori.
+  - Listener `res.on('close')` memutus `fileStream.destroy()` saat client disconnect untuk mencegah file descriptor leak.
+  - Pengujian E2E integrasi (`backend/test/storage-stream.e2e-spec.ts`) menggunakan *fixture tempdir* terisolasi buatan sendiri tanpa dependensi berkas lokal fisik.
 
 ---
 

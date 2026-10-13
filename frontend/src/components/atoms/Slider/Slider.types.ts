@@ -207,6 +207,16 @@ export interface SliderBaseProps {
   className?: string;
 
   /**
+   * ClassName kustom tambahan untuk knop penggeser (thumb).
+   */
+  thumbClassName?: string;
+
+  /**
+   * ClassName kustom tambahan untuk bilah aktif (range fill).
+   */
+  rangeClassName?: string;
+
+  /**
    * Jarak minimum antar nilai pada mode rentang (Range Slider).
    * @default 0
    */
@@ -222,6 +232,11 @@ export interface SliderBaseProps {
    * @default false
    */
   allowCross?: boolean;
+
+  /**
+   * Callback pemanggilan saat status dragging knop penggeser berubah (aktif atau selesai).
+   */
+  onDragChange?: (isDragging: boolean) => void;
 }
 
 export interface SingleSliderProps extends SliderBaseProps {

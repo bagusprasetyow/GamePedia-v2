@@ -46,7 +46,7 @@ describe('Switch.styles & helpers', () => {
   });
 
   describe('sizeConfigMap', () => {
-    const allSizes: SwitchSize[] = ['sm', 'md', 'lg', 'xl'];
+    const allSizes: SwitchSize[] = ['xs', 'sm', 'md', 'lg', 'xl'];
 
     it('harus mendefinisikan trek, thumb, translasi, dan ukuran ikon untuk setiap preset', () => {
       allSizes.forEach((size) => {

@@ -17,6 +17,7 @@ export interface UseTooltipParams {
   onOpenChange?: (open: boolean) => void;
   delay?: number;
   disabled?: boolean;
+  closeOnClick?: boolean;
 }
 
 export interface UseTooltipReturn {
@@ -37,6 +38,7 @@ export const useTooltip = ({
   onOpenChange,
   delay = 150,
   disabled = false,
+  closeOnClick = true,
 }: UseTooltipParams): UseTooltipReturn => {
   const tooltipId = useId();
   const [internalOpen, setInternalOpen] = useState<boolean>(defaultOpen);
@@ -46,9 +48,16 @@ export const useTooltip = ({
   const isControlled = controlledIsOpen !== undefined;
   const visible = disabled ? false : isControlled ? controlledIsOpen : internalOpen;
 
+  const clearTimer = useCallback(() => {
+    if (timerRef.current) {
+      clearTimeout(timerRef.current);
+      timerRef.current = null;
+    }
+  }, []);
+
   const setVisibleState = useCallback(
     (nextOpen: boolean) => {
-      if (disabled) return;
+      if (disabled && nextOpen) return;
       if (!isControlled) {
         setInternalOpen(nextOpen);
       }
@@ -57,12 +66,28 @@ export const useTooltip = ({
     [disabled, isControlled, onOpenChange]
   );
 
-  const clearTimer = useCallback(() => {
-    if (timerRef.current) {
-      clearTimeout(timerRef.current);
-      timerRef.current = null;
+  // Bersihkan timer saat disabled berubah, atau pulihkan tooltip saat di-enable kembali
+  // jika kursor mouse masih berada di atas elemen (hover).
+  useEffect(() => {
+    if (disabled) {
+      clearTimer();
+      return;
     }
-  }, []);
+
+    if (trigger === 'hover' && containerRef.current) {
+      try {
+        if (containerRef.current.matches(':hover')) {
+          clearTimer();
+          const timer = setTimeout(() => {
+            setVisibleState(true);
+          }, Math.max(delay, 10));
+          timerRef.current = timer;
+        }
+      } catch {
+        // Lingkungan uji aman jika matches tidak tersedia
+      }
+    }
+  }, [disabled, trigger, delay, clearTimer, setVisibleState]);
 
   const handleMouseEnter = useCallback(() => {
     if (trigger !== 'hover' || disabled) return;
@@ -77,18 +102,28 @@ export const useTooltip = ({
   }, [trigger, disabled, clearTimer, delay, setVisibleState]);
 
   const handleMouseLeave = useCallback(() => {
-    if (trigger !== 'hover' || disabled) return;
+    if (trigger !== 'hover') return;
     clearTimer();
     setVisibleState(false);
-  }, [trigger, disabled, clearTimer, setVisibleState]);
+  }, [trigger, clearTimer, setVisibleState]);
 
   const handleClick = useCallback(
     (e: ReactMouseEvent) => {
-      if (trigger !== 'click' || disabled) return;
-      e.stopPropagation();
-      setVisibleState(!visible);
+      if (disabled) return;
+      if (trigger === 'click') {
+        e.stopPropagation();
+        setVisibleState(!visible);
+      } else if (trigger === 'hover') {
+        if (closeOnClick) {
+          clearTimer();
+          setVisibleState(false);
+        } else {
+          clearTimer();
+          setVisibleState(true);
+        }
+      }
     },
-    [trigger, disabled, visible, setVisibleState]
+    [trigger, disabled, visible, setVisibleState, clearTimer, closeOnClick]
   );
 
   const handleFocus = useCallback(

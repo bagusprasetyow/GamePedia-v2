@@ -27,6 +27,8 @@ Thumbs.db
 *.sln
 *.sw?
 
+dev/
+
 # Agent files
 .agents/
 

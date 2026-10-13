@@ -1,12 +1,13 @@
 import type { FC, ReactElement } from 'react';
 import { cn } from '@/lib/utils';
-import { Icon, ProgressBar, Text } from '@/components/atoms';
+import { ProgressBar, Spinner } from '@/components/atoms';
 import type { ImageUploadProgressProps } from '../ImageUpload.types';
 
 /**
  * ImageUploadProgress Component - Sub-Atom Internal ImageUpload
  *
- * Menampilkan status animasi progress bar dan persentase pengunggahan berkas gambar.
+ * Menampilkan status animasi progress bar dan persentase pengunggahan berkas gambar
+ * dengan indikator putaran pemuatan berbasis atom Spinner.
  */
 export const ImageUploadProgress: FC<ImageUploadProgressProps> = ({
   progress = 0,
@@ -26,13 +27,6 @@ export const ImageUploadProgress: FC<ImageUploadProgressProps> = ({
     'bg-background/85 backdrop-blur-xs'
   );
 
-  const labelWrapperClasses = cn(
-    // layout
-    'flex items-center gap-2',
-    // text
-    'text-primary'
-  );
-
   const barWrapperClasses = cn(
     // size
     'w-full max-w-xs'
@@ -44,16 +38,16 @@ export const ImageUploadProgress: FC<ImageUploadProgressProps> = ({
       aria-busy="true"
       className={progressOverlayClasses}
     >
-      <div className={labelWrapperClasses}>
-        <Icon icon="lucide:loader-2" spin size="lg" />
-        <Text as="p" size="sm" weight="semibold" variant="primary">
-          {label ?? `Mengunggah... ${clampedProgress}%`}
-        </Text>
-      </div>
+      <Spinner
+        size="md"
+        variant="primary"
+        label={label ?? `Mengunggah... ${clampedProgress}%`}
+        labelSize="sm"
+        labelClassName="font-semibold text-primary"
+      />
 
       <div className={barWrapperClasses}>
         <ProgressBar
-
           value={clampedProgress}
           indeterminate={indeterminate}
           size="sm"
@@ -64,3 +58,5 @@ export const ImageUploadProgress: FC<ImageUploadProgressProps> = ({
     </div>
   );
 };
+
+export default ImageUploadProgress;

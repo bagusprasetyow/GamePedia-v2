@@ -72,6 +72,9 @@ export const Slider = forwardRef<HTMLInputElement, SliderProps>((props, ref): Re
     thumbIcon,
     wrapperClassName = '',
     className = '',
+    thumbClassName = '',
+    rangeClassName = '',
+    onDragChange,
     id,
     name,
     'aria-label': ariaLabel,
@@ -227,6 +230,7 @@ export const Slider = forwardRef<HTMLInputElement, SliderProps>((props, ref): Re
     isControlled,
     onChange: props.onChange,
     onChangeEnd: props.onChangeEnd,
+    onDragChange,
   });
 
   useEffect(() => {
@@ -242,6 +246,7 @@ export const Slider = forwardRef<HTMLInputElement, SliderProps>((props, ref): Re
       isControlled,
       onChange: props.onChange,
       onChangeEnd: props.onChangeEnd,
+      onDragChange,
     };
   });
 
@@ -252,15 +257,41 @@ export const Slider = forwardRef<HTMLInputElement, SliderProps>((props, ref): Re
       setDraggingThumbIndex(thumbIdx);
       draggingThumbRef.current = thumbIdx;
       setIsDragging(true);
+      onDragChange?.(true);
+
+      if ('pointerId' in e && e.target && 'setPointerCapture' in (e.target as Element)) {
+        try {
+          (e.target as Element).setPointerCapture(e.pointerId);
+        } catch {
+          // ignore jika environment test / browser tidak mendukung
+        }
+      }
     },
-    [disabled]
+    [disabled, onDragChange]
   );
 
   // Window listener aktif terus-menerus selama isDragging tanpa terlepas oleh re-render
   useEffect(() => {
     if (!isDragging) return;
 
+    const onPointerUp = () => {
+      setIsDragging(false);
+      const p = latestPropsRef.current;
+      p.onDragChange?.(false);
+      if (p.isRange) {
+        (p.onChangeEnd as ((val: [number, number]) => void) | undefined)?.(activeRangeRef.current);
+      } else {
+        (p.onChangeEnd as ((val: number) => void) | undefined)?.(activeSingleRef.current);
+      }
+    };
+
     const onPointerMove = (e: PointerEvent) => {
+      // Jika tombol mouse sudah tidak ditekan lagi (buttons === 0), otomatis akhiri drag
+      if (e.buttons === 0) {
+        onPointerUp();
+        return;
+      }
+
       if (!trackElementRef.current) return;
       const rect = trackElementRef.current.getBoundingClientRect();
       const p = latestPropsRef.current;
@@ -282,24 +313,18 @@ export const Slider = forwardRef<HTMLInputElement, SliderProps>((props, ref): Re
       }
     };
 
-    const onPointerUp = () => {
-      setIsDragging(false);
-      const p = latestPropsRef.current;
-      if (p.isRange) {
-        (p.onChangeEnd as ((val: [number, number]) => void) | undefined)?.(activeRangeRef.current);
-      } else {
-        (p.onChangeEnd as ((val: number) => void) | undefined)?.(activeSingleRef.current);
-      }
-    };
-
     window.addEventListener('pointermove', onPointerMove);
     window.addEventListener('pointerup', onPointerUp);
     window.addEventListener('pointercancel', onPointerUp);
+    window.addEventListener('mouseup', onPointerUp);
+    window.addEventListener('touchend', onPointerUp);
 
     return () => {
       window.removeEventListener('pointermove', onPointerMove);
       window.removeEventListener('pointerup', onPointerUp);
       window.removeEventListener('pointercancel', onPointerUp);
+      window.removeEventListener('mouseup', onPointerUp);
+      window.removeEventListener('touchend', onPointerUp);
     };
   }, [isDragging, updateRangeValue, updateSingleValue]);
 
@@ -506,6 +531,7 @@ export const Slider = forwardRef<HTMLInputElement, SliderProps>((props, ref): Re
             disabled={disabled}
             hasError={hasError}
             isSuccess={isSuccess}
+            className={rangeClassName}
           />
 
           {/* Titik Penanda (Marks & Labels) */}
@@ -575,6 +601,7 @@ export const Slider = forwardRef<HTMLInputElement, SliderProps>((props, ref): Re
                 ariaLabel={ariaLabel ? `${ariaLabel} minimum` : 'Batas minimum'}
                 ariaLabelledBy={ariaLabelledBy || undefined}
                 ariaDescribedBy={ariaDescribedBy || undefined}
+                className={thumbClassName}
               />
 
               {/* Knop Kedua (Max Thumb) */}
@@ -617,6 +644,7 @@ export const Slider = forwardRef<HTMLInputElement, SliderProps>((props, ref): Re
                 ariaLabel={ariaLabel ? `${ariaLabel} maksimum` : 'Batas maksimum'}
                 ariaLabelledBy={ariaLabelledBy || undefined}
                 ariaDescribedBy={ariaDescribedBy || undefined}
+                className={thumbClassName}
               />
             </>
           ) : (
@@ -660,6 +688,7 @@ export const Slider = forwardRef<HTMLInputElement, SliderProps>((props, ref): Re
               ariaLabel={ariaLabel}
               ariaLabelledBy={ariaLabelledBy || undefined}
               ariaDescribedBy={ariaDescribedBy || undefined}
+              className={thumbClassName}
             />
           )}
         </SliderTrack>

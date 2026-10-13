@@ -10,6 +10,12 @@ import type {
 // ─────────────────────────────────────────────────────────────
 
 export const sizeConfigMap: Record<SwitchSize, SwitchSizeConfig> = {
+  xs: {
+    track: 'h-4 w-7 p-0.5',
+    thumb: 'h-3 w-3',
+    translate: 'translate-x-3',
+    iconSize: '2xs',
+  },
   sm: {
     track: 'h-5 w-9 p-0.5',
     thumb: 'h-4 w-4',

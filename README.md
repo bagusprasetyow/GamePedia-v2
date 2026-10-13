@@ -6,11 +6,11 @@ GamePedia v2 adalah platform katalog dan ensiklopedia game modern berarsitektur 
 
 ## 📌 Status Proyek Terbaru
 
-- **Versi Saat Ini**: `0.0.9`
+- **Versi Saat Ini**: `0.0.10`
 - **Status Monorepo**: 
-  - **Frontend**: Implementasi penuh **Atomic Design System** (Atoms: Text, Icon, Button, Switch, Slider, Input, Textarea, Checkbox, Radio, Tooltip, Dot, Badge, Chip, ClearButton, ProgressBar, SegmentedControl | Molecules: CheckboxGroup, RadioGroup, ThemeToggle, Special Inputs, Dropdown, SourceCode, CodePreview, Clipboard, ShowcasePreview, ImageUpload), Depth System (-3 s/d 3), custom hooks (`useTheme`, `usePhoneInput`, `useDropdown`, `useTooltip`, `useCodeInput`, `useClipboard`, `useSourceCode`, `useCodePreview`, `useDebounce`, `useCache`, `useImageDragDrop`, `useImageUpload`), utilitas gambar & kompresi (`imageCompressor`, `imageConverter`, `imageUploader`), utilitas cache/debounce, serta suite pengujian unit **Vitest** (32 test suites, 438 unit tests lulus 100%).
-  - **Backend**: Modul penyimpanan berkas gambar (`StorageModule`) dengan proteksi anti-path traversal dan upload Multer, pemantau filesystem `data/` real-time (`DataWatcherService`), observabilitas latensi HTTP (`LoggingInterceptor`), streaming SSE (`live-data.json`), dan pengujian unit **Vitest** (7 test suites, 42 unit tests lulus 100%).
-  - **Dokumentasi**: Modularisasi & pemecahan dokumentasi secara terstruktur di direktori `doc/frontend/` dan `doc/backend/` (termasuk `doc/backend/modules/storage.md` dan `doc/frontend/components/molecules/ImageUpload.md`).
+  - **Frontend**: Implementasi penuh **Atomic Design System** (Atoms: Text, Icon, Button, Switch, Slider, Input, Textarea, Checkbox, Radio, Tooltip, Dot, Badge, Chip, ClearButton, ProgressBar, SegmentedControl, Image, Spinner | Molecules: CheckboxGroup, RadioGroup, ThemeToggle, Special Inputs, Dropdown, SourceCode, CodePreview, Clipboard, ShowcasePreview, ImageUpload, VideoPlayer), Depth System (-3 s/d 3), custom hooks (`useTheme`, `usePhoneInput`, `useDropdown`, `useTooltip`, `useCodeInput`, `useClipboard`, `useSourceCode`, `useCodePreview`, `useDebounce`, `useCache`, `useImageDragDrop`, `useImageUpload`, `useVideoPlayer`, `useVideoClickHandler`, `useContextMenu`, `useTextInfo`), utilitas video/scrubbing/gambar, serta suite pengujian unit **Vitest** (39 test suites, 510 unit tests lulus 100%).
+  - **Backend**: Modul penyimpanan berkas (`StorageModule`) dengan HTTP streaming RFC 9110 (206 partial content, 416 range handling, allowlist media), proteksi anti-path traversal dan upload Multer, pemantau filesystem `data/` real-time (`DataWatcherService`), observabilitas latensi HTTP (`LoggingInterceptor`), streaming SSE (`live-data.json`), dan pengujian unit **Vitest** (7 test suites, 53 unit tests lulus 100%). Total monorepo kini mencapai **563 tests PASS 100%**.
+  - **Dokumentasi**: Modularisasi & pemecahan dokumentasi secara terstruktur di direktori `doc/frontend/` dan `doc/backend/` (termasuk `doc/backend/modules/storage.md`, `doc/frontend/components/atoms/Spinner.md`, dan `doc/frontend/components/molecules/VideoPlayer.md`).
 
 ---
 

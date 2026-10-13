@@ -29,6 +29,7 @@ export const Tooltip: FC<TooltipProps> = ({
   defaultOpen = false,
   onOpenChange,
   delay = 150,
+  closeOnClick = true,
   showArrow = true,
   icon,
   iconSize,
@@ -57,6 +58,7 @@ export const Tooltip: FC<TooltipProps> = ({
     onOpenChange,
     delay,
     disabled,
+    closeOnClick,
   });
 
   const wrapperClasses = cn(

@@ -35,7 +35,7 @@ export const SegmentedControlItem = <T extends string | number = string>({
     itemBaseClasses,
     'z-10',
     // layout
-    fullWidth && 'flex-1',
+    fullWidth && 'flex-1 basis-0 min-w-0',
     // size & spacing
     currentSize.item,
     // typography
@@ -83,7 +83,12 @@ export const SegmentedControlItem = <T extends string | number = string>({
       onFocus={onFocus}
     >
       {renderIcon()}
-      <Text as="span" className="truncate">
+      <Text
+        as="span"
+        variant="inherit"
+        size={size === 'lg' ? 'base' : size === 'md' ? 'sm' : 'xs'}
+        className="truncate font-poppins text-center"
+      >
         {option.label}
       </Text>
     </button>

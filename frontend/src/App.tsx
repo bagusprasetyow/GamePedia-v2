@@ -1,130 +1,106 @@
 import type { FC, ReactElement } from 'react';
-import { useState } from 'react';
-import { Button, Text } from '@/components/atoms';
-import { ImageUpload, ThemeToggle, formatFileSize } from '@/components/molecules';
-import { uploadImageToServer } from '@/utils/image';
+import { Text, Badge, Icon } from '@/components/atoms';
+import { VideoPlayer, ThemeToggle } from '@/components/molecules';
 
 /**
  * App Component - Root Application Entry
  *
- * Menampilkan demo interaktif pengunggahan berkas gambar menggunakan molekul ImageUpload
- * terpadu dengan aksi unggah ke root (/) backend storage.
+ * Menampilkan antarmuka pemutar media GamePedia memutar berkas video test.mp4
+ * dari backend storage dengan dukungan streaming chunked HTTP 206 Partial Content.
  */
 export const App: FC = (): ReactElement => {
-  const [file, setFile] = useState<File | null>(null);
-  const [imageUrl, setImageUrl] = useState<string | null>(null);
-  const [isUploading, setIsUploading] = useState<boolean>(false);
-  const [uploadProgress, setUploadProgress] = useState<number>(0);
-  const [uploadError, setUploadError] = useState<string | null>(null);
-  const [successInfo, setSuccessInfo] = useState<{
-    filename: string;
-    size: number;
-    url: string;
-  } | null>(null);
-
-  /**
-   * Mengunggah berkas gambar yang dipilih ke direktori root (/) penyimpanan backend
-   */
-  const handleUploadToRoot = async (): Promise<void> => {
-    if (!file) return;
-
-    setIsUploading(true);
-    setUploadProgress(0);
-    setUploadError(null);
-    setSuccessInfo(null);
-
-    try {
-      const response = await uploadImageToServer({
-        file,
-        path: '/',
-        onProgress: (percent) => setUploadProgress(percent),
-      });
-
-      setSuccessInfo({
-        filename: response.data.filename,
-        size: response.data.size,
-        url: response.data.url,
-      });
-    } catch (error) {
-      const message =
-        error instanceof Error ? error.message : 'Terjadi kesalahan saat mengunggah gambar ke server';
-      setUploadError(message);
-    } finally {
-      setIsUploading(false);
-    }
-  };
-
-  /**
-   * Reset state ketika memilih berkas baru atau menghapus gambar
-   */
-  const handleFileChange = (newFile: File | null, newUrl: string | null): void => {
-    setFile(newFile);
-    setImageUrl(newUrl);
-    setUploadError(null);
-    setSuccessInfo(null);
-    setUploadProgress(0);
-  };
-
   return (
-    <main className="min-h-screen bg-background text-foreground flex flex-col">
-      <header className="flex items-center justify-between border-b border-border px-6 py-4">
-        <div className="flex flex-col gap-0.5">
-          <Text as="h1" size="xl" weight="bold">
-            GamePedia
-          </Text>
-          <Text as="p" size="xs" variant="muted">
-            Demo Pengunggahan Berkas Gambar
-          </Text>
+    <main className="min-h-screen bg-background text-foreground flex flex-col transition-colors duration-200">
+      {/* 1. Header Navigasi Atas */}
+      <header className="flex items-center justify-between border-b border-border/60 px-6 py-4 backdrop-blur-md bg-background/80 sticky top-0 z-40">
+        <div className="flex items-center gap-3">
+          <div className="w-9 h-9 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center text-primary shadow-1">
+            <Icon icon="lucide:play-square" size="lg" />
+          </div>
+          <div className="flex flex-col">
+            <Text as="h1" size="lg" weight="bold" className="leading-tight tracking-tight">
+              GamePedia
+            </Text>
+            <Text as="p" size="xs" variant="muted">
+              Media Streamer & Video Player
+            </Text>
+          </div>
         </div>
-        <ThemeToggle />
+
+        <div className="flex items-center gap-3">
+          <Badge variant="outline" size="sm" startIcon="lucide:server">
+            Backend Port 4003
+          </Badge>
+          <ThemeToggle />
+        </div>
       </header>
 
-      <section className="flex flex-1 items-center justify-center p-6">
-        <div className="w-full max-w-lg space-y-4">
-          <ImageUpload
-            label="Upload Gambar"
-            description="Otomatis dikonversi ke format WebP dan ukuran < 100 KB"
-            accept="image/png, image/jpeg, image/webp, image/gif"
-            maxSizeMB={10}
-            aspectRatio="video"
-            variant="dashed"
+      {/* 2. Area Konten Utama Pemutar Video */}
+      <section className="flex-1 max-w-5xl w-full mx-auto p-4 sm:p-6 lg:p-8 flex flex-col items-center justify-center gap-6">
+        {/* Wadah VideoPlayer */}
+        <div className="w-full flex justify-center">
+          <VideoPlayer
+            src="/storage/video/Genshin-Impact/master.m3u8"
+            title="Genshin Impact - Trailer Teaser"
+            poster="/storage/image/thumbnail/Genshin-mpact.jpg"
+            scrubbingVtt="/storage/video/Genshin-Impact/scrubbing/thumbs_sprite.vtt"
+            tracks={[
+              {
+                src: '/storage/video/Genshin-Impact/subtitles/id.vtt',
+                label: 'Indonesia',
+                srcLang: 'id',
+              },
+              {
+                src: '/storage/video/Genshin-Impact/subtitles/en.vtt',
+                label: 'English',
+                srcLang: 'en',
+              },
+              {
+                src: '/storage/video/Genshin-Impact/subtitles/jp.vtt',
+                label: '日本語',
+                srcLang: 'ja',
+              },
+            ]}
+            defaultSubtitle="off"
+            variant="card"
             depth={-1}
-            convertTo="webp"
-            compress={{ maxSizeKB: 100 }}
-            value={imageUrl}
-            isUploading={isUploading}
-            progress={uploadProgress}
-            error={uploadError || undefined}
-            success={Boolean(successInfo)}
-            onChange={handleFileChange}
+            size="lg"
+            rounded="xl"
+            aspectRatio="16/9"
+            showPlaybackRate={true}
+            showSubtitles={true}
+            showQuality={true}
+            showFullscreen={true}
+            showVolume={true}
+            showTime={true}
+            enableKeyboardShortcuts={true}
           />
+        </div>
 
-          <Button
-            variant="primary"
-            width="full"
-            startIcon="lucide:upload"
-            isLoading={isUploading}
-            loadingText="Mengunggah ke root (/)..."
-            disabled={!file || isUploading}
-            onClick={handleUploadToRoot}
-          >
-            Upload ke Root (/)
-          </Button>
-
-          {successInfo && (
-            <div className="rounded-lg border border-success/30 bg-success/10 p-3 space-y-1">
-              <Text as="p" size="sm" weight="semibold" variant="success">
-                Gambar berhasil diunggah ke root (/)!
+        {/* 3. Panel Informasi & Metadata Berkas */}
+        <div className="w-full max-w-4xl rounded-2xl border border-border/80 bg-card p-5 shadow-1 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div className="flex flex-col gap-1.5">
+            <div className="flex items-center gap-2 flex-wrap">
+              <Text as="h2" size="base" weight="semibold">
+                Genshin Impact
               </Text>
-              <Text as="p" size="xs" variant="muted" className="break-all">
-                Nama Berkas:{' '}
-                <Text as="span" weight="medium" variant="default">
-                  {successInfo.filename}
-                </Text>{' '}
-                ({formatFileSize(successInfo.size)})
-              </Text>
+              <Badge appearance="tint" variant="primary" size="xs">
+                HLS Stream (.m3u8)
+              </Badge>
+              <Badge appearance="outline" variant="secondary" size="xs">
+                Multi-Resolution (1080p - 360p)
+              </Badge>
+              <Badge appearance="outline" variant="secondary" size="xs">
+                Scrubbing Sprite
+              </Badge>
+              <Badge appearance="outline" variant="secondary" size="xs">
+                3 Subtitles (ID, EN, JA)
+              </Badge>
             </div>
-          )}
+            <Text as="p" size="xs" variant="muted">
+              Dialirkan secara langsung dari <code className="px-1 py-0.5 rounded bg-muted font-mono text-[11px]">data/storage/video/Genshin-Impact</code> dengan dukungan HLS adaptive streaming (1080p, 720p, 480p, 360p), sprite sheet timeline preview, dan WebVTT captions.
+            </Text>
+          </div>
         </div>
       </section>
     </main>

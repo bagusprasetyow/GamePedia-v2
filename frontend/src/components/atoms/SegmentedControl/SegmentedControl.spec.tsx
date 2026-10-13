@@ -174,7 +174,7 @@ describe('SegmentedControl Atom - Unit Tests', () => {
     });
 
     describe('sizeStyles', () => {
-      const allSizes: SegmentedControlSize[] = ['sm', 'md', 'lg'];
+      const allSizes: SegmentedControlSize[] = ['xs', 'sm', 'md', 'lg'];
 
       it('harus mendefinisikan tinggi item dan ukuran tipografi untuk setiap ukuran', () => {
         allSizes.forEach((size) => {

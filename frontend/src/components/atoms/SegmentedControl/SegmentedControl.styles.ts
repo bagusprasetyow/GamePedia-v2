@@ -18,6 +18,13 @@ export interface SegmentedControlSizeStyle {
 }
 
 export const sizeStyles: Record<SegmentedControlSize, SegmentedControlSizeStyle> = {
+  xs: {
+    container: 'p-0.5 rounded-lg',
+    item: 'h-6.5 px-1 rounded-md gap-0.5',
+    text: 'text-[10.5px] tracking-tight leading-none',
+    iconSize: '2xs',
+    gap: 'gap-0.5',
+  },
   sm: {
     container: 'p-0.5 rounded-lg',
     item: 'h-7 px-2.5 rounded-md gap-1.5',
@@ -72,6 +79,7 @@ export const activeTextStyles: Record<SegmentedControlColor, string> = {
 };
 
 export const indicatorRadiusMap: Record<SegmentedControlSize, string> = {
+  xs: 'rounded-md',
   sm: 'rounded-md',
   md: 'rounded-lg',
   lg: 'rounded-lg',

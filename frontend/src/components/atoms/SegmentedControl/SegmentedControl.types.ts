@@ -6,7 +6,7 @@ import type {
 } from '@/components/atoms/Button/Button.types';
 import type { IconSize } from '@/components/atoms/Icon/Icon.types';
 
-export type SegmentedControlSize = 'sm' | 'md' | 'lg';
+export type SegmentedControlSize = 'xs' | 'sm' | 'md' | 'lg';
 
 export type SegmentedControlColor =
   | 'primary'

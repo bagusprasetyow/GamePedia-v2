@@ -1528,6 +1528,10 @@ Hook pemformatan baris kode, penomoran baris, dan penyorotan token sintaksis ber
 
 Hook pengelola unggah berkas gambar interaktif yang menangani drag-and-drop, validasi tipe berkas dan ukuran maksimum, pratinjau instan (*instant preview*), sinkronisasi mode terkontrol (*controlled*) vs mandiri (*uncontrolled*), serta pembersihan memori otomatis (`URL.revokeObjectURL`) saat berkas diganti atau komponen di-unmount.
 
+### 10. `useVideoPlayer` (`src/components/molecules/VideoPlayer/useVideoPlayer.ts`)
+
+Hook komprehensif pengelola pemutar video HTML5 interaktif yang menangani status pemutaran (`isPlaying`, `isBuffering`, `currentTime`, `duration`, `bufferedPercent`), pengaturan volume suara & mute, pengulangan putar (*loop*), laju kecepatan putar, mode *Picture-in-Picture* dan *Fullscreen*, pergantian trek subtitle WebVTT dan kualitas resolusi, popover pengaturan, context menu klik kanan, *auto-hide controls timer* saat diam, serta pintasan tombol keyboard aksesibel lengkap (Spasi, K, F, Enter, M, L, C, P, I, S, 0-9, Home/End, panah, <>).
+
 ---
 
 ## 📜 Aturan & Konvensi Komponen Frontend

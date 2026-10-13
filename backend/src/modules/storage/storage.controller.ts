@@ -1,7 +1,11 @@
 import {
   Controller,
   Post,
+  Get,
   Delete,
+  Req,
+  Headers,
+  Res,
   Query,
   UploadedFile,
   UseInterceptors,
@@ -11,6 +15,7 @@ import {
   HttpStatus,
   Logger,
 } from '@nestjs/common';
+import type { Request, Response } from 'express';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Throttle } from '@nestjs/throttler';
 import { StorageService } from './storage.service.js';
@@ -79,6 +84,63 @@ export class StorageController {
       message: deleted ? 'Berkas berhasil dihapus' : 'Berkas tidak ditemukan',
       data: { deleted, path: filePath },
     };
+  }
+
+  /**
+   * Mengambil daftar berkas video yang tersimpan di direktori data/storage/video
+   */
+  @Throttle({ default: { limit: 60, ttl: 60_000 } })
+  @Get('video')
+  public async getVideos(): Promise<{
+    success: boolean;
+    data: Array<{ filename: string; size: number; url: string }>;
+  }> {
+    const videos = await this.storageService.listVideos();
+    return {
+      success: true,
+      data: videos,
+    };
+  }
+
+  /**
+   * Mengalirkan berkas video dengan dukungan chunking & HTTP Range requests (206 Partial Content)
+   * Mendukung berkas tunggal maupun berkas bertingkat dalam folder (seperti Genshin-Impact/master.m3u8)
+   * Dilindungi rate limiting (maksimal 600 chunk request per menit) untuk burst segmen HLS
+   */
+  @Throttle({ default: { limit: 600, ttl: 60_000 } })
+  @Get('video/*path')
+  public async streamVideo(
+    @Req() req: Request,
+    @Headers('range') range: string | undefined,
+    @Res() res: Response
+  ): Promise<void> {
+    // Dukungan multi-format routing Express:
+    // Pada Express 5 / path-to-regexp v8+, parameter wildcard (*path) menghasilkan array string jika bertingkat
+    // atau string jika berkas tunggal. Disediakan fallback ke req.params[0] dan ekstraksi langsung dari req.url.
+    const paramPath = (req.params as Record<string, string | string[] | undefined>)?.path;
+    let rawPath = Array.isArray(paramPath)
+      ? paramPath.join('/')
+      : typeof paramPath === 'string'
+        ? paramPath
+        : (req.params as Record<string, string | undefined>)?.[0];
+
+    if (!rawPath) {
+      const prefix = '/storage/video/';
+      const urlPath = req.url.split('?')[0];
+      const idx = urlPath.indexOf(prefix);
+      if (idx !== -1) {
+        rawPath = urlPath.substring(idx + prefix.length);
+      }
+    }
+
+    let decodedPath = rawPath || '';
+    try {
+      decodedPath = decodeURIComponent(decodedPath);
+    } catch {
+      // Fallback jika string bukan format URI encoding yang valid
+    }
+
+    await this.storageService.streamVideo(decodedPath, range, res);
   }
 }
 

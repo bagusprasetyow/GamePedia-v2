@@ -270,7 +270,58 @@ const { isDragging, handleDragEnter, handleDragOver, handleDragLeave, handleDrop
 
 ---
 
-## 🛠️ 12. Utilitas Frontend (`src/utils/`)
+## 🎬 12. Hook Pemutar Video (`useVideoPlayer`, `useVideoClickHandler`, `useContextMenu`, `useTextInfo`)
+
+### A. Hook Utama Pemutar Video (`useVideoPlayer`)
+File: [`src/components/molecules/VideoPlayer/useVideoPlayer.ts`](file:///d:/Projects/project%20GP-v2/GamePedia-v2/frontend/src/components/molecules/VideoPlayer/useVideoPlayer.ts)
+
+State machine komprehensif pengendali media HTML5 Video:
+- **Fitur Utama**:
+  - Kontrol pemutaran: `togglePlay()`, `skip(seconds)`, `seek(seconds, autoPlay?, silentTextInfo?)`, `setVolumeLevel(vol)`, `toggleMute()`.
+  - Navigasi seek cerdas dengan notifikasi TextInfo otomatis (`silentTextInfo` untuk mematikan HUD saat seek programatik/Home/End).
+  - Fullscreen & Picture-in-Picture: `toggleFullscreen()`, `togglePiP()`.
+  - Pengulangan (*Looping*): `toggleLoop()`.
+  - Subtitle & Kualitas: `setSubtitle(id)`, `toggleSubtitle()`, `setQuality(id)`.
+  - Popover Pengaturan: `toggleSettings(tab)`, `closeSettings()`.
+  - Auto-hide bilah kendali cerdas saat kursor diam (*idle timeout*) dan tetap terbuka jika menu pengaturan aktif.
+  - Penanganan pintasan keyboard lengkap (`Space`, `K`, `F`, `Enter`, `M`, `L`, `C`, `P`, `I`, `S`, `ArrowLeft/Right`, `ArrowUp/Down`, `0-9`, `Home/End`, `<>`).
+
+```tsx
+import { useVideoPlayer } from '@/components/molecules/VideoPlayer/useVideoPlayer';
+
+const {
+  videoRef,
+  containerRef,
+  isPlaying,
+  currentTime,
+  duration,
+  bufferedPercent,
+  volume,
+  isMuted,
+  playbackRate,
+  togglePlay,
+  toggleFullscreen,
+} = useVideoPlayer({ autoPlay: false, defaultVolume: 0.8 });
+```
+
+### B. Hook Gestur Klik Anti-Stutter (`useVideoClickHandler`)
+File: [`src/components/molecules/VideoPlayer/useVideoClickHandler.ts`](file:///d:/Projects/project%20GP-v2/GamePedia-v2/frontend/src/components/molecules/VideoPlayer/useVideoClickHandler.ts)
+
+Membedakan interaksi klik tunggal (toggle play) dan klik ganda (toggle fullscreen) menggunakan timer debounce 250ms untuk mencegah efek play-pause berkedip saat pengguna melakukan double-click.
+
+### C. Hook Menu Konteks Kustom (`useContextMenu`)
+File: [`src/components/molecules/VideoPlayer/useContextMenu.ts`](file:///d:/Projects/project%20GP-v2/GamePedia-v2/frontend/src/components/molecules/VideoPlayer/useContextMenu.ts)
+
+Mengelola posisi koordinat tetikus (`x, y`), penyesuaian batas kontainer (*boundary checking*), serta penutupan otomatis saat klik luar atau tombol `Escape` ditekan.
+
+### D. Hook Umpan Balik HUD (`useTextInfo`)
+File: [`src/components/molecules/VideoPlayer/useTextInfo.ts`](file:///d:/Projects/project%20GP-v2/GamePedia-v2/frontend/src/components/molecules/VideoPlayer/useTextInfo.ts)
+
+Menampilkan overlay status teks taktil di pojok kiri atas (misal volume %, lompat durasi %, pengulangan aktif/nonaktif, kecepatan putar) dengan durasi tayang teratur.
+
+---
+
+## 🛠️ 13. Utilitas Frontend (`src/utils/`)
 
 ### A. Utilitas Debounce (`debounce`)
 File: [`src/utils/debounce/debounce.ts`](file:///d:/Projects/project%20GP-v2/GamePedia-v2/frontend/src/utils/debounce/debounce.ts)
@@ -289,7 +340,7 @@ File: [`src/utils/image/`](file:///d:/Projects/project%20GP-v2/GamePedia-v2/fron
 
 ---
 
-## 📡 13. Konsumsi Real-Time SSE (Server-Sent Events)
+## 📡 14. Konsumsi Real-Time SSE (Server-Sent Events)
 
 File: `src/App.tsx`
 
@@ -302,7 +353,7 @@ Frontend mengonsumsi data real-time streaming waktu dan live data dari backend N
 
 ---
 
-## 🧪 14. Pengujian Unit Frontend (Vitest)
+## 🧪 15. Pengujian Unit Frontend (Vitest)
 
 Frontend GamePedia v2 dilengkapi dengan **Vitest** untuk pengujian unit otomatis pada seluruh komponen atomik, sub-komponen, molekul, utilitas, kalkulasi logika, dan aksesibilitas:
 
@@ -311,7 +362,7 @@ Frontend GamePedia v2 dilengkapi dengan **Vitest** untuk pengujian unit otomatis
 npm run test --prefix frontend
 ```
 
-### Hasil Verifikasi Test Suite Aktif (30 File, 408 Tests Passed):
+### Hasil Verifikasi Test Suite Aktif (39 File, 510 Tests Passed):
 1. `Badge.spec.ts` (10 tests): Pengujian sub-komponen `BadgeIcon` dan `BadgeLabel`, 4 appearance visual (`filled`, `ghost`, `outline`, `tint`), varian semantik token OKLCH, radius rounded, dan Depth System (-3 s/d 3).
 2. `Button.spec.ts` (19 tests): Pengujian varian warna semantik, ukuran, depth -3 s/d 3, status loading (`ButtonLoading`), dan sub-atom ikon (`ButtonIcon`).
 3. `Checkbox.spec.ts` (9 tests): Pengujian sub-komponen `CheckboxIndicator` dan `CheckboxLabel`, status indeterminate, varian visual (`check`/`solid`), dan interaksi checked.
@@ -319,26 +370,35 @@ npm run test --prefix frontend
 5. `ClearButton.spec.ts` (9 tests): Pengujian tombol pembersih interaktif dengan varian visual (`default`, `subtle`, `ghost`, `danger`), transisi hover merah, kompatibilitas ARIA, dan Depth System (-3 s/d 3).
 6. `Dot.spec.ts` (11 tests): Pengujian sub-atom `DotCircle`, ukuran 2xs s/d xl, animasi denyut (ping halo ripple & pulse), efek ambient neon glow, cincin pembatas kontras (`bordered`), teks label status, dan placement anchor overlay.
 7. `Icon.spec.ts` (4 tests): Pengujian render ikon Iconify, varian warna semantik token tema, animasi spin & pulse, dan ukuran preset.
-8. `Input.spec.ts` (8 tests): Pengujian sub-komponen `InputLabel`, `InputHelperText`, dan `InputClearButton`, status validasi (error, success, warning), ikon start/end, dan Depth System.
-9. `ProgressBar.spec.tsx` (35 tests): Pengujian mode determinate/indeterminate, kalkulasi persentase clamped, format kustom label, sub-komponen `ProgressBarTrack`, `ProgressBarFill`, `ProgressBarLabel`, varian semantik OKLCH, dan Depth System (-3 s/d 3).
-10. `Radio.spec.ts` (8 tests): Pengujian sub-atom `RadioIndicator` dan `RadioLabel`, status checked/disabled, ukuran, dan Depth System.
-11. `SegmentedControl.spec.tsx` (35 tests): Pengujian roving tabindex WAI-ARIA, seleksi item, keyboard navigation (panah kiri/kanan/home/end), rendering ikon, status disabled, varian semantik, dan Depth System.
-12. `Slider.spec.tsx` (54 tests): Pengujian drag thumb, klik track, langkah lompat (*step*), keyboard navigation (panah/PageUp/PageDown/Home/End), sub-komponen `SliderTrack`, `SliderRange`, `SliderThumb`, `SliderMarks`, `SliderLabel`, `SliderHelperText`, serta Depth System.
-13. `Switch.spec.ts` (8 tests): Pengujian sub-komponen `SwitchTrack` dan `SwitchLabel`, alur kedalaman cekung (-1 s/d -3), varian warna semantik, dan ikon knop thumb.
-14. `Text.spec.ts` (9 tests): Pengujian tag HTML polimorfik (`as`), varian semantik token OKLCH, skala tipografi, perataan teks, clamp, dan truncate.
-15. `Textarea.spec.ts` (9 tests): Pengujian sub-komponen `TextareaLabel` dan `TextareaFooter`, penghitung karakter (`showCharacterCount`), resize kontrol, dan auto-resize.
-16. `Tooltip.spec.ts` (10 tests): Pengujian sub-komponen `TooltipBubble`, 12 penempatan arah (`placement`), Depth System visual (-3 s/d 3), delay timer, dan status trigger pemicu.
-17. `Clipboard.spec.ts` (8 tests): Pengujian sub-komponen `ClipboardIcon` dan `ClipboardLabel`, feedback visual taktil saat teks disalin, durasi reset, timer cleanup, dan varian depth.
-18. `ShowcasePreview.spec.ts` (17 tests): Pengujian sub-komponen `ShowcasePreviewBackground`, `ShowcasePreviewBadges`, `ShowcasePreviewInfo`, border styles, backgrounds, dan Depth System.
-19. `SourceCode.spec.ts` (15 tests): Pengujian sub-komponen `SourceCodeHeader` dan `SourceCodeBody`, multi-tab switching, token highlighter sintaksis, copy-to-clipboard, dan styling terminal window.
-20. `CodePreview.spec.ts` (11 tests): Pengujian sub-komponen `CodePreviewLine`, token parser sintaks VS Code Dark+, penomoran baris (*line numbers*), dan kedalaman visual.
-21. `dropdown.utils.spec.ts` (5 tests): Pengujian pemfilteran opsi ComboBox (prefix vs substring), normalisasi nilai terpilih (single vs multi), dan batas tag maksimal.
-22. `phoneUtils.spec.ts` (11 tests): Pengujian validasi format nomor telepon internasional, pemetaan bendera negara, dan ekstraksi digit.
-23. `SearchInput.utils.spec.ts` (4 tests): Pengujian utilitas pemfilteran kata kunci pencarian reaktif dan debouncing.
-24. `passwordStrength.spec.ts` (5 tests): Pengujian algoritma skor kekuatan kata sandi (panjang, huruf kapital, angka, dan karakter khusus).
-25. `useDebounce.spec.tsx` (7 tests): Pengujian hook `useDebounce` dan `useDebouncedCallback`, delay timer, pemanggilan leading/trailing, flush, dan cancel.
-26. `useCache.spec.tsx` (8 tests): Pengujian hook `useCache` integrasi, persistensi sesi komponen, mutasi cache get/set/clear, dan event listener reaktif.
-27. `debounce.spec.ts` (9 tests): Pengujian fungsi debounce murni, pembatalan eksekusi, opsi maxWait, dan pencegahan memory leak.
-28. `MemoryCache.spec.ts` (10 tests): Pengujian algoritma penggusuran LRU (*Least Recently Used*), kedaluwarsa TTL, kapasitas cache, dan metode sanitasi data.
-29. `image.spec.ts` (21 tests): Pengujian utilitas kompresi lossy (`compressImage`), konversi format WebP/JPEG/PNG (`convertImage`), penyesuaian dimensi gambar (`resizeImage`), validasi MIME, dan ekstraksi metadata gambar.
-30. `ImageUpload.spec.ts` (30 tests): Pengujian komponen `ImageUpload`, sub-komponen `ImageUploadDropzone`, `ImageUploadPreview`, `ImageUploadProgress`, `ImageUploadInfo`, `ImageUploadActions`, validasi format dan ukuran, integrasi kompresi & konversi otomatis, serta Depth System (-3 s/d 3).
+8. `Image.spec.ts` (19 tests): Pengujian primitif gambar, ambient blur glow, fallback graceful, shimmer skeleton loader, dan Depth System (-3 s/d 3).
+9. `Input.spec.ts` (8 tests): Pengujian sub-komponen `InputLabel`, `InputHelperText`, dan `InputClearButton`, status validasi (error, success, warning), ikon start/end, dan Depth System.
+10. `ProgressBar.spec.tsx` (35 tests): Pengujian mode determinate/indeterminate, kalkulasi persentase clamped, format kustom label, sub-komponen `ProgressBarTrack`, `ProgressBarFill`, `ProgressBarLabel`, varian semantik OKLCH, dan Depth System (-3 s/d 3).
+11. `Radio.spec.ts` (8 tests): Pengujian sub-atom `RadioIndicator` dan `RadioLabel`, status checked/disabled, ukuran, dan Depth System.
+12. `SegmentedControl.spec.tsx` (35 tests): Pengujian roving tabindex WAI-ARIA, seleksi item, keyboard navigation (panah kiri/kanan/home/end), rendering ikon, status disabled, varian semantik, dan Depth System.
+13. `Slider.spec.tsx` (56 tests): Pengujian drag thumb, klik track, langkah lompat (*step*), keyboard navigation (panah/PageUp/PageDown/Home/End), sub-komponen `SliderTrack`, `SliderRange`, `SliderThumb`, `SliderMarks`, `SliderLabel`, `SliderHelperText`, serta Depth System.
+14. `Spinner.spec.ts` (14 tests): Pengujian indikator loading SVG circular ring, Iconify fallback, Depth System, ketebalan & opasitas ring, sub-atom `SpinnerRing` dan `SpinnerLabel`.
+15. `Switch.spec.ts` (8 tests): Pengujian sub-komponen `SwitchTrack` dan `SwitchLabel`, alur kedalaman cekung (-1 s/d -3), varian warna semantik, dan ikon knop thumb.
+16. `Text.spec.ts` (9 tests): Pengujian tag HTML polimorfik (`as`), varian semantik token OKLCH, skala tipografi, perataan teks, clamp, dan truncate.
+17. `Textarea.spec.ts` (9 tests): Pengujian sub-komponen `TextareaLabel` dan `TextareaFooter`, penghitung karakter (`showCharacterCount`), resize kontrol, dan auto-resize.
+18. `Tooltip.spec.ts` (10 tests): Pengujian sub-komponen `TooltipBubble`, 12 penempatan arah (`placement`), Depth System visual (-3 s/d 3), delay timer, dan status trigger pemicu.
+19. `Clipboard.spec.ts` (8 tests): Pengujian sub-komponen `ClipboardIcon` dan `ClipboardLabel`, feedback visual taktil saat teks disalin, durasi reset, timer cleanup, dan varian depth.
+20. `ShowcasePreview.spec.ts` (17 tests): Pengujian sub-komponen `ShowcasePreviewBackground`, `ShowcasePreviewBadges`, `ShowcasePreviewInfo`, border styles, backgrounds, dan Depth System.
+21. `SourceCode.spec.ts` (15 tests): Pengujian sub-komponen `SourceCodeHeader` dan `SourceCodeBody`, multi-tab switching, token highlighter sintaksis, copy-to-clipboard, dan styling terminal window.
+22. `CodePreview.spec.ts` (11 tests): Pengujian sub-komponen `CodePreviewLine`, token parser sintaks VS Code Dark+, penomoran baris (*line numbers*), dan kedalaman visual.
+23. `ImageUpload.spec.ts` (32 tests): Pengujian komponen `ImageUpload`, sub-komponen `ImageUploadDropzone`, `ImageUploadPreview`, `ImageUploadProgress`, `ImageUploadInfo`, `ImageUploadActions`, validasi format dan ukuran, integrasi kompresi & konversi otomatis, serta Depth System (-3 s/d 3).
+24. `useImageDragDrop.spec.tsx` (7 tests): Pengujian hook drag-and-drop file gambar, state enter/over/leave/drop, dan pencegahan event default.
+25. `VideoPlayer.spec.ts` (12 tests): Pengujian ekspor modul VideoPlayer, integrasi sub-komponen internal, barrel export molecules, dan rendering dasar.
+26. `useVideoPlayer.spec.tsx` (4 tests): Pengujian hook utama `useVideoPlayer`, ekspor barrel internal, pemisahan lifecycle HLS / native, dan cleanup unmount.
+27. `VideoPlayer.utils.spec.ts` (30 tests): Pengujian utilitas format waktu (`formatTime`), persentase progress, kalkulasi scrubbing, parsing subtitle, dan helper fungsi pemutar.
+28. `useVideoClickHandler.spec.ts` (3 tests): Pengujian pemisahan klik tunggal (toggle play) dan klik ganda (toggle fullscreen) dengan timer debounce pembatalan.
+29. `useContextMenu.spec.ts` (3 tests): Pengujian posisi koordinat context menu, pembatasan boundary layar, penutupan klik luar dan escape.
+30. `useTextInfo.spec.ts` (4 tests): Pengujian penayangan HUD overlay notifikasi, timer auto-clear, dan payload teks.
+31. `dropdown.utils.spec.ts` (5 tests): Pengujian pemfilteran opsi ComboBox (prefix vs substring), normalisasi nilai terpilih (single vs multi), dan batas tag maksimal.
+32. `phoneUtils.spec.ts` (11 tests): Pengujian validasi format nomor telepon internasional, pemetaan bendera negara, dan ekstraksi digit.
+33. `SearchInput.utils.spec.ts` (4 tests): Pengujian utilitas pemfilteran kata kunci pencarian reaktif dan debouncing.
+34. `passwordStrength.spec.ts` (5 tests): Pengujian algoritma skor kekuatan kata sandi (panjang, huruf kapital, angka, dan karakter khusus).
+35. `useDebounce.spec.tsx` (7 tests): Pengujian hook `useDebounce` dan `useDebouncedCallback`, delay timer, pemanggilan leading/trailing, flush, dan cancel.
+36. `useCache.spec.tsx` (8 tests): Pengujian hook `useCache` integrasi, persistensi sesi komponen, mutasi cache get/set/clear, dan event listener reaktif.
+37. `debounce.spec.ts` (9 tests): Pengujian fungsi debounce murni, pembatalan eksekusi, opsi maxWait, dan pencegahan memory leak.
+38. `MemoryCache.spec.ts` (10 tests): Pengujian algoritma penggusuran LRU (*Least Recently Used*), kedaluwarsa TTL, kapasitas cache, dan metode sanitasi data.
+39. `image.spec.ts` (23 tests): Pengujian utilitas kompresi lossy (`compressImage`), konversi format WebP/JPEG/PNG (`convertImage`), penyesuaian dimensi gambar (`resizeImage`), validasi MIME, dan ekstraksi metadata gambar.

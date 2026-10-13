@@ -2,7 +2,7 @@ import type { InputHTMLAttributes, ReactNode, KeyboardEvent } from 'react';
 import type { DepthNumeric, DepthString, DepthNamed } from '@/components/atoms/Button/Button.types';
 import type { IconSize } from '@/components/atoms/Icon/Icon.types';
 
-export type SwitchSize = 'sm' | 'md' | 'lg' | 'xl';
+export type SwitchSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 
 export type SwitchVariant = 
   | 'primary' 
